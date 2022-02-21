@@ -1,0 +1,3 @@
+Varianta s rozměry uloženými jako celočíselný typ: prinicipiálně nejjedodušší varianta, pokud vyhovuje požadavkům, byla by to asi moje volba;
+varianta s rozměry uloženými jako reálná čísla: koplikuje situaci s porovnáváním, avšak pokud je dle specifikace vyžadována, tak je celkem jednoduše uchopitelná;
+varianta 'record': velice efektivní varianta co se psaní kódu týče, avšak pro mě osobně zatím nepreferovaná varianta, potřeboval bych další studium a několik zkušebních tříd, abych to 'dostal pod kúži'
