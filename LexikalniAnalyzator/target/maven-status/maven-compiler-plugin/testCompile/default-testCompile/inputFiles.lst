@@ -1,0 +1,15 @@
+D:\UPCE\B21L\BOOP\LexikalniAnalyzator\src\test\java\cz\upce\fei\boop\lexikalnianalyzator\LexikalniAnalyzatorMainTest.java
+D:\UPCE\B21L\BOOP\LexikalniAnalyzator\src\test\java\cz\upce\fei\boop\lexikalnianalyzator\token\TokenSeparatorTest.java
+D:\UPCE\B21L\BOOP\LexikalniAnalyzator\src\test\java\cz\upce\fei\boop\lexikalnianalyzator\token\TokenIdentifierTest.java
+D:\UPCE\B21L\BOOP\LexikalniAnalyzator\src\test\java\cz\upce\fei\boop\lexikalnianalyzator\token\enums\KeyWordTest.java
+D:\UPCE\B21L\BOOP\LexikalniAnalyzator\src\test\java\cz\upce\fei\boop\lexikalnianalyzator\token\enums\SeparatorEnumTest.java
+D:\UPCE\B21L\BOOP\LexikalniAnalyzator\src\test\java\cz\upce\fei\boop\lexikalnianalyzator\token\TokenKeyTest.java
+D:\UPCE\B21L\BOOP\LexikalniAnalyzator\src\test\java\cz\upce\fei\boop\lexikalnianalyzator\collection\TokenListTest.java
+D:\UPCE\B21L\BOOP\LexikalniAnalyzator\src\test\java\cz\upce\fei\boop\lexikalnianalyzator\statemachine\StateMachineTest.java
+D:\UPCE\B21L\BOOP\LexikalniAnalyzator\src\test\java\cz\upce\fei\boop\lexikalnianalyzator\token\TokenOperatorTest.java
+D:\UPCE\B21L\BOOP\LexikalniAnalyzator\src\test\java\cz\upce\fei\boop\lexikalnianalyzator\Counter.java
+D:\UPCE\B21L\BOOP\LexikalniAnalyzator\src\test\java\cz\upce\fei\boop\lexikalnianalyzator\io\FileBufferedReaderTest.java
+D:\UPCE\B21L\BOOP\LexikalniAnalyzator\src\test\java\cz\upce\fei\boop\lexikalnianalyzator\token\TokenDoubleNumberTest.java
+D:\UPCE\B21L\BOOP\LexikalniAnalyzator\src\test\java\cz\upce\fei\boop\lexikalnianalyzator\token\enums\OperatorEnumTest.java
+D:\UPCE\B21L\BOOP\LexikalniAnalyzator\src\test\java\cz\upce\fei\boop\lexikalnianalyzator\token\TokenLongNumberTest.java
+D:\UPCE\B21L\BOOP\LexikalniAnalyzator\src\test\java\cz\upce\fei\boop\lexikalnianalyzator\token\enums\TokenTypeTest.java

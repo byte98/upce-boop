@@ -87,9 +87,9 @@ public record Rozmer(double delka, double sirka, double vyska)
     {
         return String.format(Locale.ENGLISH,
                 "Rozmer{delka=%5.2f,sirka=%5.2f,vyska=%5.2f}",
-                this.delka / Rozmer.TO_CM,
-                this.sirka / Rozmer.TO_CM,
-                this.vyska / Rozmer.TO_CM);
+                this.getDelka(),
+                this.getSirka(),
+                this.getVyska());
     }
 //</editor-fold>
     

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Model.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PujcovnaCmdSkoda</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.skoda.boop.pujcovnacmdskoda.data</a> &gt; <span class="el_source">Model.java</span></div><h1>Model.java</h1><pre class="source lang-java linenums">//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;License&quot;&gt;
+/*
+ * Copyright (C) 2022 Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+//&lt;/editor-fold&gt;
+package cz.upce.fei.skoda.boop.pujcovnacmdskoda.data;
+
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.PujcovnaCmd;
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.KolekceException;
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznam;
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.SpojovySeznam;
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence.Mappable;
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence.TextReader;
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence.TextWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Class which is used as data model of application
+ * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ */
+public class Model
+{
+    /**
+     * Data stored in application
+     */
+    private SpojovySeznam&lt;Mappable&gt; data;
+    
+    /**
+     * List of selected data
+     */
+    private List&lt;Mappable&gt; selected;
+    
+    /**
+     * Creates new data model of application
+     */
+    public Model()
+<span class="nc" id="L55">    {</span>
+<span class="nc" id="L56">        this.data = new LinkSeznam&lt;&gt;();</span>
+<span class="nc" id="L57">        this.selected = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L58">    }</span>
+    
+    /**
+     * Gets access to models data
+     * @return Model data
+     */
+    public SpojovySeznam&lt;Mappable&gt; data()
+    {
+<span class="nc" id="L66">        return this.data;</span>
+    }
+    
+    /**
+     * Saves data to text file
+     */
+    public void saveText()
+    {
+<span class="nc" id="L74">        PujcovnaCmd.TEXT_WRITER.writeData(this.data);</span>
+<span class="nc" id="L75">    }</span>
+    
+    /**
+     * Saves data to text file
+     * @param tw Utility which can write data to text file
+     */
+    public void saveText(TextWriter tw)
+    {
+<span class="nc" id="L83">        tw.writeData(this.data);</span>
+<span class="nc" id="L84">    }</span>
+    
+    /**
+     * Loads data from text file
+     */
+    public void loadText()
+    {
+<span class="nc" id="L91">        this.data = PujcovnaCmd.TEXT_READER.loadData();</span>
+<span class="nc" id="L92">    }</span>
+    
+    /**
+     * Loads data from text file
+     * @param tr Utility which can load data from text file
+     */
+    public void loadText(TextReader tr)
+    {
+<span class="nc" id="L100">        this.data = tr.loadData();</span>
+<span class="nc" id="L101">    }</span>
+    
+    /**
+     * Selects data by values of attributes
+     * @param selectors Values of attributes by which data will be selected
+     */
+    public void select(Map&lt;String, String&gt; selectors)
+    {
+<span class="nc" id="L109">        this.selected = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L110">        Iterator&lt;Mappable&gt; it = this.data.iterator();</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        while(it.hasNext())</span>
+        {
+<span class="nc" id="L113">            Mappable data = it.next();</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">            if (Model.matches(data, selectors))</span>
+            {
+<span class="nc" id="L116">                this.selected.add(data);</span>
+            }
+            
+<span class="nc" id="L119">        }</span>
+<span class="nc" id="L120">    }</span>
+    
+    /**
+     * Deletes all data
+     */
+    public void delete()
+    {
+<span class="nc" id="L127">        this.selected = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L128">        this.data.zrus();</span>
+<span class="nc" id="L129">    }</span>
+    
+    /**
+     * Deletes selected data from list
+     * @return Number of deleted items
+     */
+    public int deleteSelected()
+    {
+<span class="nc" id="L137">        int reti = 0;</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">        if (this.data.jePrazdny() == false)</span>
+        {
+<span class="nc" id="L140">            Mappable currentActual = null;</span>
+            try
+            {
+<span class="nc" id="L143">                currentActual = this.data.dejAktualni();</span>
+<span class="nc" id="L144">            } catch (KolekceException ex) {}</span>
+            try
+            {
+<span class="nc" id="L147">                this.data.nastavPrvni();</span>
+<span class="nc" id="L148">                boolean del = false;</span>
+<span class="nc bnc" id="L149" title="All 4 branches missed.">                if (this.data.jeDalsi() == false &amp;&amp; this.selected.contains(this.data.dejAktualni()))</span>
+                {
+<span class="nc" id="L151">                    this.data.odeberAktualni();</span>
+<span class="nc" id="L152">                    reti++;</span>
+                }
+                else
+                {
+<span class="nc bnc" id="L156" title="All 2 branches missed.">                    while(this.data.jeDalsi())</span>
+                    {
+<span class="nc bnc" id="L158" title="All 2 branches missed.">                        if (del == true)</span>
+                        {
+<span class="nc" id="L160">                            this.data.odeberPredAktualnim();</span>
+<span class="nc" id="L161">                            reti++;</span>
+<span class="nc" id="L162">                            del = false;</span>
+                        }
+<span class="nc bnc" id="L164" title="All 2 branches missed.">                        if (this.selected.contains(this.data.dejAktualni()))</span>
+                        {
+<span class="nc" id="L166">                            del = true;</span>
+                        }
+<span class="nc" id="L168">                        this.data.dalsi();</span>
+                    }
+                }
+<span class="nc bnc" id="L171" title="All 2 branches missed.">                if (del == true)</span>
+                {
+<span class="nc" id="L173">                    this.data.odeberPredAktualnim();</span>
+<span class="nc" id="L174">                    reti++;</span>
+                }
+<span class="nc bnc" id="L176" title="All 2 branches missed.">                if (currentActual != null)</span>
+                {
+<span class="nc" id="L178">                    this.setAcutal(currentActual);</span>
+                }
+<span class="nc" id="L180">            } catch (KolekceException ex) {}</span>
+        }
+<span class="nc" id="L182">        this.selected = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L183">        return reti;</span>
+    }
+    
+    /**
+     * Sets reference to actual by value
+     * @param item Item which will be set as actual (if in list)
+     */
+    private void setAcutal(Mappable item)
+    {
+<span class="nc bnc" id="L192" title="All 2 branches missed.">        if (this.data.jePrazdny() == false)</span>
+        {
+            try
+            {
+<span class="nc" id="L196">                this.data.nastavPrvni();</span>
+<span class="nc bnc" id="L197" title="All 2 branches missed.">                if (this.data.dejAktualni().equals(item) == false)</span>
+                {
+<span class="nc bnc" id="L199" title="All 2 branches missed.">                    while(this.data.jeDalsi())</span>
+                    {
+<span class="nc" id="L201">                        this.data.dalsi();</span>
+<span class="nc bnc" id="L202" title="All 2 branches missed.">                        if (this.data.dejAktualni().equals(item))</span>
+                        {
+<span class="nc" id="L204">                            break;</span>
+                        }
+                    }
+                }
+
+            }
+<span class="nc" id="L210">            catch (KolekceException ex)</span>
+<span class="nc" id="L211">            {}</span>
+        }        
+<span class="nc" id="L213">    }</span>
+    
+    /**
+     * Gets list of selected items
+     * @return List of selected items
+     */
+    public List&lt;Mappable&gt; getSelected()
+    {
+<span class="nc" id="L221">        return this.selected;</span>
+    }
+    
+    /**
+     * Edits selected data
+     * @param newData New values of attributes of data
+     * @return Number of changed items
+     */
+    public int editSelected(Map&lt;String, String&gt; newData)
+    {
+<span class="nc" id="L231">        int reti = 0;</span>
+<span class="nc" id="L232">        newData = Model.mapToLowerCase(newData);</span>
+<span class="nc bnc" id="L233" title="All 2 branches missed.">        for(Mappable item: this.selected)</span>
+        {
+<span class="nc" id="L235">            item.setData(newData);</span>
+<span class="nc" id="L236">            reti++;</span>
+<span class="nc" id="L237">        }</span>
+<span class="nc" id="L238">        return reti;</span>
+    }
+    
+    /**
+     * Converts all map keys to lower case
+     * @param map Map which keys will be converted into lowercase
+     * @return Map with lower case keys only
+     */
+    private static Map&lt;String, String&gt; mapToLowerCase(Map&lt;String, String&gt; map)
+    {
+<span class="nc" id="L248">        Map&lt;String, String&gt; reti = new HashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L249" title="All 2 branches missed.">        for(String key: map.keySet())</span>
+        {
+<span class="nc" id="L251">            reti.put(key.toLowerCase(), map.get(key));</span>
+<span class="nc" id="L252">        }</span>
+<span class="nc" id="L253">        return reti;</span>
+    }
+    
+    /**
+     * Checks, whether selector matches data
+     * @param data Data which will be checked
+     * @param selectors Selectors which values will be compared to data
+     * @return TRUE if selectors matches data, FALSE otherwise
+     */
+    private static boolean matches(Mappable data, Map&lt;String, String&gt; selectors)
+    {
+<span class="nc" id="L264">        boolean reti = true;</span>
+<span class="nc" id="L265">        Map&lt;String, String&gt; dataMap = data.toMap();</span>
+<span class="nc bnc" id="L266" title="All 2 branches missed.">        for(String selector: selectors.keySet())</span>
+        {
+<span class="nc bnc" id="L268" title="All 2 branches missed.">            if (dataMap.get(selector) == null ||</span>
+<span class="nc bnc" id="L269" title="All 2 branches missed.">                    dataMap.get(selector).toLowerCase().equals(selectors.get(selector).toLowerCase()) == false)</span>
+            {
+<span class="nc" id="L271">                reti = false;</span>
+<span class="nc" id="L272">                break;</span>
+            }
+<span class="nc" id="L274">        }</span>
+<span class="nc" id="L275">        return reti;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

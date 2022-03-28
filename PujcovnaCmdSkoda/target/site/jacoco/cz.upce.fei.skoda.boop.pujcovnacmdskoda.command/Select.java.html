@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Select.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PujcovnaCmdSkoda</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.skoda.boop.pujcovnacmdskoda.command</a> &gt; <span class="el_source">Select.java</span></div><h1>Select.java</h1><pre class="source lang-java linenums">//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;License&quot;&gt;
+/*
+ * Copyright (C) 2022 Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+//&lt;/editor-fold&gt;
+package cz.upce.fei.skoda.boop.pujcovnacmdskoda.command;
+
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.PujcovnaCmd;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Class representing select command
+ * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ */
+public class Select extends Command
+{
+    /**
+     * Message which informs about selection done
+     */
+    private static final String MESSAGE = &quot;Bylo vybrano %d prvku&quot;;
+    
+    /**
+     * Creates new handler for select command
+     */
+    public Select()
+<span class="nc" id="L41">    {</span>
+<span class="nc" id="L42">        this.aliases = new String[]{&quot;sel&quot;, &quot;select&quot;, &quot;najdi&quot;, &quot;na&quot;, &quot;n&quot;, &quot;vyber&quot;};</span>
+<span class="nc" id="L43">        this.maximumArguments = Integer.MAX_VALUE;</span>
+<span class="nc" id="L44">    }</span>
+
+    @Override
+    public String getHelp()
+    {
+<span class="nc" id="L49">        return &quot;&quot;&quot;</span>
+               Vybere prvky podle hodnot atributu
+                - prvky budou vybrany podle hodnot ve formatu 'atribut=hodnota'
+               &quot;&quot;&quot;;
+    }
+
+    @Override
+    public String execute(String[] arguments)
+    {
+<span class="nc" id="L58">        this.error = false;</span>
+<span class="nc" id="L59">        String reti = &quot;&quot;;</span>
+<span class="nc" id="L60">        PujcovnaCmd.MODEL.select(this.prepareMapFromArguments(arguments));</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        if (PujcovnaCmd.VERBOSE)</span>
+        {
+<span class="nc" id="L63">            reti = String.format(Select.MESSAGE, PujcovnaCmd.MODEL.getSelected().size());</span>
+        }
+<span class="nc" id="L65">        return reti;</span>
+    }
+    /**
+     * Prepares map with data from command arguments
+     * @param arguments Arguments of program
+     * @return Map containing data parsed from arguments
+     */
+    private Map&lt;String, String&gt; prepareMapFromArguments(String[] arguments)
+    {
+<span class="nc" id="L74">        Map&lt;String, String&gt; reti = new HashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        for(String argument: arguments)</span>
+        {
+<span class="nc bnc" id="L77" title="All 2 branches missed.">            if (argument.contains(&quot;=&quot;))</span>
+            {
+<span class="nc" id="L79">                String[] parts = argument.split(&quot;=&quot;);</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">                if (parts.length &gt;= 2)</span>
+                {
+<span class="nc" id="L82">                    reti.put(parts[0], parts[1]);</span>
+                }
+            }
+        }
+<span class="nc" id="L86">        return reti;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

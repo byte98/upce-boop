@@ -1,0 +1,31 @@
+# Testovaci skript programu PujcovnaCmdSkoda
+# 
+# Tento skript vytvori z nahodnych autobusu moderni vozovy park (tj. bez vysokopodlaznich a dieselovych vozidel)
+# ke kterym jeste prida tri elektricke vlaky, ktere vybavi systemem ETCS
+# Nakonec vypise informaci o celkovem poctu vozidel a vypise seznam vozidel
+# 
+# Autor: Jiri Skoda <jiri.skoda@student.upce.cz>
+#
+str skript "TESTOVACI SKRIPT"    # Nastavi promennou skript na "TESTOVACI SKRIPT"
+echo "=== %s ===" $skript        # Informacni vypis indikujici ze skript bezi
+verb                             # Nastavi zobrazeni informacnich zprav
+str vystup "vystup.xml"          # Nastavi promennou vystup na cestu vystupniho souboru tohoto skriptu
+str typ bus                      # Nastavi promennou typ na bus, tudiz pozdeji budou vytvoreny pouze instance tridy bus
+int pocet 10                     # Nastavi promennou pocet na 10
+gen $typ $pocet                  # Vygeneruje $pocet nahodnych instanci typu $typ
+sel lowFloor=false               # Vybere pouze vysokopodlazni vozidla
+psel                             # Vypise vybrana vozidla
+dsel                             # Vymaze vybrana vozidla
+sel propulsion=DIESEL            # Vybere vsechny vozidla s dieselovym pohonem
+dsel                             # Vypise vybrana vozidla
+dsel                             # Vymaze vybrana vozidla
+new train propulsion=ELECTRIC    # Vytvori novy elektricky vlak
+new train propulsion=ELECTRIC    # Vytvori novy elektricky vlak
+new train propulsion=ELECTRIC    # Vytvori novy elektricky vlak
+sel etcs=false                   # Vybere vozidla bez ETCS
+edit etcs=true                   # Nastavi priznak pritomnosti ETCS u vybranych vozidel
+st $vystup                       # Ulozi vysledek jako text do vystupu
+count                            # Vypise pocet prvku v seznamu
+print                            # Vypise vozidla v seznamu
+echo "=== KONEC SKRIPTU ==="     # Informacni vypis znacici konec skriptu
+nverb                            # Ukonci vypis informacnich zprav programu

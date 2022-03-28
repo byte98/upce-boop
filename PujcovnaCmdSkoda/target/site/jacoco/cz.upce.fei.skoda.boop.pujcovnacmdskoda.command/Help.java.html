@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Help.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PujcovnaCmdSkoda</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.skoda.boop.pujcovnacmdskoda.command</a> &gt; <span class="el_source">Help.java</span></div><h1>Help.java</h1><pre class="source lang-java linenums">//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;License&quot;&gt;
+/*
+ * Copyright (C) 2022 Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+//&lt;/editor-fold&gt;
+package cz.upce.fei.skoda.boop.pujcovnacmdskoda.command;
+
+/**
+ * Handler of help command
+ * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ */
+public class Help extends Command
+{
+    /**
+     * Number of columns into which commands will be showed
+     */
+    private static final int COLUMNS = 4;
+    
+    /**
+     * Creates new handler of help command
+     */
+    public Help()
+<span class="nc" id="L37">    {</span>
+<span class="nc" id="L38">        this.aliases = new String[]{&quot;help&quot;, &quot;pomoc&quot;, &quot;man&quot;, &quot;h&quot;};</span>
+<span class="nc" id="L39">        this.minimumArguments = 0;</span>
+<span class="nc" id="L40">        this.maximumArguments = 1;</span>
+<span class="nc" id="L41">    }</span>
+
+    @Override
+    public String getHelp()
+    {        
+<span class="nc" id="L46">        return (&quot;&quot;&quot;</span>
+                Ukaze napovedu
+                 - bez argumentu: ukaze prehled vsech prikazu
+                 - s argumentem: ukaze napovedu k zadanemu prikazu
+                &quot;&quot;&quot;
+                );
+    }
+
+    @Override
+    public String execute(String[] arguments)
+    {
+<span class="nc" id="L57">        this.error = false;</span>
+<span class="nc" id="L58">        String reti = &quot;&quot;;</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        if (arguments.length == 0)</span>
+        {
+<span class="nc" id="L61">            reti = this.prepareAllHelps();</span>
+        }
+        else
+        {
+<span class="nc" id="L65">            reti = this.prepareHelpForCommand(arguments[0]);</span>
+        }
+<span class="nc" id="L67">        return reti;</span>
+    }
+    
+    /**
+     * Prepares help with all commands
+     * @return String containing summary of all commands
+     */
+    private String prepareAllHelps()
+    {
+<span class="nc" id="L76">        StringBuilder reti = new StringBuilder();</span>
+<span class="nc" id="L77">        int i = 0;</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        for(Command cmd: Interpreter.getAllCommands())</span>
+        {
+<span class="nc" id="L80">            reti.append(cmd.aliases[0].toUpperCase());</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">            if (i &lt; Help.COLUMNS - 1)</span>
+            {
+<span class="nc" id="L83">                reti.append('\t');</span>
+            }
+<span class="nc bnc" id="L85" title="All 2 branches missed.">            if (i == Help.COLUMNS - 1)</span>
+            {
+<span class="nc" id="L87">                reti.append(System.lineSeparator());</span>
+            }
+            /*
+            if (i == 0)
+            {
+                reti.append(cmd.aliases[0].toUpperCase());
+            }
+            else if (i == 1)
+            {
+                reti.append('\t');
+                reti.append(cmd.aliases[0].toUpperCase());
+                reti.append(System.lineSeparator());
+            }
+            */
+<span class="nc" id="L101">            i = (i + 1) % Help.COLUMNS;</span>
+        }
+<span class="nc" id="L103">        return reti.toString();</span>
+    }
+    
+    /**
+     * Prepares help for specific command
+     * @param command Command which help will be prepared
+     * @return Help for specific command or error message
+     */
+    private String prepareHelpForCommand(String command)
+    {
+<span class="nc" id="L113">        String reti = String.format(Interpreter.MESSAGE_NOCMD, command);</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        for(Command cmd: Interpreter.getAllCommands())</span>
+        {
+<span class="nc bnc" id="L116" title="All 2 branches missed.">            if(cmd.isCommand(command))</span>
+            {
+<span class="nc" id="L118">                StringBuilder out = new StringBuilder();</span>
+<span class="nc" id="L119">                out.append(cmd.aliases[0].toUpperCase());</span>
+<span class="nc" id="L120">                out.append(System.lineSeparator());</span>
+<span class="nc" id="L121">                out.append(cmd.getHelp().trim());</span>
+<span class="nc" id="L122">                out.append(System.lineSeparator());</span>
+<span class="nc" id="L123">                out.append(&quot;Dostupne alternativy: &quot;);</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">                for(String alias: cmd.aliases)</span>
+                {
+<span class="nc" id="L126">                    out.append(alias.toUpperCase());</span>
+<span class="nc" id="L127">                    out.append(&quot; &quot;);</span>
+                }
+<span class="nc" id="L129">                reti = out.toString();</span>
+<span class="nc" id="L130">                break;</span>
+            }
+        }
+<span class="nc" id="L133">        return reti;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

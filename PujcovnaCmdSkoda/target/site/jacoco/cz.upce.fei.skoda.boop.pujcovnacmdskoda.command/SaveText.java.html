@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SaveText.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PujcovnaCmdSkoda</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.skoda.boop.pujcovnacmdskoda.command</a> &gt; <span class="el_source">SaveText.java</span></div><h1>SaveText.java</h1><pre class="source lang-java linenums">//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;License&quot;&gt;
+/*
+ * Copyright (C) 2022 Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+//&lt;/editor-fold&gt;
+package cz.upce.fei.skoda.boop.pujcovnacmdskoda.command;
+
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.PujcovnaCmd;
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence.FileManipulator;
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence.TextWriter;
+
+/**
+ * Handler for save data to text command
+ * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ */
+public class SaveText extends Command
+{
+    /**
+     * Message informing about successful saving data into text file
+     */
+    private static final String MSG_SUCCESS = &quot;Data byla uspesne ulozena do souboru %s&quot;;
+    
+    /**
+     * Message informing about unsupported file extension entered
+     */
+    private static final String MSG_INVALIDEXT =
+            &quot;CHYBA: '%s' neni podporovany format souboru! Podporovane formaty: %s&quot;;
+    
+    /**
+     * Creates new handler for saving data to text
+     */
+    public SaveText()
+<span class="nc" id="L47">    {</span>
+<span class="nc" id="L48">        this.aliases = new String[]{&quot;st&quot;, &quot;savetext&quot;, &quot;ut&quot;, &quot;uloztext&quot;};</span>
+<span class="nc" id="L49">        this.maximumArguments = 1;</span>
+<span class="nc" id="L50">    }</span>
+
+    @Override
+    public String getHelp()
+    {
+<span class="nc" id="L55">        return &quot;&quot;&quot;</span>
+               Ulozi data do textoveho souboru
+                - bez argumentu: bude pouzit vychozi format a vychozi umisteni
+                - s argumentem: argument urcuje umisteni souboru a z pripony
+                  bude urcen i format dat
+               &quot;&quot;&quot;;
+    }
+
+    @Override
+    public String execute(String[] arguments)
+    {
+<span class="nc" id="L66">        this.error = false;</span>
+<span class="nc" id="L67">        String reti = &quot;&quot;;</span>
+<span class="nc" id="L68">        String path = &quot;&quot;;</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        if (arguments.length == 0)</span>
+        {
+<span class="nc" id="L71">            PujcovnaCmd.MODEL.saveText();</span>
+<span class="nc" id="L72">            path = PujcovnaCmd.TEXT_WRITER.getPath();</span>
+        }
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        else if (arguments.length == 1)</span>
+        {
+<span class="nc" id="L76">            TextWriter tw = TextWriter.getByExtension(FileManipulator.getFileExtension(arguments[0]));</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">            if (tw == null)</span>
+            {
+<span class="nc" id="L79">                reti = String.format(SaveText.MSG_INVALIDEXT,</span>
+<span class="nc" id="L80">                        FileManipulator.getFileExtension(arguments[0]),</span>
+<span class="nc" id="L81">                        TextWriter.getSupportedExtensions()</span>
+<span class="nc" id="L82">                                .stream()</span>
+<span class="nc" id="L83">                                .reduce(&quot;&quot;, (partialString, element) -&gt; partialString + element.toUpperCase() + &quot; &quot;)</span>
+                        );
+<span class="nc" id="L85">                this.error = true;</span>
+            }
+            else
+            {
+<span class="nc" id="L89">                tw.setPath(arguments[0]);</span>
+<span class="nc" id="L90">                PujcovnaCmd.MODEL.saveText(tw);</span>
+<span class="nc" id="L91">                path = tw.getPath();</span>
+            }
+            
+        }
+<span class="nc bnc" id="L95" title="All 4 branches missed.">        if(PujcovnaCmd.VERBOSE &amp;&amp; reti.equals(&quot;&quot;))</span>
+        {
+<span class="nc" id="L97">           reti = String.format(SaveText.MSG_SUCCESS, path);</span>
+        }        
+<span class="nc" id="L99">        return reti;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

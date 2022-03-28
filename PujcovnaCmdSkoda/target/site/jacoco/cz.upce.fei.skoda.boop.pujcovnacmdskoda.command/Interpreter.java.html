@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Interpreter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PujcovnaCmdSkoda</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.skoda.boop.pujcovnacmdskoda.command</a> &gt; <span class="el_source">Interpreter.java</span></div><h1>Interpreter.java</h1><pre class="source lang-java linenums">//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;License&quot;&gt;
+/*
+ * Copyright (C) 2022 Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+//&lt;/editor-fold&gt;
+package cz.upce.fei.skoda.boop.pujcovnacmdskoda.command;
+
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.PujcovnaCmd;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
+/**
+ * Interpreter of commands from command line
+ * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ */
+public class Interpreter
+{
+    /**
+     * Definition of character which marks name of variable
+     */
+    private static final String CHAR_VAR = &quot;$&quot;;
+    
+    /**
+     * Definition of character which marks comment
+     */
+    private static final String CHAR_COMMENT = &quot;#&quot;;
+    
+    /**
+     * Message which will be returned if no command has been found
+     */
+    public static final String MESSAGE_NOCMD =
+    &quot;CHYBA: '%s' neni platny prikaz! &quot;
+            + &quot;Pro vypis platnych prikazu zadejte prikaz 'help'.&quot;;
+    
+    /**
+     * Message which will be returned if no command has been entered
+     */
+    private static final String MESSAGE_NOINPUT = 
+    &quot;CHYBA: Nebyl zadan zadny prikaz!&quot;;
+    
+    /**
+     * Message which will be returned if number of entered arguments is invalid
+     */
+    private static final String MESSAGE_INVALIDARGS = 
+    &quot;CHYBA: Neocekavany pocet argumentu! &quot;
+            + &quot;Ocekavano minimalne %d, maximalne %d, ale zadano bylo %d.&quot;;
+    
+    /**
+     * Message which will be returned if number of entered arguments and if
+     * command expects exact number of arguments
+     */
+    private static final String MESSAGE_INVALIDARGSEX =
+    &quot;CHYBA: Neocekavany pocet argumentu! &quot;
+            + &quot;Ocekavano bylo %d, ale zadano bylo %d.&quot;;
+    
+    /**
+     * Message which informs about invalid name of variable
+     */
+    private static final String MESSAGE_UNKNOWNVARIABLE = 
+            &quot;CHYBA: Neznama promenna! Promenna se jmenem '%s' nebyla nalezena.&quot;;
+    
+    /**
+     * Array with all available commands
+     */
+<span class="nc" id="L85">    private static final Command[] commands = {</span>
+        new Count(),
+        new CountSelected(),
+        new Delete(),
+        new DeleteSelected(),
+        new Edit(),
+        new Echo(),
+        new Run(),
+        new Exit(),
+        new First(),
+        new Generate(),
+        new Help(),
+        new Int(),
+        new Last(),
+        new LoadText(),
+        new New(),
+        new Next(),
+        new NonVerbose(),   
+        new NoOutput(),
+        new Output(),
+        new Print(),
+        new PrintActual(),
+        new PrintSelected(),
+        new Remove(),
+        new Select(),
+        new SaveText(),
+        new Str(),
+        new Verbose()
+    };
+    
+    /**
+     * Source of input of commands
+     */
+    private final InputStream input;
+    
+    /**
+     * Stream for output of commands
+     */
+    private static PrintStream output;
+    
+    /**
+     * Reference to scanner of source of commands
+     */
+    private Scanner inputScanner;
+    
+    /**
+     * Flag, whether there should be any output or not
+     */
+<span class="nc" id="L133">    public static boolean OUTPUT_ENABLED = true;</span>
+    
+    /**
+     * Map of integer type variables
+     */
+    private static Map&lt;String, Integer&gt; VARS_INT;
+    
+    /**
+     * Map of string type variables
+     */
+    private static Map&lt;String, String&gt; VARS_STRING;
+    
+    /**
+     * Counter of executed commands
+     */
+    private int commandCounter;
+    
+    /**
+     * Creates new interpreter of commands
+     * @param is Source of commands
+     */
+    public Interpreter(InputStream is)
+<span class="nc" id="L155">    {</span>
+<span class="nc" id="L156">        this.input = is;</span>
+<span class="nc" id="L157">        Interpreter.output = System.out;</span>
+<span class="nc" id="L158">        this.inputScanner = new Scanner(this.input);</span>
+<span class="nc" id="L159">        Interpreter.VARS_INT = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L160">        Interpreter.VARS_STRING = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L161">        this.commandCounter = 1;</span>
+<span class="nc" id="L162">    }</span>
+    
+    /**
+     * Sets new integer type variable
+     * @param name Name of variable
+     * @param value Value of variable
+     */
+    public static void setInt(String name, int value)
+    {
+<span class="nc bnc" id="L171" title="All 2 branches missed.">        if(Interpreter.VARS_STRING.containsKey(name.trim().toLowerCase()))</span>
+        {
+<span class="nc" id="L173">            Interpreter.VARS_STRING.remove(name.trim().toLowerCase());</span>
+        }
+<span class="nc" id="L175">        Interpreter.VARS_INT.put(name.trim().toLowerCase(), value);</span>
+<span class="nc" id="L176">    }</span>
+    
+    /**
+     * Gets value of variable
+     * @param name Name of variable
+     * @return Value of variable or NULL
+     */
+    public static Integer getInt(String name)
+    {
+<span class="nc" id="L185">        return Interpreter.VARS_INT.get(name.trim().toLowerCase());</span>
+    }
+    
+    
+    /**
+     * Sets string variable
+     * @param name Name of variable
+     * @param value Value of variable
+     */
+    public static void setString(String name, String value)
+    {
+<span class="nc bnc" id="L196" title="All 2 branches missed.">        if(Interpreter.VARS_INT.containsKey(name.trim().toLowerCase()))</span>
+        {
+<span class="nc" id="L198">            Interpreter.VARS_INT.remove(name.trim().toLowerCase());</span>
+        }
+<span class="nc" id="L200">        Interpreter.VARS_STRING.put(name.trim().toLowerCase(), value);</span>
+<span class="nc" id="L201">    }</span>
+    
+    /**
+     * Gets value of string type variable
+     * @param name Name of variable
+     * @return Value of variable or NULL
+     */
+    public static String getString(String name)
+    {
+<span class="nc" id="L210">        return Interpreter.VARS_STRING.get(name.trim().toLowerCase());</span>
+    }
+    
+    
+    /**
+     * Creates new interpreter of commands
+     * @param is Source of commands
+     * @param ps Reference to where output of commands will be sent
+     */
+    public Interpreter(InputStream is, PrintStream ps)
+<span class="nc" id="L220">    {</span>
+<span class="nc" id="L221">        this.input = is;</span>
+<span class="nc" id="L222">        Interpreter.output = ps;</span>
+<span class="nc" id="L223">        this.inputScanner = new Scanner(this.input);</span>
+<span class="nc" id="L224">        this.commandCounter = 1;</span>
+<span class="nc" id="L225">    }    </span>
+    
+    /**
+     * Reads command from input and handles it
+     */
+    public void read()
+    {
+<span class="nc bnc" id="L232" title="All 2 branches missed.">        if(this.hasNext())</span>
+        {
+<span class="nc" id="L234">            String line = this.inputScanner.nextLine();</span>
+<span class="nc bnc" id="L235" title="All 6 branches missed.">            if (line != null &amp;&amp; line.equals(&quot;&quot;) == false &amp;&amp; line.startsWith(Interpreter.CHAR_COMMENT) == false)</span>
+            {
+<span class="nc" id="L237">                String out = this.handleCommand(line);</span>
+<span class="nc bnc" id="L238" title="All 6 branches missed.">                if (!&quot;&quot;.equals(out) &amp;&amp; out != null &amp;&amp; Interpreter.OUTPUT_ENABLED)</span>
+                {
+<span class="nc" id="L240">                    Interpreter.output.println(out.trim());</span>
+                }                
+            }
+        }
+<span class="nc" id="L244">    }</span>
+    
+    /**
+     * Checks, whether there is something in input
+     * @return TRUE if there is line in input, FALSE otherwise
+     */
+    public boolean hasNext()
+    {
+<span class="nc" id="L252">        return this.inputScanner.hasNextLine();</span>
+    }
+    
+    /**
+     * Handles command from input
+     * @param command Input from input stream which will be handled
+     * @return String containing output of command or error message if something
+     *         has failed
+     */
+    private String handleCommand(String command)
+    {
+<span class="nc" id="L263">        String reti = null;</span>
+<span class="nc" id="L264">        String[] parts = this.parseArguments(command);</span>
+<span class="nc bnc" id="L265" title="All 4 branches missed.">        if(parts != null &amp;&amp; parts.length &gt; 0)</span>
+        {
+<span class="nc" id="L267">            Command cmd = this.getCommand(parts[0]);</span>
+<span class="nc bnc" id="L268" title="All 2 branches missed.">            if (cmd == null)</span>
+            {
+<span class="nc" id="L270">                reti = String.format(&quot;[%d] &quot;, this.commandCounter) + String.format(Interpreter.MESSAGE_NOCMD, command);</span>
+            }
+            else
+            {
+<span class="nc" id="L274">                reti = this.checkArguments(cmd, parts.length - 1);</span>
+<span class="nc bnc" id="L275" title="All 2 branches missed.">                if (reti == null)</span>
+                {
+<span class="nc" id="L277">                    reti = cmd.execute(Arrays.copyOfRange(parts, 1, parts.length));</span>
+<span class="nc bnc" id="L278" title="All 2 branches missed.">                    if (cmd.isError())</span>
+                    {
+<span class="nc" id="L280">                        reti = String.format(&quot;[%d] %s&quot;, this.commandCounter, reti);</span>
+                    }
+                }
+            }            
+<span class="nc" id="L284">        }</span>
+<span class="nc bnc" id="L285" title="All 2 branches missed.">        else if (parts != null)</span>
+        {
+<span class="nc" id="L287">            reti = Interpreter.MESSAGE_NOINPUT;</span>
+        }
+<span class="nc" id="L289">        this.commandCounter++;</span>
+<span class="nc" id="L290">        return reti;</span>
+    }
+    
+    /**
+     * Gets command by input from input stream
+     * @param command Input from input stream by which
+     *                command will be determined
+     * @return Command determined by input from command line or NULL
+     */
+    private Command getCommand(String command)
+    {
+<span class="nc" id="L301">        Command reti = null;</span>
+<span class="nc bnc" id="L302" title="All 2 branches missed.">        for(Command cmd: Interpreter.commands)</span>
+        {
+<span class="nc bnc" id="L304" title="All 2 branches missed.">            if(cmd.isCommand(command))</span>
+            {
+<span class="nc" id="L306">                reti = cmd;</span>
+<span class="nc" id="L307">                break;</span>
+            }
+        }
+<span class="nc" id="L310">        return reti;</span>
+    }
+    
+    /**
+     * Checks, whether number of entered arguments is valid
+     * @param cmd Command which number of commands will be checked
+     * @param argc Number of arguments which will be checked
+     * @return Error message if number is invalid or NULL if otherwise
+     */
+    private String checkArguments(Command cmd, int argc)
+    {
+<span class="nc" id="L321">        String reti = null;</span>
+<span class="nc bnc" id="L322" title="All 2 branches missed.">        if (cmd.isArgumentsNumberValid(argc) == false)</span>
+        {
+<span class="nc bnc" id="L324" title="All 2 branches missed.">            if (cmd.getMaximumArguments() == cmd.getMinimumArguments())</span>
+            {
+<span class="nc" id="L326">                reti = String.format(</span>
+                        Interpreter.MESSAGE_INVALIDARGSEX, 
+<span class="nc" id="L328">                        cmd.getMaximumArguments(),</span>
+<span class="nc" id="L329">                        argc</span>
+                        );
+            }
+            else
+            {
+<span class="nc" id="L334">                reti = String.format(</span>
+                        Interpreter.MESSAGE_INVALIDARGS,
+<span class="nc" id="L336">                        cmd.getMinimumArguments(),</span>
+<span class="nc" id="L337">                        cmd.getMaximumArguments(),</span>
+<span class="nc" id="L338">                        argc</span>
+                );
+            }
+        }
+<span class="nc" id="L342">        return reti;</span>
+    }
+    
+    /**
+     * Gets all commands available to interpreter
+     * @return Array of all available commands
+     */
+    public static Command[] getAllCommands()
+    {
+<span class="nc" id="L351">        return Arrays.copyOf(Interpreter.commands, Interpreter.commands.length);</span>
+    }
+    
+    /**
+     * Parses arguments from input line
+     * @param input Line which will be parsed into arguments
+     * @return Parsed arguments from input line
+     */
+    private String[] parseArguments(String input)
+    {
+<span class="nc" id="L361">        List&lt;String&gt; args = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L362">        StringBuilder argument = new StringBuilder();</span>
+<span class="nc" id="L363">        boolean wasQuotation = false;</span>
+<span class="nc" id="L364">        boolean stop = false;</span>
+<span class="nc bnc" id="L365" title="All 2 branches missed.">        for(char c: input.toCharArray())</span>
+        {
+<span class="nc bnc" id="L367" title="All 2 branches missed.">            if (stop)</span>
+            {
+<span class="nc" id="L369">                break;</span>
+            }
+<span class="nc bnc" id="L371" title="All 3 branches missed.">            switch (c) {</span>
+                case '\&quot;' -&gt; {
+<span class="nc bnc" id="L373" title="All 2 branches missed.">                    if (wasQuotation == false)</span>
+                    {
+<span class="nc" id="L375">                        wasQuotation = true;</span>
+                    }
+<span class="nc bnc" id="L377" title="All 2 branches missed.">                    else if (wasQuotation == true)</span>
+                    {
+<span class="nc" id="L379">                        wasQuotation = false;</span>
+<span class="nc bnc" id="L380" title="All 2 branches missed.">                        if (argument.toString().equals(&quot;&quot;) == false)</span>
+<span class="nc" id="L381">                            args.add(argument.toString());</span>
+<span class="nc" id="L382">                        argument.delete(0, argument.length());</span>
+                    }
+                }
+                case ' ' -&gt; {
+<span class="nc bnc" id="L386" title="All 2 branches missed.">                    if (wasQuotation)</span>
+                    {
+<span class="nc" id="L388">                        argument.append(c);</span>
+                    }
+                    else
+                    {
+<span class="nc bnc" id="L392" title="All 2 branches missed.">                        if (argument.toString().equals(&quot;&quot;) == false)</span>
+<span class="nc" id="L393">                            args.add(argument.toString());</span>
+<span class="nc" id="L394">                        argument.delete(0, argument.length());</span>
+                    }
+<span class="nc" id="L396">                }</span>
+                default -&gt; {
+<span class="nc bnc" id="L398" title="All 4 branches missed.">                        if (c == Interpreter.CHAR_COMMENT.charAt(0) &amp;&amp; wasQuotation == false)</span>
+<span class="nc" id="L399">                                stop = true;</span>
+                        else
+<span class="nc" id="L401">                            argument.append(c);</span>
+                }
+            }
+        }
+<span class="nc bnc" id="L405" title="All 2 branches missed.">        if (argument.toString().equals(&quot;&quot;) == false)</span>
+<span class="nc" id="L406">            args.add(argument.toString());        </span>
+<span class="nc" id="L407">        String[] reti = new String[args.size()];</span>
+<span class="nc" id="L408">        String errVar = &quot;&quot;;</span>
+<span class="nc bnc" id="L409" title="All 2 branches missed.">        for(int i = 0; i &lt; args.size(); i++)</span>
+        {
+<span class="nc bnc" id="L411" title="All 2 branches missed.">            if (args.get(i).startsWith(Interpreter.CHAR_VAR)) // Is variable</span>
+            {
+<span class="nc bnc" id="L413" title="All 2 branches missed.">                if (Interpreter.VARS_INT.get(args.get(i).substring(1)) != null) // INTEGER</span>
+                {
+<span class="nc" id="L415">                    reti[i] = String.valueOf(Interpreter.VARS_INT.get(args.get(i).substring(1)));</span>
+                }
+<span class="nc bnc" id="L417" title="All 2 branches missed.">                else if (Interpreter.VARS_STRING.get(args.get(i).substring(1)) != null) // STRING</span>
+                {
+<span class="nc" id="L419">                    reti[i] = Interpreter.VARS_STRING.get(args.get(i).substring(1));</span>
+                }
+                else
+                {
+<span class="nc" id="L423">                    errVar = args.get(i).substring(1);</span>
+<span class="nc" id="L424">                    reti = null;</span>
+<span class="nc" id="L425">                    break;</span>
+                }
+            }
+            else
+            {
+<span class="nc" id="L430">                reti[i] = args.get(i);</span>
+            }            
+        }
+<span class="nc bnc" id="L433" title="All 2 branches missed.">        if (reti == null)</span>
+<span class="nc" id="L434">            Interpreter.output.println(String.format(Interpreter.MESSAGE_UNKNOWNVARIABLE, errVar));</span>
+<span class="nc" id="L435">        return reti;</span>
+    }
+    
+    /**
+     * Gets reference to actual output of interpreter
+     * @return Reference to actual output of interpreter
+     */
+    public static PrintStream getOutput()
+    {
+<span class="nc" id="L444">        return Interpreter.output;</span>
+    }
+    
+    /**
+     * Gets actual value of counter of processed commands
+     * @return Value of counter of commands
+     */
+    public int getCommandCounter()
+    {
+<span class="nc" id="L453">        return this.commandCounter;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

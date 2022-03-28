@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BusGenerator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PujcovnaCmdSkoda</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.skoda.boop.pujcovnacmdskoda.generator</a> &gt; <span class="el_source">BusGenerator.java</span></div><h1>BusGenerator.java</h1><pre class="source lang-java linenums">//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;License&quot;&gt;
+/*
+ * Copyright (C) 2022 Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+//&lt;/editor-fold&gt;
+package cz.upce.fei.skoda.boop.pujcovnacmdskoda.generator;
+
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.data.Bus;
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.data.Propulsion;
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence.Mappable;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
+/**
+ * Class used for creating pseudo random buses
+ * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ */
+public class BusGenerator implements IGenerator
+{
+    /**
+     * Reference for random generator
+     */
+    private Random random;
+    
+    /**
+     * Array of available manufacturers
+     */
+<span class="nc" id="L43">    private static final String[] MANUFACTURERS = {&quot;Iveco Bus&quot;, &quot;Mercedes-Benz&quot;, &quot;Setra&quot;, &quot;VDL&quot;, &quot;MAN&quot;, &quot;Neoplan&quot;, &quot;Sor&quot;, &quot;Solaris&quot;};</span>
+    
+    /**
+     * Array of available types of propulsions
+     */
+<span class="nc" id="L48">    private static final String[] PROPULSIONS = {&quot;DIESEL&quot;, &quot;ELECTRIC&quot;, &quot;HYBRID&quot;, &quot;CNG&quot;};</span>
+    
+    /**
+     * Minimal capacity of bus
+     */
+    private static final int CAPACITY_MIN = 23;
+    
+    /**
+     * Maximal capacity of bus
+     */
+    private static final int CAPACITY_MAX = 67;
+    
+    /**
+     * Format of bus identifier
+     */
+    private static final String ID_FORMAT = &quot;BUS_%04d&quot;;
+    
+    /**
+     * Creates generator of random buses
+     */
+    public BusGenerator()
+<span class="nc" id="L69">    {</span>
+<span class="nc" id="L70">        this.random = ThreadLocalRandom.current();</span>
+<span class="nc" id="L71">    }</span>
+    
+    @Override
+    public Bus next()
+    {
+<span class="nc" id="L76">        String id = String.format(BusGenerator.ID_FORMAT, this.random.nextInt(1000, 10000));</span>
+<span class="nc" id="L77">        int capacity = this.random.nextInt(BusGenerator.CAPACITY_MIN, BusGenerator.CAPACITY_MAX);</span>
+<span class="nc" id="L78">        String manufacturer = BusGenerator.MANUFACTURERS[this.random.nextInt(0, BusGenerator.MANUFACTURERS.length)];</span>
+<span class="nc" id="L79">        Propulsion propulsion = Propulsion.getPropulsion(BusGenerator.PROPULSIONS[this.random.nextInt(0, BusGenerator.PROPULSIONS.length)]);</span>
+<span class="nc" id="L80">        return new Bus(id, manufacturer, capacity, propulsion, this.random.nextBoolean());</span>
+    }
+    
+    @Override
+    public Bus createFromMap(Map&lt;String, String&gt; data)
+    {
+        String id = (
+<span class="nc bnc" id="L87" title="All 2 branches missed.">                data.get(&quot;id&quot;) == null?</span>
+<span class="nc" id="L88">                String.format(BusGenerator.ID_FORMAT, this.random.nextInt(1000, 10000)):</span>
+<span class="nc" id="L89">                data.get(&quot;id&quot;)</span>
+                );
+        int capacity = (
+<span class="nc bnc" id="L92" title="All 2 branches missed.">                data.get(&quot;capacity&quot;) == null?</span>
+<span class="nc" id="L93">                this.random.nextInt(BusGenerator.CAPACITY_MIN, BusGenerator.CAPACITY_MAX):</span>
+<span class="nc" id="L94">                Integer.parseInt(data.get(&quot;capacity&quot;))</span>
+                );
+        String manufacturer = (
+<span class="nc bnc" id="L97" title="All 2 branches missed.">                data.get(&quot;manufacturer&quot;) == null?</span>
+<span class="nc" id="L98">                BusGenerator.MANUFACTURERS[this.random.nextInt(0, BusGenerator.MANUFACTURERS.length)]:</span>
+<span class="nc" id="L99">                data.get(&quot;manufacturer&quot;)</span>
+                );
+        Propulsion prop = (
+<span class="nc bnc" id="L102" title="All 2 branches missed.">                data.get(&quot;propulsion&quot;) == null?</span>
+<span class="nc" id="L103">                Propulsion.getPropulsion(BusGenerator.PROPULSIONS[this.random.nextInt(0, BusGenerator.PROPULSIONS.length)]):</span>
+<span class="nc" id="L104">                Propulsion.getPropulsion(data.get(&quot;propulsion&quot;))</span>
+                );
+        boolean lF = (
+<span class="nc bnc" id="L107" title="All 2 branches missed.">                data.get(&quot;lowFloor&quot;) == null?</span>
+<span class="nc" id="L108">                this.random.nextBoolean():</span>
+<span class="nc" id="L109">                data.get(&quot;lowFloor&quot;).equals(&quot;true&quot;)</span>
+                );
+<span class="nc" id="L111">        return new Bus(id, manufacturer, capacity, prop, lF);</span>
+    }
+
+    @Override
+    public String getGeneratedName()
+    {
+<span class="nc" id="L117">        return Bus.class.getCanonicalName();</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -71,21 +71,21 @@ public class Rozmer
      */
     public double getDelka()
     {
-        return (double)((double)this.delka/(double)Rozmer.TO_CM);
+        return this.delka/Rozmer.TO_CM;
     }
 
     /**
      * @return hodnota šířky rozměru v m
      */
     public double getSirka() {
-        return (double)((double)this.sirka/(double)Rozmer.TO_CM);
+        return this.sirka/Rozmer.TO_CM;
     }
 
     /**
      * @return hodnota výšky rozměru v m
      */
     public double getVyska() {
-        return (double)((double)this.vyska/(double)Rozmer.TO_CM);
+        return this.vyska/Rozmer.TO_CM;
     }
 //</editor-fold>
 
@@ -100,9 +100,9 @@ public class Rozmer
     public String toString() {
         return String.format(Locale.ENGLISH,
                 "Rozmer{delka=%5.2f,sirka=%5.2f,vyska=%5.2f}",
-                this.delka / Rozmer.TO_CM,
-                this.sirka / Rozmer.TO_CM,
-                this.vyska / Rozmer.TO_CM);
+                this.getDelka(),
+                this.getSirka(),
+                this.getVyska());
     }
 //</editor-fold>
 

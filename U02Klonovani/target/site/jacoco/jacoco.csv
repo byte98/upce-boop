@@ -1,0 +1,8 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+U02KlonovaniSkoda,cz.upce.fei.boop.u02klonovani,MojeException,0,4,0,0,0,2,0,1,0,1
+U02KlonovaniSkoda,cz.upce.fei.boop.u02klonovani,Rozmer,0,181,0,22,0,35,0,20,0,9
+U02KlonovaniSkoda,cz.upce.fei.boop.u02klonovani,Vana,26,70,0,12,5,21,2,12,2,6
+U02KlonovaniSkoda,cz.upce.fei.boop.u02klonovani.hluboce,KoupelnaHluboce,20,62,0,8,7,17,4,10,4,6
+U02KlonovaniSkoda,cz.upce.fei.boop.u02klonovani.hluboce,Main,0,4,0,0,0,2,0,2,0,2
+U02KlonovaniSkoda,cz.upce.fei.boop.u02klonovani.melce,KoupelnaMelce,20,55,0,8,7,15,4,10,4,6
+U02KlonovaniSkoda,cz.upce.fei.boop.u02klonovani.melce,MainMelce,0,4,0,0,0,2,0,2,0,2

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NakladniAutomobil.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">U03SeznamGenSkoda</a> &gt; <a href="index.source.html" class="el_package">seznam.prostredky</a> &gt; <span class="el_source">NakladniAutomobil.java</span></div><h1>NakladniAutomobil.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (C) 2022 Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+package seznam.prostredky;
+
+/**
+ *
+ * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ */
+public final class NakladniAutomobil extends Prostredek {
+    
+    private final int pocetNaprav;
+    
+    public NakladniAutomobil(String SPZ, int pocetNaprav, double hmotnost)
+    {
+<span class="fc" id="L30">        super(SPZ, hmotnost);</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (pocetNaprav &lt; 1)</span>
+        {
+<span class="fc" id="L33">            throw new IllegalArgumentException();</span>
+        }
+        else
+        {
+<span class="fc" id="L37">            this.pocetNaprav = pocetNaprav;</span>
+<span class="fc" id="L38">            this.typ = TypyDopravnichProstredku.NAKLADNI_AUTOMOBIL;</span>
+        }        
+<span class="fc" id="L40">    }</span>
+    
+    public int getPocetNaprav()
+    {
+<span class="fc" id="L44">        return this.pocetNaprav;</span>
+    }
+    
+    @Override
+    public String toString()
+    {
+<span class="fc" id="L50">        StringBuilder reti = new StringBuilder(super.toString());</span>
+<span class="fc" id="L51">        reti.append(&quot;, početNáprav=&quot;);</span>
+<span class="fc" id="L52">        reti.append(this.pocetNaprav);</span>
+<span class="fc" id="L53">        return reti.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

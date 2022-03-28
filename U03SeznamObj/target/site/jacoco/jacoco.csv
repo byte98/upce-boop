@@ -1,0 +1,10 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+U03SeznamObjSkoda,util,Barva,0,63,0,0,0,13,0,5,0,5
+U03SeznamObjSkoda,seznam,Seznam,0,20,0,2,0,3,0,2,0,1
+U03SeznamObjSkoda,seznam,SeznamObj,52,292,1,25,11,61,1,24,0,12
+U03SeznamObjSkoda,seznam,SeznamObj.new Iterator() {...},0,52,0,6,0,9,0,6,0,3
+U03SeznamObjSkoda,seznam.prostredky,Prostredek,0,124,0,10,0,27,0,13,0,8
+U03SeznamObjSkoda,seznam.prostredky,OsobniAutomobil,0,58,0,2,0,16,0,5,0,4
+U03SeznamObjSkoda,seznam.prostredky,Traktor,0,51,0,2,0,11,0,4,0,3
+U03SeznamObjSkoda,seznam.prostredky,NakladniAutomobil,0,39,0,2,0,11,0,4,0,3
+U03SeznamObjSkoda,seznam.prostredky,TypyDopravnichProstredku,0,35,0,0,0,8,0,3,0,3

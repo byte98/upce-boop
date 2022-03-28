@@ -1,0 +1,16 @@
+cz\upce\fei\boop\lexikalnianalyzator\Counter.class
+cz\upce\fei\boop\lexikalnianalyzator\collection\TokenListTest$TokenTest.class
+cz\upce\fei\boop\lexikalnianalyzator\token\TokenKeyTest.class
+cz\upce\fei\boop\lexikalnianalyzator\collection\TokenListTest.class
+cz\upce\fei\boop\lexikalnianalyzator\LexikalniAnalyzatorMainTest.class
+cz\upce\fei\boop\lexikalnianalyzator\token\TokenIdentifierTest.class
+cz\upce\fei\boop\lexikalnianalyzator\token\enums\KeyWordTest.class
+cz\upce\fei\boop\lexikalnianalyzator\token\enums\OperatorEnumTest.class
+cz\upce\fei\boop\lexikalnianalyzator\token\enums\SeparatorEnumTest.class
+cz\upce\fei\boop\lexikalnianalyzator\token\TokenLongNumberTest.class
+cz\upce\fei\boop\lexikalnianalyzator\token\enums\TokenTypeTest.class
+cz\upce\fei\boop\lexikalnianalyzator\statemachine\StateMachineTest.class
+cz\upce\fei\boop\lexikalnianalyzator\io\FileBufferedReaderTest.class
+cz\upce\fei\boop\lexikalnianalyzator\token\TokenDoubleNumberTest.class
+cz\upce\fei\boop\lexikalnianalyzator\token\TokenOperatorTest.class
+cz\upce\fei\boop\lexikalnianalyzator\token\TokenSeparatorTest.class

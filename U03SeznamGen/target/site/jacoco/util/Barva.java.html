@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Barva.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">U03SeznamGenSkoda</a> &gt; <a href="index.source.html" class="el_package">util</a> &gt; <span class="el_source">Barva.java</span></div><h1>Barva.java</h1><pre class="source lang-java linenums">package util;
+
+
+import java.awt.Color;
+
+<span class="fc" id="L6">public enum Barva {</span>
+
+<span class="fc" id="L8">    BILA(Color.WHITE, &quot;bílá&quot;),</span>
+<span class="fc" id="L9">    CERNA(Color.BLACK, &quot;černá&quot;),</span>
+<span class="fc" id="L10">    CERVENA(Color.RED, &quot;červená&quot;),</span>
+<span class="fc" id="L11">    ZELENA(Color.GREEN, &quot;zelená&quot;),</span>
+<span class="fc" id="L12">    MODRA(Color.BLUE, &quot;modrá&quot;);</span>
+
+    private final Color color;
+    private final String nazev;
+
+<span class="fc" id="L17">    private Barva(Color color, String cesky) {</span>
+<span class="fc" id="L18">        this.color = color;</span>
+<span class="fc" id="L19">        this.nazev = cesky;</span>
+<span class="fc" id="L20">    }</span>
+
+    public Color getColor() {
+<span class="fc" id="L23">        return color;</span>
+    }
+
+    public String getNazev() {
+<span class="fc" id="L27">        return nazev;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="fc" id="L32">       return nazev;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

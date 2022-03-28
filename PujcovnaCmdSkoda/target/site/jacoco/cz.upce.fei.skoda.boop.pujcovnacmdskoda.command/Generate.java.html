@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Generate.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PujcovnaCmdSkoda</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.skoda.boop.pujcovnacmdskoda.command</a> &gt; <span class="el_source">Generate.java</span></div><h1>Generate.java</h1><pre class="source lang-java linenums">//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;License&quot;&gt;
+/*
+ * Copyright (C) 2022 Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+//&lt;/editor-fold&gt;
+package cz.upce.fei.skoda.boop.pujcovnacmdskoda.command;
+
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.PujcovnaCmd;
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.generator.Generator;
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.generator.IGenerator;
+
+/**
+ * Class representing generate command
+ * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ */
+public class Generate extends Command
+{
+    /**
+     * Message informing about successful adding item to list
+     */
+<span class="nc" id="L35">    private static String MSG_ADDED = &quot;%d prvku bylo uspesne pridano do seznamu&quot;;</span>
+    
+    /**
+     * Message informing about invalid class name entered
+     */
+<span class="nc" id="L40">    private static String MSG_NOCLASS = &quot;CHYBA: Nazev '%s' neni platny nazev tridy! Povolene tridy: %s&quot;;</span>
+    
+    /**
+     * Message informing about wrong input
+     */
+<span class="nc" id="L45">    private static String MSG_WRONGIN = &quot;CHYBA: %s neni platny pocet prvku! Pocet prvku musi byt nezaporne cislo.&quot;;</span>
+    
+    /**
+     * Creates new handler for generate command
+     */
+    public Generate()
+<span class="nc" id="L51">    {</span>
+<span class="nc" id="L52">        this.aliases = new String[]{&quot;gen&quot;, &quot;generate&quot;, &quot;generuj&quot;, &quot;g&quot;};</span>
+<span class="nc" id="L53">        this.minimumArguments = 1;</span>
+<span class="nc" id="L54">        this.maximumArguments = 2;</span>
+<span class="nc" id="L55">    }</span>
+    
+    @Override
+    public String getHelp()
+    {
+<span class="nc" id="L60">        return &quot;&quot;&quot;</span>
+               Vygeneruje nahodna data a vlozi je do seznamu
+                - jeden argument: pocet nahodnych prvku, ktery bude vygenerovan
+                - dva argumenty: prvni argument urcuje tridu prvku, ktere budou 
+                  vygenerovany, druhy pak jejich pocet
+               &quot;&quot;&quot;;
+    }
+
+    @Override
+    public String execute(String[] arguments)
+    {
+<span class="nc" id="L71">        this.error = false;</span>
+<span class="nc" id="L72">        String reti = &quot;&quot;;</span>
+<span class="nc" id="L73">        int count = -1;</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        if (arguments.length == 1)</span>
+        {
+            try
+            {
+<span class="nc" id="L78">                count = Integer.parseInt(arguments[0]);</span>
+            }
+<span class="nc" id="L80">            catch(NumberFormatException ex)</span>
+            {
+<span class="nc" id="L82">                reti = String.format(Generate.MSG_WRONGIN, arguments[0]);</span>
+<span class="nc" id="L83">                this.error = true;</span>
+<span class="nc" id="L84">            }</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">            if (count &gt;= 0)</span>
+            {
+<span class="nc" id="L87">                IGenerator gen = new Generator();</span>
+<span class="nc" id="L88">                gen.fill(PujcovnaCmd.MODEL.data(), count);</span>
+<span class="nc" id="L89">            }</span>
+            else
+            {
+<span class="nc" id="L92">                reti = String.format(Generate.MSG_WRONGIN, arguments[0]);</span>
+<span class="nc" id="L93">                this.error = true;</span>
+            }
+        }
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        else if (arguments.length == 2)</span>
+        {
+            try
+            {
+<span class="nc" id="L100">                count = Integer.parseInt(arguments[1]);</span>
+            }
+<span class="nc" id="L102">            catch(NumberFormatException ex)</span>
+            {
+<span class="nc" id="L104">                reti = String.format(Generate.MSG_WRONGIN, arguments[1]);</span>
+<span class="nc" id="L105">                this.error = true;</span>
+<span class="nc" id="L106">            }</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">            if (count &gt;= 0)</span>
+            {
+<span class="nc" id="L109">                IGenerator gen = Generator.getByClassName(arguments[0]);</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">                if (gen == null)</span>
+                {
+<span class="nc" id="L112">                    reti = String.format(Generate.MSG_NOCLASS, arguments[0], this.getAvailableClassNames());</span>
+<span class="nc" id="L113">                    this.error = true;</span>
+                }
+                else
+                {
+<span class="nc" id="L117">                    gen.fill(PujcovnaCmd.MODEL.data(), count);</span>
+                }
+<span class="nc" id="L119">            }</span>
+            else
+            {
+<span class="nc" id="L122">                reti = String.format(Generate.MSG_WRONGIN, arguments[1]);</span>
+<span class="nc" id="L123">                this.error = true;</span>
+            }
+        }
+<span class="nc bnc" id="L126" title="All 4 branches missed.">        if (PujcovnaCmd.VERBOSE &amp;&amp; reti.equals(&quot;&quot;))</span>
+        {
+<span class="nc" id="L128">            reti = String.format(Generate.MSG_ADDED, count);</span>
+        }
+<span class="nc" id="L130">        return reti;</span>
+    }
+    
+    /**
+     * Gets string with all available class names for generator
+     * @return String with all class names for generator
+     */
+    private String getAvailableClassNames()
+    {
+<span class="nc" id="L139">        return Generator.getAllowedClassNames()</span>
+<span class="nc" id="L140">                .stream()</span>
+<span class="nc" id="L141">                .reduce(&quot;&quot;, (partialString, element) -&gt; partialString + element.toUpperCase() + &quot; &quot;);</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

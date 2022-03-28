@@ -172,9 +172,9 @@ public class Rozmer
     public Rozmer(final double delka, final double sirka, final double vyska) {
        if(Rozmer.check(delka) && Rozmer.check(sirka) && Rozmer.check(vyska))
        {
-           this.delka = Math.round(delka * (double)Rozmer.TO_CM);
-           this.sirka = Math.round(sirka * (double)Rozmer.TO_CM);
-           this.vyska = Math.round(vyska * (double)Rozmer.TO_CM);
+           this.delka = Math.round(delka * Rozmer.TO_CM);
+           this.sirka = Math.round(sirka * Rozmer.TO_CM);
+           this.vyska = Math.round(vyska * Rozmer.TO_CM);
        }
        else
        {
@@ -190,7 +190,7 @@ public class Rozmer
      */
     public double getDelka()
     {
-        return (double)((double)this.delka/(double)Rozmer.TO_CM);
+        return this.delka/Rozmer.TO_CM;
     }
 
     /**
@@ -198,7 +198,7 @@ public class Rozmer
      */
     public double getSirka()
     {
-        return (double)((double)this.sirka/(double)Rozmer.TO_CM);
+        return this.sirka/Rozmer.TO_CM;
     }
 
     /**
@@ -206,7 +206,7 @@ public class Rozmer
      */
     public double getVyska()
     {
-        return (double)((double)this.vyska/(double)Rozmer.TO_CM);
+        return this.vyska/Rozmer.TO_CM;
     }
 //</editor-fold>
 
@@ -222,9 +222,9 @@ public class Rozmer
     {
         return String.format(Locale.ENGLISH,
                 "Rozmer{delka=%5.2f,sirka=%5.2f,vyska=%5.2f}",
-                (float)((float)this.delka/(float)Rozmer.TO_CM),
-                (float)((float)this.sirka/(float)Rozmer.TO_CM),
-                (float)((float)this.vyska/(float)Rozmer.TO_CM));
+                this.getDelka(),
+                this.getSirka(),
+                this.getVyska());
     }
 //</editor-fold>
 

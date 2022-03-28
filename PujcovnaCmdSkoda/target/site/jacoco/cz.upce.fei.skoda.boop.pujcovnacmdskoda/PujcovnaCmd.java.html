@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PujcovnaCmd.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PujcovnaCmdSkoda</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.skoda.boop.pujcovnacmdskoda</a> &gt; <span class="el_source">PujcovnaCmd.java</span></div><h1>PujcovnaCmd.java</h1><pre class="source lang-java linenums">//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;License&quot;&gt;
+/*
+ * Copyright (C) 2022 Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+//&lt;/editor-fold&gt;
+package cz.upce.fei.skoda.boop.pujcovnacmdskoda;
+
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.command.Interpreter;
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.data.Model;
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence.TextReader;
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence.TextWriter;
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence.XMLReader;
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence.XMLWriter;
+
+/**
+ * Main class of whole program
+ * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ */
+public class PujcovnaCmd
+{
+    /**
+     * Path to file which will be used as data storage file
+     */
+    private static final String FILE = &quot;data.xml&quot;;
+    
+    /**
+     * Reader of text data
+     */
+<span class="nc" id="L43">    public static final TextReader TEXT_READER = new XMLReader(PujcovnaCmd.FILE);</span>
+    
+    /**
+     * Writer of text data
+     */
+<span class="nc" id="L48">    public static final TextWriter TEXT_WRITER = new XMLWriter(PujcovnaCmd.FILE);</span>
+    
+    /**
+     * Interpreter of commands from command line
+     */
+    private final Interpreter interpreter;
+    
+    /**
+     * Flag, whether program should exit
+     */
+<span class="nc" id="L58">    public static boolean EXIT = false;</span>
+    
+    /**
+     * Flag, whether program should output additional messages
+     */
+<span class="nc" id="L63">    public static boolean VERBOSE = false;</span>
+    
+    /**
+     * Data model of application
+     */
+<span class="nc" id="L68">    public static final Model MODEL = new Model();</span>
+    
+    /**
+     * Creates new instance of application
+     */
+    public PujcovnaCmd()
+<span class="nc" id="L74">    {</span>
+<span class="nc" id="L75">        this.interpreter = new Interpreter(System.in);</span>
+<span class="nc" id="L76">    }</span>
+    
+    /**
+     * Starts program
+     */
+    public void start()
+    {
+<span class="nc bnc" id="L83" title="All 4 branches missed.">        while(this.interpreter.hasNext() &amp;&amp; PujcovnaCmd.EXIT == false)</span>
+        {
+<span class="nc" id="L85">            this.interpreter.read();</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">            if (PujcovnaCmd.EXIT)</span>
+            {
+<span class="nc" id="L88">                break;</span>
+            }
+        }
+<span class="nc" id="L91">    }</span>
+    
+    /**
+     * Main function of program
+     * @param args Arguments of program
+     */
+    public static void main(String[] args)
+    {
+<span class="nc" id="L99">        PujcovnaCmd pujcovna = new PujcovnaCmd();</span>
+<span class="nc" id="L100">        pujcovna.start();</span>
+<span class="nc" id="L101">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

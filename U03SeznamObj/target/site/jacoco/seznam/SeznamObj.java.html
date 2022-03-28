@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SeznamObj.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">U03SeznamObjSkoda</a> &gt; <a href="index.source.html" class="el_package">seznam</a> &gt; <span class="el_source">SeznamObj.java</span></div><h1>SeznamObj.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (C) 2022 Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+package seznam;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ */
+public class SeznamObj implements Seznam
+{
+    /**
+     * Pole s daty
+     */
+    private Object[] objekty;
+    
+    /**
+     * Pocet prvku v poli
+     */
+    private int pocet;
+    
+    
+    /**
+     * Koeficient, kterym se bude nasobit kapacita pri rozsirovani seznamu
+     */
+<span class="fc" id="L48">    private final double KOEFICIENT_ROZSIRENI = 2;</span>
+    
+    /**
+     * Koeficient kapacity pri jejimz splneni bude seznam zkracen
+     */
+<span class="fc" id="L53">    private final double KONTROLA_ZKRACENI = 0.25;</span>
+    
+    /**
+     * Koeficient, kterym se bude nasobit kapacita pri zkracovani seznamu
+     */
+<span class="fc" id="L58">    private final double KOEFICIENT_ZKRACENI = 0.5;</span>
+    
+    public SeznamObj(int kapacita)
+<span class="fc" id="L61">    {</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (kapacita &lt; 1)</span>
+        {
+<span class="fc" id="L64">            throw new IllegalArgumentException(&quot;Neplatna kapacita seznamu.&quot;);</span>
+        }
+        else
+        {
+<span class="fc" id="L68">            this.pocet = 0;</span>
+<span class="fc" id="L69">            this.objekty = new Object[kapacita];</span>
+        }
+        
+<span class="fc" id="L72">    }</span>
+    
+    /**
+     * Zkontroluje, zda je potreba seznam zkratit a pripadne ho i zkrati
+     */
+    private void zkrat()
+    {
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        if ((int)Math.floor((double)this.objekty.length * this.KONTROLA_ZKRACENI) &gt; this.pocet)</span>
+        {
+<span class="fc" id="L81">            int novaKapacita = (int)Math.floor((double)this.objekty.length * this.KOEFICIENT_ZKRACENI);</span>
+<span class="fc" id="L82">            this.objekty = Arrays.copyOf(this.objekty, novaKapacita);</span>
+        }
+<span class="fc" id="L84">    }</span>
+    
+    /**
+     * Zkontroluje, jestli je potreba pole rozsirit a pripadne ho i rozsiri
+     */
+    private void rozsir()
+    {
+<span class="fc bfc" id="L91" title="All 2 branches covered.">        if (this.pocet + 1 &gt; this.objekty.length)</span>
+        {
+<span class="fc" id="L93">            int novaKapacita = (int)Math.floor((double)this.objekty.length * this.KOEFICIENT_ROZSIRENI);</span>
+<span class="fc" id="L94">            this.objekty = Arrays.copyOf(this.objekty, novaKapacita);</span>
+        }
+<span class="fc" id="L96">    }</span>
+    
+    @Override
+    public Object dej(final int pozice) throws IndexOutOfBoundsException, IllegalAccessError
+    {
+<span class="fc" id="L101">        Object reti = null;</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">        if (this.pocet == 0)</span>
+        {
+<span class="fc" id="L104">            throw new IllegalAccessError(&quot;Nepovolená operace, protože seznam je prázdný.&quot;);</span>
+        }
+<span class="fc bfc" id="L106" title="All 2 branches covered.">        else if (pozice &gt; this.pocet)</span>
+        {
+<span class="fc" id="L108">            throw new IndexOutOfBoundsException(&quot;Parametr index je mimo povoleny rozsah.&quot;);</span>
+        }
+        else
+        {
+<span class="fc" id="L112">            reti = this.objekty[pozice - 1];</span>
+        }
+<span class="fc" id="L114">        return reti;</span>
+    }
+
+    @Override
+    public Object[] dejDopravniProstredky()
+    {
+<span class="fc" id="L120">        Object[] reti = new Object[this.pocet];</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">        for (int i = 0; i &lt; this.pocet; i++)</span>
+        {
+<span class="fc" id="L123">            reti[i] = this.objekty[i];</span>
+        }
+<span class="fc" id="L125">        return reti;</span>
+    }
+
+    @Override
+    public Object[] dejKopieDopravniProstredku() throws CloneNotSupportedException
+    {
+<span class="fc" id="L131">        Object[] reti = new Object[this.pocet];</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">        for (int i = 0; i &lt; this.pocet; i++)</span>
+        {
+<span class="pc bpc" id="L134" title="1 of 2 branches missed.">            if (this.objekty[i] instanceof Cloneable)</span>
+            {
+                try
+                {
+<span class="fc" id="L138">                    Method method = this.objekty[i].getClass().getMethod(&quot;clone&quot;);</span>
+<span class="fc" id="L139">                    reti[i] = method.invoke(this.objekty[i]);</span>
+                }
+<span class="nc" id="L141">                catch (NoSuchMethodException ex)</span>
+                {
+<span class="nc" id="L143">                    Logger.getLogger(SeznamObj.class.getName()).log(Level.SEVERE, null, ex);</span>
+                }
+<span class="nc" id="L145">                catch (SecurityException ex)</span>
+                {
+<span class="nc" id="L147">                    Logger.getLogger(SeznamObj.class.getName()).log(Level.SEVERE, null, ex);</span>
+                }
+<span class="nc" id="L149">                catch (IllegalAccessException ex)</span>
+                {
+<span class="nc" id="L151">                    Logger.getLogger(SeznamObj.class.getName()).log(Level.SEVERE, null, ex);</span>
+                }
+<span class="nc" id="L153">                catch (IllegalArgumentException ex)</span>
+                {
+<span class="nc" id="L155">                    Logger.getLogger(SeznamObj.class.getName()).log(Level.SEVERE, null, ex);</span>
+                }
+<span class="nc" id="L157">                catch (InvocationTargetException ex)</span>
+                {
+<span class="nc" id="L159">                    Logger.getLogger(SeznamObj.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="pc" id="L160">                }</span>
+            }
+            else
+            {
+<span class="nc" id="L164">                reti[i] = this.objekty[i];</span>
+            }
+        }
+<span class="fc" id="L167">        return reti;</span>
+    }
+
+    @Override
+    public Object odeber(int pozice) throws IndexOutOfBoundsException, IllegalAccessError
+    {
+<span class="fc" id="L173">        Object reti = null;</span>
+<span class="fc bfc" id="L174" title="All 2 branches covered.">        if (this.pocet == 0)</span>
+        {
+<span class="fc" id="L176">            throw new IllegalAccessError(&quot;Nepovolená operace, protože seznam je prázdný.&quot;);</span>
+        }
+<span class="fc bfc" id="L178" title="All 2 branches covered.">        else if (pozice &gt; this.pocet)</span>
+        {
+<span class="fc" id="L180">            throw new IndexOutOfBoundsException(&quot;Parametr pozice je mimo povoleny rozsah.&quot;);</span>
+        }
+        else
+        {
+<span class="fc" id="L184">            reti = this.dej(pozice);</span>
+<span class="fc bfc" id="L185" title="All 2 branches covered.">            for (int i = pozice - 1; i &lt; this.objekty.length - 1; i++)</span>
+            {
+<span class="fc" id="L187">                this.objekty[i] = this.objekty[i + 1];</span>
+            }
+<span class="fc" id="L189">            this.pocet--;</span>
+<span class="fc" id="L190">            this.zkrat();</span>
+        }
+<span class="fc" id="L192">        return reti;</span>
+    }
+
+    @Override
+    public void vloz(Object objekt) throws IllegalArgumentException
+    {
+<span class="fc bfc" id="L198" title="All 2 branches covered.">        if (objekt == null)</span>
+        {
+<span class="fc" id="L200">            throw new IllegalArgumentException(&quot;Neplatna hodnota argumentu prostredek.&quot;);</span>
+        }
+        else
+        {
+<span class="fc" id="L204">            this.rozsir();</span>
+<span class="fc" id="L205">            this.objekty[this.pocet] = objekt;</span>
+<span class="fc" id="L206">            this.pocet++;</span>
+        }
+<span class="fc" id="L208">    }</span>
+
+    @Override
+    public int pocet()
+    {
+<span class="fc" id="L213">        return this.pocet;</span>
+    }
+
+    @Override
+    public int kapacita()
+    {
+<span class="fc" id="L219">        return this.objekty.length;</span>
+    }
+
+    @Override
+    public void zrus()
+    {
+<span class="fc bfc" id="L225" title="All 2 branches covered.">        for(int i = 0; i &lt; this.objekty.length; i++)</span>
+        {
+<span class="fc" id="L227">            this.objekty[i] = null;</span>
+        }
+<span class="fc" id="L229">        this.objekty = new Object[1];</span>
+<span class="fc" id="L230">        this.pocet = 0;</span>
+<span class="fc" id="L231">    }</span>
+
+    @Override
+    public Iterator&lt;Object&gt; iterator() {
+<span class="fc" id="L235">        Iterator&lt;Object&gt; reti = new Iterator&lt;Object&gt;(){</span>
+<span class="fc" id="L236">            private int currentIndex = 0;</span>
+            @Override
+            public boolean hasNext()
+            {
+<span class="fc bfc" id="L240" title="All 4 branches covered.">                return (currentIndex &lt; objekty.length &amp;&amp; objekty[currentIndex] != null);</span>
+            }
+            @Override
+            public Object next()
+            {
+<span class="fc" id="L245">                Object reti = null;</span>
+<span class="fc bfc" id="L246" title="All 2 branches covered.">                if (this.hasNext())</span>
+                {
+<span class="fc" id="L248">                    reti = objekty[currentIndex];</span>
+<span class="fc" id="L249">                    currentIndex++;</span>
+                }
+                else
+                {
+<span class="fc" id="L253">                    throw new NoSuchElementException();</span>
+                }
+<span class="fc" id="L255">                return reti;</span>
+            }
+        };
+<span class="fc" id="L258">        return reti;</span>
+    }
+    
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

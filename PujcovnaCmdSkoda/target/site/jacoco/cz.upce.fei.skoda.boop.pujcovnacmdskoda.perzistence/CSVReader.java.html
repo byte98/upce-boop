@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CSVReader.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PujcovnaCmdSkoda</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence</a> &gt; <span class="el_source">CSVReader.java</span></div><h1>CSVReader.java</h1><pre class="source lang-java linenums">//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;License&quot;&gt;
+/*
+ * Copyright (C) 2022 Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+//&lt;/editor-fold&gt;
+package cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence;
+
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznam;
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.SpojovySeznam;
+import java.io.FileNotFoundException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * Class which can read objects from CSV file
+ * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ */
+public class CSVReader extends TextReader
+{
+
+    public CSVReader(String path)
+    {
+<span class="nc" id="L44">        super(path);</span>
+<span class="nc" id="L45">        this.extensions = new String[]{&quot;csv&quot;};</span>
+<span class="nc" id="L46">    }</span>
+
+    @Override
+    public SpojovySeznam&lt;Mappable&gt; loadData()
+    {
+<span class="nc" id="L51">        SpojovySeznam&lt;Mappable&gt; reti = new LinkSeznam&lt;&gt;();</span>
+        try
+        {
+<span class="nc" id="L54">            Iterator&lt;String&gt; it = this.lineIterator();</span>
+<span class="nc" id="L55">            boolean firstLine = true;</span>
+<span class="nc" id="L56">            List&lt;String&gt; keys = null;</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">            while(it.hasNext())</span>
+            {
+<span class="nc bnc" id="L59" title="All 2 branches missed.">                if(firstLine)</span>
+                {
+<span class="nc" id="L61">                    keys = this.dataToList(it.next());</span>
+<span class="nc" id="L62">                    firstLine = false;</span>
+                }
+<span class="nc bnc" id="L64" title="All 2 branches missed.">                else if(keys != null)</span>
+                {
+<span class="nc" id="L66">                    reti.vlozPosledni(this.createObject(keys, this.dataToList(it.next())));</span>
+                }
+            }
+        }
+<span class="nc" id="L70">        catch (FileNotFoundException ex)</span>
+        {
+<span class="nc" id="L72">            Logger.getLogger(CSVReader.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L73">        }</span>
+<span class="nc" id="L74">        return reti;</span>
+    }
+    
+    /**
+     * Gets list of strings from string containing data
+     * @param data String containing data
+     * @return List of strings from string containing data
+     */
+    private List&lt;String&gt; dataToList(String data)
+    {
+<span class="nc" id="L84">        List&lt;String&gt; reti = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L85">        String[] parts = data.split(Character.toString(CSVWriter.SEPARATOR));</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        for(String part: parts)</span>
+        {
+<span class="nc" id="L88">            reti.add(part.trim());</span>
+        }
+<span class="nc" id="L90">        return reti;</span>
+    }
+    
+    /**
+     * Creates object from keys and values
+     * @param keys Keys of map from which object will be created
+     * @param values Values of map from which object will be created
+     * @return Object created from entered list of keys and values
+     */
+    private Mappable createObject(List&lt;String&gt; keys, List&lt;String&gt; values)
+    {
+<span class="nc" id="L101">        Mappable reti = null;</span>
+<span class="nc" id="L102">        Map&lt;String, String&gt; data = new HashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        for(int i = 0; i &lt; keys.size(); i++)</span>
+        {
+<span class="nc bnc" id="L105" title="All 2 branches missed.">            if (i &lt; values.size())</span>
+            {
+<span class="nc" id="L107">                data.put(keys.get(i), values.get(i));</span>
+            }
+            else
+            {
+<span class="nc" id="L111">                data.put(keys.get(i), null);</span>
+            }
+        }
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        if (data.get(&quot;_className&quot;) != null)</span>
+        {
+            try
+            {
+<span class="nc" id="L118">                Class&lt;?&gt; cls = Class.forName(data.get(&quot;_className&quot;));</span>
+<span class="nc" id="L119">                Constructor&lt;?&gt; ctor = cls.getConstructor(Map.class);</span>
+<span class="nc" id="L120">                reti = (Mappable)ctor.newInstance(new Object[]{data});</span>
+            }
+<span class="nc" id="L122">            catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)</span>
+            {
+<span class="nc" id="L124">                Logger.getLogger(CSVReader.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L125">            }</span>
+        }
+<span class="nc" id="L127">        return reti;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

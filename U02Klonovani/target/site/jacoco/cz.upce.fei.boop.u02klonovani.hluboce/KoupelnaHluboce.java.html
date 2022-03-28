@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>KoupelnaHluboce.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">U02KlonovaniSkoda</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.boop.u02klonovani.hluboce</a> &gt; <span class="el_source">KoupelnaHluboce.java</span></div><h1>KoupelnaHluboce.java</h1><pre class="source lang-java linenums">package cz.upce.fei.boop.u02klonovani.hluboce;
+
+import cz.upce.fei.boop.u02klonovani.MojeException;
+import cz.upce.fei.boop.u02klonovani.Rozmer;
+import cz.upce.fei.boop.u02klonovani.Vana;
+import java.util.Objects;
+
+/**
+ * TODO Upravte třídu KoupelnaHlubuce tak vyhověla testu a byla hluboce klonovatelná
+ * TODO Při upravách třídy dodržujte strukturu třídy podle editor-fold
+ */
+public class KoupelnaHluboce implements Cloneable
+{
+
+//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;instanční proměnný/atributy&quot;&gt;
+    /**
+     * Vana ktera se v koupelne nachazi
+     */
+    private Vana vana;
+    
+    /**
+     * Nazev koupelny
+     */
+    private String nazev;
+    
+    /**
+     * Rozmery koupelny
+     */
+    private Rozmer rozmer;    
+//&lt;/editor-fold&gt;
+
+
+//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;konstruktory&quot;&gt;
+    /**
+     * Vytvori novou koupelnu
+     * @param nazev Nazev nove vytvorene koupelny
+     * @param rozmer Rozmery nove vytvorene koupelny
+     * @param vana Vana, ktera bude v koupelne umistena
+     */
+    public KoupelnaHluboce(String nazev, Rozmer rozmer, Vana vana)
+<span class="fc" id="L41">    {</span>
+<span class="fc bfc" id="L42" title="All 6 branches covered.">        if (nazev == null || rozmer == null || vana == null)</span>
+        {
+<span class="fc" id="L44">            throw new NullPointerException();</span>
+        }
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        else if (nazev.equals(&quot;&quot;))</span>
+        {
+<span class="fc" id="L48">            throw new MojeException(&quot;Neplatny nazev koupelny!&quot;);</span>
+        }
+        else
+        {
+<span class="fc" id="L52">            this.nazev = nazev;</span>
+<span class="fc" id="L53">            this.rozmer = rozmer;</span>
+<span class="fc" id="L54">            this.vana = vana;</span>
+        }        
+<span class="fc" id="L56">    }</span>
+    
+    /**
+     * Vytvori novou koupelnu
+     * @param nazev Nazev koupelny
+     * @param delka Delka koupelny v metrech
+     * @param sirka Sirka koupelny v metrech
+     * @param vyska Vyska koupelny v metrech
+     * @param vana Vana ktera bude umistena v koupelne
+     */
+    public KoupelnaHluboce(String nazev, double delka, double sirka, double vyska, Vana vana)
+    {
+<span class="fc" id="L68">        this(nazev, new Rozmer(delka, sirka, vyska), vana);</span>
+<span class="fc" id="L69">    }</span>
+//&lt;/editor-fold&gt;
+
+
+//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;metoda klonovani&quot;&gt;
+    @Override
+    public KoupelnaHluboce clone() throws CloneNotSupportedException
+    {
+<span class="fc" id="L77">        KoupelnaHluboce reti = (KoupelnaHluboce)super.clone();</span>
+<span class="fc" id="L78">        reti.vana = this.vana.clone();</span>
+<span class="fc" id="L79">        return reti;</span>
+    }
+//&lt;/editor-fold&gt;
+    
+
+//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;¨metoda toString&quot;&gt;
+    @Override
+    public String toString()
+    {
+<span class="nc" id="L88">        return &quot;KoupelnaMelce{&quot; + &quot;vana=&quot; + this.vana + &quot;, nazev=&quot; + this.nazev + &quot;, rozmer=&quot; + this.rozmer + '}';</span>
+    }
+//&lt;/editor-fold&gt;
+
+ 
+//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;metody get&quot;&gt;
+    public Vana getVana()
+    {
+<span class="fc" id="L96">        return this.vana;</span>
+    }
+
+    public void setVana(Vana vana)
+    {
+<span class="nc" id="L101">        this.vana = vana;</span>
+<span class="nc" id="L102">    }</span>
+
+    public String getNazev()
+    {
+<span class="fc" id="L106">        return this.nazev;</span>
+    }
+
+    public void setNazev(String nazev)
+    {
+<span class="nc" id="L111">        this.nazev = nazev;</span>
+<span class="nc" id="L112">    }</span>
+
+    public Rozmer getRozmer()
+    {
+<span class="fc" id="L116">        return this.rozmer;</span>
+    }
+
+    public void setRozmer(Rozmer rozmer)
+    {
+<span class="nc" id="L121">        this.rozmer = rozmer;</span>
+<span class="nc" id="L122">    }</span>
+//&lt;/editor-fold&gt;
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

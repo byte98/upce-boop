@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Generator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PujcovnaCmdSkoda</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.skoda.boop.pujcovnacmdskoda.generator</a> &gt; <span class="el_source">Generator.java</span></div><h1>Generator.java</h1><pre class="source lang-java linenums">//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;License&quot;&gt;
+/*
+ * Copyright (C) 2022 Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+//&lt;/editor-fold&gt;
+package cz.upce.fei.skoda.boop.pujcovnacmdskoda.generator;
+
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence.Mappable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.regex.Pattern;
+
+/**
+ * Class used to generate all other elements
+ * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ */
+public class Generator implements IGenerator
+{
+    /**
+     * Array with all generators that can be used to generate elements
+     */
+<span class="nc" id="L39">    private static final IGenerator[] GENERATORS = {</span>
+        new BusGenerator(),
+        new TrainGenerator()
+    };
+    
+    /**
+     * Reference for random generator
+     */
+    private Random random;
+    
+    /**
+     * Creates generator of random elements
+     */
+    public Generator()
+<span class="nc" id="L53">    {</span>
+<span class="nc" id="L54">        this.random = ThreadLocalRandom.current();</span>
+<span class="nc" id="L55">    }</span>
+    
+    /**
+     * Gets random generator from all available generators
+     * @return Random generator
+     */
+    private IGenerator getRandomGenerator()
+    {
+<span class="nc" id="L63">        return Generator.GENERATORS[this.random.nextInt(0, Generator.GENERATORS.length)];</span>
+    }
+    
+    @Override
+    public Mappable next()
+    {
+<span class="nc" id="L69">        return this.getRandomGenerator().next();</span>
+    }
+
+    @Override
+    public Mappable createFromMap(Map&lt;String, String&gt; data)
+    {
+<span class="nc" id="L75">        return this.getRandomGenerator().createFromMap(data);</span>
+    }
+    
+    /**
+     * Gets generator by class name of generated items
+     * @param cName Name of class which generator will be returned
+     * @return Generator determined by class name of generated items
+     *         or NULL if there is not such an generator
+     */
+    public static IGenerator getByClassName(String cName)
+    {
+<span class="nc" id="L86">        IGenerator reti = null;</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        for(IGenerator gen: Generator.GENERATORS)</span>
+        {
+<span class="nc bnc" id="L89" title="All 2 branches missed.">            if (Generator.areClassNamesSame(cName, gen.getGeneratedName()))</span>
+            {
+<span class="nc" id="L91">                reti = gen;</span>
+<span class="nc" id="L92">                break;</span>
+            }
+        }
+<span class="nc" id="L95">        return reti;</span>
+    }
+    
+    /**
+     * Gets names of allowed class names
+     * @return List with all allowed class names
+     */
+    public static List&lt;String&gt; getAllowedClassNames()
+    {
+<span class="nc" id="L104">        List&lt;String&gt; reti = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">        for(IGenerator gen: Generator.GENERATORS)</span>
+        {
+<span class="nc" id="L107">            reti.add(Generator.cleanClassName(gen.getGeneratedName()));</span>
+        }
+<span class="nc" id="L109">        return reti;</span>
+    }
+    
+    /**
+     * Cleans name of class from package names
+     * @param cName Name of class which will be cleaned
+     * @return Name of class without packages
+     */
+    private static String cleanClassName(String cName)
+    {
+<span class="nc" id="L119">        String reti = cName;</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">        if (cName.contains(&quot;.&quot;))</span>
+        {
+<span class="nc" id="L122">            String parts[] = cName.split(Pattern.quote(&quot;.&quot;));</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">            if (parts.length &gt; 1)</span>
+            {
+<span class="nc" id="L125">                reti = parts[parts.length - 1];</span>
+            }
+        }
+<span class="nc" id="L128">        return reti;</span>
+    }
+    
+    /**
+     * Checks, if two class names are same
+     * @param cName1 Name of first class which will be compared
+     * @param cName2 Name of second class which will be compared
+     * @return TRUE if class names are some kind of same, FALSE otherwise
+     */
+    private static boolean areClassNamesSame(String cName1, String cName2)
+    {
+<span class="nc" id="L139">        return (Generator.cleanClassName(cName1).trim().toLowerCase().equals(</span>
+<span class="nc" id="L140">                Generator.cleanClassName(cName2).trim().toLowerCase()));</span>
+    }
+
+    @Override
+    public String getGeneratedName()
+    {
+<span class="nc" id="L146">        return Mappable.class.getCanonicalName();</span>
+    }
+    
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

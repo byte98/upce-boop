@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>State.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LexikalniAnalyzatorSkoda</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.boop.lexikalnianalyzator.statemachine</a> &gt; <span class="el_source">State.java</span></div><h1>State.java</h1><pre class="source lang-java linenums">package cz.upce.fei.boop.lexikalnianalyzator.statemachine;
+
+/**
+ * Seznam stavů lexikálního analyzátoru.
+ *
+ *
+ * @author karel@simerda.cz
+ */
+<span class="fc" id="L9">public enum State {</span>
+
+    /**
+     * Výchozí stav, v kterém se zahajuje prvním znakem načítání elementů nebo
+     * oddělovačů a operátorů. Podle prvního znaku se rozhodné, zda bude
+     * následovat načítání identifikátoru nebo číselných literálů. Operátory a
+     * separátory (oddělovače) se dekodují pouze podle prvního znaku. Ostatní
+     * elementy se mohou skládat z více znaků.
+     *
+     * Elementem jsou identifikátory, klíčová slova a číselné literály ve
+     * desítkové, oktalové nebo hexadecimální soustavě.
+     *
+     * Separátory a operátory oddělují a ukončují načítání elementů tj.
+     * identifikátoru nebo číselných literálů.
+     *
+     *
+     */
+<span class="fc" id="L26">    STATE1(&quot;default state&quot;),</span>
+    /**
+     * Stav postupně načítá povolené alfanumerické znaky a podtržítko.
+     *
+     * Při příchodu jiného znaku dojde k ukončení načítání identifikátoru. Potom
+     * se zjistí zda se načtený identifikátor není klíčové slovo. Podle výsledku
+     * se uloží přislušný token do seznamu tokenů.
+     *
+     * Po uložení tokenů automat přejde okamžitě do dalšíh stavů, které
+     * vyhodnotí jaký oddělovač nebo operátor přerušil načítání.
+     *
+     * Stav neukládá žádný token.
+     */
+<span class="fc" id="L39">    STATE2(&quot;reading alphanumeric characters&quot;),</span>
+    /**
+     * V tomto stavu se rozhoduje v jaké číslné soustavě se bude načítat číselný
+     * literál.
+     *
+     * Tento stav neukládá žádný tokem.
+     */
+<span class="fc" id="L46">    STATE3(&quot;reading numeral literal&quot;),</span>
+    /**
+     * Načítání literálu v hexadecimální soustavě.
+     *
+     * Stav při ukončení ukládá celočíselný token.
+     */
+<span class="fc" id="L52">    STATE4(&quot;reading hexadecimal number literal&quot;),</span>
+    /**
+     * Načítání číselného literálu v oktalové soustavě.
+     */
+<span class="fc" id="L56">    STATE5(&quot;reading octal number literal&quot;),</span>
+    /**
+     * Načítání číselného literálu v desítkové soustavě. Pokud je načítání
+     * ukončeno oddělovačem nebo operátorem je převedená hodnota považována za
+     * celé číslo. Pokud je načítání ukončeno tečkou je hodnota dál načítána
+     * jako reálné číslo s desetinou tečkou. Je-li načítání ukončeno znaky e/E
+     * bude dočten exponent a číslo bude zpracováno semilogaritmickém (vědeckém,
+     * exponenciálním) tvaru.
+     *
+     * Stav uloží celočíselný token pokud bylo dekódováno pouze celé číslo,
+     * jinak pokračuje načítání čísla s desetinou tečkou nebo v
+     * semilogaritmickém tvaru.
+     */
+<span class="fc" id="L69">    STATE6(&quot;reading decimal number literal&quot;),</span>
+    /**
+     * Zahájení nebo pokračování načítání desítkového čísla s desetinou tečkou
+     * nebo lze přejít čtení exponentu a číslo bude zpracováno semilogaritmickém
+     * (vědeckém, exponenciálním) tvaru.
+     *
+     * Při ukončení stavu nepovoleným znakem za desetinou tečkou dojde k k
+     * uložení tokenu s reálnou číselnou hodnotou.
+     */
+<span class="fc" id="L78">    STATE7(&quot;reading a number with a decimal point&quot;),</span>
+    /**
+     * Dočtení čísla s desetinou tečkou a uložení tokenu s reálnou číslenou
+     * hodnotou.
+     */
+<span class="fc" id="L83">    STATE8(&quot;complete reading a number with a decimal point&quot;),</span>
+    /**
+     * Zahájení a pokračování čtení hodnoty exponentu čísla v semilogaritmickém
+     * (vědeckém, exponenciálním) tvaru. Při ukončení čtení nepovoleným znakem
+     * dojde k uložení tokenu s reálnou číslenou hodnotou.
+     */
+<span class="fc" id="L89">    STATE9(&quot;exponent reading&quot;),</span>
+    /**
+     * Mezistav, který je inicializován při ukončení čtení elementu nepovoleným
+     * znakem v daném elementu. Ve stavu se zjistí, zda se jedná o legální
+     * oddělovač nebo operátor a podle toho se okamžitě přejde do příslušného
+     * následujího stavu.
+     */
+<span class="fc" id="L96">    STATE10(&quot;finding a legal separator&quot;),</span>
+    /**
+     * Stav v kterém se vyhodnotí znaménko exponentu.
+     */
+<span class="fc" id="L100">    STATE11(&quot;sign evaluation&quot;),</span>
+    /**
+     * Zahájení a dočtení exponentu. Při ukončení čtení nepovoleným znakem dojde
+     * k uložení tokenu s reálnou číslenou hodnotou.
+     */
+<span class="fc" id="L105">    STATE12(&quot;completion of exponent reading&quot;),</span>
+    /**
+     * Mezistav, v kterém se přebere a dekoduje oddělovač, který ukončil
+     * identifikátor nebo číselný literál.
+     *
+     * Tento stav může být vyvolán přímo ze inicializačního stavu, když
+     * oddělovač násladoval bezprostředně jiný oddělovač nebo operátor.
+     *
+     * Ten stav ukládá do seznamu tokenů token s dekodovaným oddělovačem.
+     */
+<span class="fc" id="L115">    STATE13(&quot;take over the delimiter&quot;),</span>
+    /**
+     * Mezistav, v kterém se přebere a dekóduje operátor, který ukončil
+     * identifikátor nebo číselný literál.
+     *
+     * Tento stav může být též vyvolán přímo ze inicializačního stavu, když
+     * operátor násladoval bezprostředně jiný oddělovač nebo operátor.
+     *
+     * Ten stav ukládá do seznamu tokenů token s dekodovaným oddělovačem.
+     */
+<span class="fc" id="L125">    STATE14(&quot;take over the operator&quot;),</span>
+    /**
+     * Zpracování komentáře
+     */
+<span class="fc" id="L129">    STATE15(&quot;comments&quot;)</span>
+ ;
+
+    private final String name;
+
+<span class="fc" id="L134">    private State(String name) {</span>
+<span class="fc" id="L135">        this.name = name;</span>
+<span class="fc" id="L136">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

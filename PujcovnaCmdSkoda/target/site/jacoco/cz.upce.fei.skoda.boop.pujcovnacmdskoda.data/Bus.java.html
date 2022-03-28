@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Bus.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PujcovnaCmdSkoda</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.skoda.boop.pujcovnacmdskoda.data</a> &gt; <span class="el_source">Bus.java</span></div><h1>Bus.java</h1><pre class="source lang-java linenums">//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;License&quot;&gt;
+/*
+ * Copyright (C) 2022 Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+//&lt;/editor-fold&gt;
+package cz.upce.fei.skoda.boop.pujcovnacmdskoda.data;
+
+import java.util.Map;
+
+/**
+ * Class for just representing some kind of data (here it is bus)
+ * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ */
+public class Bus extends Vehicle
+{
+    /**
+     * Flag, whether bus has low floor or not
+     */
+    private boolean lowFloor;
+    
+    
+    /**
+     * Creates new bus from data stored in map data structure
+     * @see Mappable @link Mappable.java:30
+     * @param data Map with data about bus
+     */
+    public Bus(Map&lt;String, String&gt; data)
+    {
+<span class="nc" id="L43">        super(data);</span>
+<span class="nc" id="L44">        this.lowFloor = data.get(&quot;lowFloor&quot;).equals(&quot;true&quot;);</span>
+<span class="nc" id="L45">    }</span>
+    
+    /**
+     * Creates new instance of bus
+     * @param id Identifier of bus in system
+     * @param manufacturer Manufacturer of bus
+     * @param capacity Capacity of bus
+     * @param propulsion Propulsion type of vehicle
+     */
+    public Bus(String id, String manufacturer, int capacity, Propulsion propulsion)
+    {
+<span class="nc" id="L56">        super(id, manufacturer, capacity, propulsion);</span>
+<span class="nc" id="L57">        this.lowFloor = false;</span>
+<span class="nc" id="L58">    }</span>
+    
+    
+    /**
+     * Creates new instance of bus
+     * @param id Identifier of bus in system
+     * @param manufacturer Manufacturer of bus
+     * @param capacity Capacity of bus
+     * @param propulsion Propulsion type of vehicle
+     * @param lowFloor Flag, whether bus is low floor or not
+     */
+    public Bus(String id, String manufacturer, int capacity, Propulsion propulsion, boolean lowFloor)
+    {
+<span class="nc" id="L71">        this(id, manufacturer, capacity, propulsion);</span>
+<span class="nc" id="L72">        this.lowFloor = lowFloor;</span>
+<span class="nc" id="L73">    }</span>
+
+    @Override
+    public Map&lt;String, String&gt; toMap()
+    {
+<span class="nc" id="L78">        Map&lt;String, String&gt; reti = super.toMap();</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        reti.put(&quot;lowFloor&quot;, (this.lowFloor ? &quot;true&quot;: &quot;false&quot;));</span>
+<span class="nc" id="L80">        return reti;</span>
+    }
+    
+    @Override
+    public String getClassName()
+    {
+<span class="nc" id="L86">        return Bus.class.getCanonicalName();</span>
+    }
+    
+    @Override
+    public String toString()
+    {
+<span class="nc" id="L92">        return String.format(&quot;Autobus [%s, &lt;%s&gt;]&quot;, super.toString(),</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">                this.lowFloor ? &quot;nizkopodlazni&quot; : &quot;vysokopodlazni&quot;</span>
+                );
+    }
+   
+    @Override
+    public void setData(Map&lt;String, String&gt; data)
+    {
+<span class="nc" id="L100">        super.setData(data);</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        this.lowFloor = data.get(&quot;lowFloor&quot;) == null ?</span>
+<span class="nc" id="L102">                this.lowFloor : data.get(&quot;lowFloor&quot;).equals(&quot;true&quot;);</span>
+<span class="nc" id="L103">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

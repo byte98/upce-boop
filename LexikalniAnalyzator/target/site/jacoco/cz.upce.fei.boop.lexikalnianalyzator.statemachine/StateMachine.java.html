@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StateMachine.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LexikalniAnalyzatorSkoda</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.boop.lexikalnianalyzator.statemachine</a> &gt; <span class="el_source">StateMachine.java</span></div><h1>StateMachine.java</h1><pre class="source lang-java linenums">package cz.upce.fei.boop.lexikalnianalyzator.statemachine;
+
+import cz.upce.fei.boop.lexikalnianalyzator.collection.TokenList;
+import static cz.upce.fei.boop.lexikalnianalyzator.statemachine.State.*;
+import cz.upce.fei.boop.lexikalnianalyzator.token.*;
+import cz.upce.fei.boop.lexikalnianalyzator.token.enums.*;
+
+/**
+ *
+ * @author karel@simerda.cz
+ */
+public class StateMachine implements Machine {
+
+    private State state;
+    private final StringBuffer identifier;
+    private long integerPart;
+    private long fractionPart;
+    private boolean fraction;
+    private long exponent;
+    private long oder;
+    private final TokenList tokenList;
+    private int exponentSignum;
+    private int counter;
+
+<span class="fc" id="L25">    public StateMachine(TokenList list) {</span>
+<span class="fc" id="L26">        this.tokenList = list;</span>
+<span class="fc" id="L27">        this.state = STATE1;</span>
+<span class="fc" id="L28">        this.identifier = new StringBuffer();</span>
+<span class="fc" id="L29">    }</span>
+
+    @Override
+    public void execute(char character) {
+
+<span class="pc bpc" id="L34" title="1 of 16 branches missed.">        switch (state) {</span>
+
+            case STATE1 -&gt; {
+<span class="fc" id="L37">                clear();</span>
+
+<span class="fc bfc" id="L39" title="All 2 branches covered.">                if (isLetter(character)) {</span>
+<span class="fc" id="L40">                    execute(STATE2, character);</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">                } else if (character == '0') {</span>
+<span class="fc" id="L42">                    state = STATE3;</span>
+<span class="fc bfc" id="L43" title="All 4 branches covered.">                } else if ('1' &lt;= character &amp;&amp; character &lt;= '9') {</span>
+<span class="fc" id="L44">                    execute(STATE6, character);</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">                } else if (isSeparator(character)) {</span>
+<span class="fc" id="L46">                    execute(STATE13, character);</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">                } else if (isOperator(character)) {</span>
+<span class="fc" id="L48">                    execute(STATE14, character);</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">                } else if (character == '{') {</span>
+<span class="fc" id="L50">                    state = STATE15;</span>
+                } else {
+<span class="fc" id="L52">                    throw new AnalyzerException(STATE1.name() + &quot;: Nepovoleny znak '&quot;</span>
+                            + character + &quot;'/&quot; + ((int) character));
+                }
+            }
+
+            case STATE2 -&gt; {
+<span class="pc bpc" id="L58" title="1 of 4 branches missed.">                if (isDigit(character) || isLetter(character)) {</span>
+<span class="fc" id="L59">                    identifier.append(character);</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">                } else if (isEndElement(character)) {</span>
+<span class="fc" id="L61">                    var ident = identifier.toString();</span>
+<span class="fc" id="L62">                    var key = findKey(ident);</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">                    if (key != null) {</span>
+<span class="fc" id="L64">                        tokenList.add(new TokenKey(key));</span>
+                    } else {
+<span class="fc" id="L66">                        tokenList.add(new TokenIdentifier(ident));</span>
+                    }
+<span class="fc" id="L68">                    execute(STATE10, character);</span>
+<span class="fc" id="L69">                } else { </span>
+<span class="fc" id="L70">                    state = STATE1;</span>
+<span class="fc" id="L71">                    throw new AnalyzerException(STATE2.name() + &quot;: Nepovoleny znak &quot;</span>
+                            + character + &quot;'/&quot; + ((int) character));
+                }
+            }
+
+            case STATE3 -&gt; {
+<span class="fc bfc" id="L77" title="All 2 branches covered.">                if (isOctalDigit(character)) {</span>
+<span class="fc" id="L78">                    execute(State.STATE5, character);</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">                } else if (character == 'x') {</span>
+<span class="fc" id="L80">                    state = State.STATE4;</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">                } else if (character == '.') {</span>
+                    //fractionPart = 0;
+<span class="fc" id="L83">                    fraction = true;</span>
+<span class="fc" id="L84">                    oder = 1;</span>
+<span class="fc" id="L85">                    counter++;</span>
+<span class="fc" id="L86">                    state = STATE7;</span>
+                } else {
+<span class="fc" id="L88">                    state = STATE1;</span>
+<span class="fc" id="L89">                    throw new AnalyzerException(STATE3.name() + &quot;: Nepovoleny znak &quot;</span>
+                            + character + &quot;'/&quot; + ((int) character));
+                }
+            }
+
+            case STATE4 -&gt; {
+<span class="fc bfc" id="L95" title="All 4 branches covered.">                if (isDigit(character) || isHexLetter(character)) {</span>
+<span class="fc" id="L96">                    character = Character.toLowerCase(character);</span>
+<span class="fc" id="L97">                    integerPart = 16L * integerPart;</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">                    if (isDigit(character)) {</span>
+<span class="fc" id="L99">                        integerPart += character - '0';</span>
+                    } else {
+<span class="fc" id="L101">                        integerPart += character - 'a' + 10;</span>
+                    }
+<span class="fc bfc" id="L103" title="All 2 branches covered.">                } else if (isEndElement(character)) {</span>
+<span class="fc" id="L104">                    tokenList.add(new TokenLongNumber(integerPart));</span>
+<span class="fc" id="L105">                    execute(STATE10, character);</span>
+                } else {
+<span class="fc" id="L107">                    state = STATE1;</span>
+<span class="fc" id="L108">                    throw new AnalyzerException(STATE4.name() + &quot;: Nepovoleny znak &quot;</span>
+                            + character + &quot;'/&quot; + ((int) character));
+                }
+            }
+
+            case STATE5 -&gt; {
+<span class="fc bfc" id="L114" title="All 2 branches covered.">                if (isOctalDigit(character)) {</span>
+<span class="fc" id="L115">                    integerPart = 8L * integerPart + character - '0';</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">                } else if (isEndElement(character)) {</span>
+<span class="fc" id="L117">                    tokenList.add(new TokenLongNumber(integerPart));</span>
+<span class="fc" id="L118">                    execute(STATE10, character);</span>
+                } else {
+<span class="fc" id="L120">                    state = STATE1;</span>
+<span class="fc" id="L121">                    throw new AnalyzerException(STATE5.name() + &quot;: Nepovoleny znak &quot;</span>
+                            + character + &quot;'/&quot; + ((int) character));
+                }
+            }
+
+            case STATE6 -&gt; {
+<span class="fc bfc" id="L127" title="All 2 branches covered.">                if (isDigit(character)) {</span>
+<span class="fc" id="L128">                    integerPart = 10L * integerPart + character - '0';</span>
+<span class="fc" id="L129">                    counter++;</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">                } else if (character == '.') {</span>
+                    //fractionPart = 0;
+<span class="fc" id="L132">                    fraction = true;</span>
+<span class="fc" id="L133">                    oder = 1;</span>
+<span class="fc" id="L134">                    state = STATE7;</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">                } else if (isExponentLetter(character)) {</span>
+<span class="fc" id="L136">                    oder = 1;</span>
+<span class="fc" id="L137">                    state = STATE9;</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">                } else if (isEndElement(character)) {</span>
+<span class="fc" id="L139">                    tokenList.add(new TokenLongNumber(integerPart));</span>
+<span class="fc" id="L140">                    execute(STATE10, character);</span>
+                } else {
+<span class="fc" id="L142">                    state = STATE1;</span>
+<span class="fc" id="L143">                    throw new AnalyzerException(STATE6.name() + &quot;: Nepovoleny znak &quot;</span>
+                            + character + &quot;'/&quot; + ((int) character));
+                }
+            }
+
+            case STATE7 -&gt; {
+<span class="fc bfc" id="L149" title="All 2 branches covered.">                if (isDigit(character)) {</span>
+<span class="fc" id="L150">                    fractionPart = 0;</span>
+<span class="fc" id="L151">                    oder = 1;</span>
+<span class="fc" id="L152">                    execute(State.STATE8, character);</span>
+<span class="fc bfc" id="L153" title="All 2 branches covered.">                } else if (isExponentLetter(character)) {</span>
+<span class="fc" id="L154">                    oder = 1;</span>
+<span class="fc" id="L155">                    state = State.STATE9;</span>
+<span class="pc bpc" id="L156" title="1 of 4 branches missed.">                } else if (isEndElement(character) &amp;&amp; counter != 0) {</span>
+<span class="fc" id="L157">                    tokenList.add(new TokenDoubleNumber(integerPart));</span>
+<span class="fc" id="L158">                    execute(STATE10, character);</span>
+                } else {
+<span class="fc" id="L160">                    state = STATE1;</span>
+<span class="fc" id="L161">                    throw new AnalyzerException(STATE7.name() + &quot;: Nepovoleny znak &quot;</span>
+                            + character + &quot;'/&quot; + ((int) character));
+                }
+            }
+
+            case STATE8 -&gt; {
+<span class="fc bfc" id="L167" title="All 2 branches covered.">                if (isDigit(character)) {</span>
+<span class="fc" id="L168">                    fractionPart = 10L * fractionPart + character - '0';</span>
+<span class="fc" id="L169">                    oder *= 10L;</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">                } else if (isExponentLetter(character)) {</span>
+<span class="fc" id="L171">                    state = State.STATE9;</span>
+<span class="fc bfc" id="L172" title="All 2 branches covered.">                } else if (isEndElement(character)) {</span>
+<span class="fc" id="L173">                    tokenList.add(new TokenDoubleNumber(integerPart + ((double) fractionPart) / oder));</span>
+<span class="fc" id="L174">                    execute(STATE10, character);</span>
+                } else {
+<span class="fc" id="L176">                    state = STATE1;</span>
+<span class="fc" id="L177">                    throw new AnalyzerException(STATE8.name() + &quot;: Nepovoleny znak &quot;</span>
+                            + character + &quot;'/&quot; + ((int) character));
+                }
+            }
+
+            case STATE9 -&gt; {
+<span class="fc" id="L183">                exponentSignum = 1;</span>
+<span class="fc bfc" id="L184" title="All 2 branches covered.">                if (isDigit(character)) {</span>
+<span class="fc" id="L185">                    execute(STATE11, character);</span>
+<span class="fc bfc" id="L186" title="All 2 branches covered.">                } else if (character == '+') {</span>
+<span class="fc" id="L187">                    state = State.STATE11;</span>
+<span class="fc bfc" id="L188" title="All 2 branches covered.">                } else if (character == '-') {</span>
+<span class="fc" id="L189">                    exponentSignum = -1;</span>
+<span class="fc" id="L190">                    state = State.STATE11;</span>
+                } else {
+<span class="fc" id="L192">                    state = STATE1;</span>
+<span class="fc" id="L193">                    throw new AnalyzerException(STATE9.name() + &quot;: Nepovoleny znak &quot;</span>
+                            + character + &quot;'/&quot; + ((int) character));
+                }
+            }
+
+            case STATE10 -&gt; {
+<span class="fc bfc" id="L199" title="All 2 branches covered.">                if (isSeparator(character)) {</span>
+<span class="fc" id="L200">                    execute(STATE13, character);</span>
+<span class="pc bpc" id="L201" title="1 of 2 branches missed.">                } else if (isOperator(character)) {</span>
+<span class="fc" id="L202">                    execute(STATE14, character);</span>
+                } else { // nedosažitelný kód ?
+<span class="nc" id="L204">                    state = STATE1;</span>
+<span class="nc" id="L205">                    throw new AnalyzerException(STATE10.name() + &quot;: Nepovoleny znak &quot;</span>
+                            + character + &quot;'/&quot; + ((int) character));
+                }
+            }
+
+            case STATE11 -&gt; {
+<span class="fc bfc" id="L211" title="All 2 branches covered.">                if (isDigit(character)) {</span>
+<span class="fc" id="L212">                    execute(STATE12, character);</span>
+                } else {
+<span class="fc" id="L214">                    state = STATE1;</span>
+<span class="fc" id="L215">                    throw new AnalyzerException(STATE11.name() + &quot;: Nepovoleny znak &quot;</span>
+                            + character + &quot;'/&quot; + ((int) character));
+
+                }
+            }
+
+            case STATE12 -&gt; {
+<span class="fc bfc" id="L222" title="All 2 branches covered.">                if (isDigit(character)) {</span>
+<span class="fc" id="L223">                    exponent = 10L * exponent + character - '0';</span>
+
+<span class="fc bfc" id="L225" title="All 2 branches covered.">                } else if (isEndElement(character)) {</span>
+<span class="fc" id="L226">                    var exp = Math.pow(10, exponent);</span>
+<span class="fc" id="L227">                    var number = (integerPart + ((double) fractionPart) / oder);</span>
+<span class="pc bpc" id="L228" title="1 of 2 branches missed.">                    number = (exponentSignum == 1) ? number * exp : number / exp;</span>
+<span class="fc" id="L229">                    tokenList.add(new TokenDoubleNumber(number));</span>
+<span class="fc" id="L230">                    execute(STATE10, character);</span>
+<span class="fc" id="L231">                } else {</span>
+<span class="fc" id="L232">                    state = STATE1;</span>
+<span class="fc" id="L233">                    throw new AnalyzerException(STATE12.name() + &quot;: Nepovoleny znak &quot;</span>
+                            + character + &quot;'/&quot; + ((int) character));
+                }
+            }
+
+            case STATE13 -&gt; {
+<span class="pc bpc" id="L239" title="1 of 6 branches missed.">                switch (character) {</span>
+<span class="fc" id="L240">                    case ' ', '\t', '\n', '\r' -&gt; tokenList.add(new TokenSeparator(SeparatorEnum.WHITE_CHAR));</span>
+<span class="fc" id="L241">                    case ',' -&gt; tokenList.add(new TokenSeparator(SeparatorEnum.COMMA));</span>
+<span class="fc" id="L242">                    case ':' -&gt; tokenList.add(new TokenSeparator(SeparatorEnum.COLON));</span>
+<span class="fc" id="L243">                    case '=' -&gt; tokenList.add(new TokenSeparator(SeparatorEnum.EQUALS));</span>
+<span class="fc" id="L244">                    case ';' -&gt; tokenList.add(new TokenSeparator(SeparatorEnum.SEMICOLON));</span>
+                    default -&gt; {
+<span class="nc" id="L246">                        state = STATE1;</span>
+<span class="nc" id="L247">                        throw new AnalyzerException(STATE13.name() + &quot;: Nepovoleny znak &quot;</span>
+                                + character + &quot;'/&quot; + ((int) character));
+                    }
+                }
+<span class="fc" id="L251">                state = STATE1;</span>
+<span class="fc" id="L252">            }</span>
+
+            case STATE14 -&gt; {
+<span class="pc bpc" id="L255" title="1 of 5 branches missed.">                switch (character) {</span>
+<span class="fc" id="L256">                    case '+' -&gt; tokenList.add(new TokenOperator(OperatorEnum.PLUS));</span>
+<span class="fc" id="L257">                    case '-' -&gt; tokenList.add(new TokenOperator(OperatorEnum.MINUS));</span>
+<span class="fc" id="L258">                    case '*' -&gt; tokenList.add(new TokenOperator(OperatorEnum.MULTIPLY));</span>
+<span class="fc" id="L259">                    case '/' -&gt; tokenList.add(new TokenOperator(OperatorEnum.DIVIDE));</span>
+                    default -&gt; {
+<span class="nc" id="L261">                        state = STATE1;</span>
+<span class="nc" id="L262">                        throw new AnalyzerException(STATE14.name() + &quot;: Nepovoleny znak &quot;</span>
+                                + character + &quot;'/&quot; + ((int) character));
+                    }
+                }
+<span class="fc" id="L266">                state = STATE1;</span>
+<span class="fc" id="L267">            }</span>
+
+            case STATE15 -&gt; {
+<span class="pc bpc" id="L270" title="1 of 2 branches missed.">                if (character == '}') {</span>
+<span class="fc" id="L271">                    state = State.STATE1;</span>
+                }
+            }
+        }
+<span class="fc" id="L275">    }</span>
+
+    @Override
+    public State getState() {
+<span class="fc" id="L279">        return state;</span>
+    }
+
+    // =========================================================================
+    private void clear() {
+<span class="fc" id="L284">        identifier.setLength(0);</span>
+<span class="fc" id="L285">        integerPart = 0;</span>
+<span class="fc" id="L286">        exponent = 0;</span>
+<span class="fc" id="L287">        counter = 0;</span>
+<span class="fc" id="L288">        fraction = false;</span>
+<span class="fc" id="L289">    }</span>
+
+    private boolean isEndElement(char character) {
+<span class="fc bfc" id="L292" title="All 4 branches covered.">        return isSeparator(character) || isOperator(character);</span>
+    }
+
+    private void execute(State state, char character) {
+<span class="fc" id="L296">        this.state = state;</span>
+<span class="fc" id="L297">        execute(character);</span>
+<span class="fc" id="L298">    }</span>
+
+    private KeyWord findKey(String identifier) {
+<span class="fc bfc" id="L301" title="All 2 branches covered.">        for (KeyWord key : KeyWord.values()) {</span>
+<span class="fc bfc" id="L302" title="All 2 branches covered.">            if (identifier.equals(key.getName())) {</span>
+<span class="fc" id="L303">                return key;</span>
+            }
+        }
+<span class="fc" id="L306">        return null;</span>
+    }
+
+    private static boolean isLetter(char character) {
+<span class="pc bpc" id="L310" title="1 of 8 branches missed.">        return 'a' &lt;= character &amp;&amp; character &lt;= 'z'</span>
+                || 'A' &lt;= character &amp;&amp; character &lt;= 'Z';
+    }
+
+    private static boolean isHexLetter(char character) {
+<span class="pc bpc" id="L315" title="4 of 8 branches missed.">        return 'a' &lt;= character &amp;&amp; character &lt;= 'f'</span>
+                || 'A' &lt;= character &amp;&amp; character &lt;= 'F';
+    }
+
+    private static boolean isDigit(char character) {
+<span class="fc bfc" id="L320" title="All 4 branches covered.">        return '0' &lt;= character &amp;&amp; character &lt;= '9';</span>
+    }
+
+    private static boolean isOctalDigit(char character) {
+<span class="fc bfc" id="L324" title="All 4 branches covered.">        return '0' &lt;= character &amp;&amp; character &lt;= '7';</span>
+    }
+
+    private boolean isSeparator(char character) {
+<span class="fc bfc" id="L328" title="All 2 branches covered.">        return switch (character) {</span>
+<span class="fc" id="L329">            case ' ', '=', ',', ':', ';', '\t', '\n', '\r' -&gt;  true;</span>
+<span class="fc" id="L330">            default -&gt; false;</span>
+        };
+    }
+
+    private boolean isOperator(char character) {
+<span class="fc bfc" id="L335" title="All 2 branches covered.">        return switch (character) {</span>
+<span class="fc" id="L336">            case '+', '-', '*', '/' -&gt; true;</span>
+<span class="fc" id="L337">            default -&gt; false;</span>
+        };
+    }
+
+    private boolean isExponentLetter(char character) {
+<span class="pc bpc" id="L342" title="1 of 4 branches missed.">        return character == 'e' || character == 'E';</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

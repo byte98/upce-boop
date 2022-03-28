@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite tests="45" failures="0" name="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" time="0.018" errors="0" skipped="0">
+  <properties>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="java.vm.version" value="17.0.2+8-LTS-86"/>
+    <property name="sun.boot.library.path" value="D:\Program Files\Java\jdk-17.0.2\bin"/>
+    <property name="user.country.format" value="CZ"/>
+    <property name="maven.multiModuleProjectDirectory" value="D:\UPCE\B21L\BOOP\LexikalniAnalyzator"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
+    <property name="guice.disable.misplaced.annotation.check" value="true"/>
+    <property name="path.separator" value=";"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="user.script" value=""/>
+    <property name="user.country" value="GB"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="user.dir" value="D:\UPCE\B21L\BOOP\LexikalniAnalyzator"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="java.runtime.version" value="17.0.2+8-LTS-86"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.io.tmpdir" value="C:\Users\skoda\AppData\Local\Temp\"/>
+    <property name="line.separator" value="
+"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.variant" value=""/>
+    <property name="os.name" value="Windows 10"/>
+    <property name="maven.ext.class.path" value="D:\Program Files\NetBeans-12.6\netbeans\java\maven-nblib\netbeans-eventspy.jar"/>
+    <property name="classworlds.conf" value="D:\Program Files\NetBeans-12.6\netbeans\java\maven\bin\..\bin\m2.conf"/>
+    <property name="sun.jnu.encoding" value="Cp1250"/>
+    <property name="java.library.path" value="D:\Program Files\Java\jdk-17.0.2\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Python39\Scripts\;C:\Python39\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;D:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;;D:\Program Files (x86)\WinSCP\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;D:\Program Files (x86)\Gpg4win\..\GnuPG\bin;C:\Program Files (x86)\dotnet\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;D:\Program Files\Go\bin;D:\Program Files\TortoiseSVN\bin;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Microsoft\Web Platform Installer\;C:\Users\skoda\.cargo\bin;C:\Users\skoda\AppData\Local\Microsoft\WindowsApps;C:\Users\skoda\AppData\Roaming\npm;D:\Program Files\Microsoft VS Code\bin;C:\Users\skoda\AppData\Local\GitHubDesktop\bin;C:\Users\skoda\.dotnet\tools;C:\Users\skoda\go\bin;."/>
+    <property name="maven.conf" value="D:\Program Files\NetBeans-12.6\netbeans\java\maven\bin\../conf"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="java.class.version" value="61.0"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="skipTests" value="false"/>
+    <property name="os.version" value="10.0"/>
+    <property name="library.jansi.path" value="D:\Program Files\NetBeans-12.6\netbeans\java\maven\bin\..\lib\jansi-native"/>
+    <property name="user.home" value="C:\Users\skoda"/>
+    <property name="user.timezone" value="Europe/Prague"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.specification.version" value="17"/>
+    <property name="user.name" value="skoda"/>
+    <property name="java.class.path" value="D:\Program Files\NetBeans-12.6\netbeans\java\maven\bin\..\boot\plexus-classworlds-2.6.0.jar"/>
+    <property name="java.vm.specification.version" value="17"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -DskipTests=false -Dmaven.ext.class.path=D:\Program Files\NetBeans-12.6\netbeans\java\maven-nblib\netbeans-eventspy.jar -Dfile.encoding=UTF-8 clean verify"/>
+    <property name="java.home" value="D:\Program Files\Java\jdk-17.0.2"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.language.format" value="cs"/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="java.version" value="17.0.2"/>
+    <property name="native.encoding" value="Cp1250"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="maven.home" value="D:\Program Files\NetBeans-12.6\netbeans\java\maven\bin\.."/>
+    <property name="file.separator" value="\"/>
+    <property name="java.version.date" value="2022-01-18"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+  </properties>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_09_state7" time="0.001"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test003_05_AnalyzerException" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_22_state11" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_30_state1" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_35_state4" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_13_state9" time="0.001"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_29_state1" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_02_state6" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_18_state1" time="0.001"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_07_state5" time="0.001"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_11_AnalyzerException" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test003_04_AnalyzerException" time="0.001"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_14_state12" time="0.001"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_33_state1" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_27_state1" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_16_state8" time="0.002"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_06_analyzerException" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test003_03_AnalyzerException" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_21_state11" time="0.001"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_31_state1" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_20_state1" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_24_AnalyzerException" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_36_state9" time="0.001"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_25_state1" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_03_state1" time="0.001"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test001_02_identifier" time="0.001"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_08_state4" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test003_02_AnalyzerException" time="0.001"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_19_AnalyzerException" time="0.001"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test003_07_AnalyzerException" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_34_state4" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_23_state1" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_12_state1" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_28_state1" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_01_state3" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_17_state9" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test003_01_AnalyzerException" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test003_06_AnalyzerException" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_05_state15" time="0.001"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_32_state1" time="0.001"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_37_state1" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_10_state1" time="0.001"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_26_state1" time="0"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_15_state1" time="0.001"/>
+  <testcase classname="cz.upce.fei.boop.lexikalnianalyzator.statemachine.StateMachineTest" name="test002_04_state1" time="0"/>
+</testsuite>

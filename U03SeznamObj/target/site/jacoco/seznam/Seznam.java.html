@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Seznam.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">U03SeznamObjSkoda</a> &gt; <a href="index.source.html" class="el_package">seznam</a> &gt; <span class="el_source">Seznam.java</span></div><h1>Seznam.java</h1><pre class="source lang-java linenums">package seznam;
+
+import seznam.prostredky.Prostredek;
+
+/**
+ *
+ * @author karel@simerda.cz
+ */
+public interface Seznam extends Iterable&lt;Object&gt; {
+
+    /**
+     * Metoda vrátí v návratové hodnotě odkaz na objekt, který je
+     * adresován hodnotou v parametru.
+     *
+     * @param pozice v parametru je hodnota pozice prvku v seznamu, první prvek
+     * pole je adresován číslem 1.
+     *
+     * @return vrací odkaz na objekt podle hodnoty v parametru
+     * pozice
+     *
+     * @throws IndexOutOfBoundsException tato výjimka se vystaví, když hodnota
+     * parametru pozice je mimo povolený rozsah, který je dán naplněností
+     * seznamu objektů. Výjimka dodá tento text¨: &quot;Parametr index
+     * je mimo povoleny rozsah.&quot;
+     *
+     * @throws IllegalAccessError tato výjimka se vystaví, když je seznam
+     * prázdný. Výjimka dodá tento text: &quot;Nepovolená operace, protože seznam je
+     * prázdný.&quot;
+     *
+     * Poznámka k implementaci: Při kontrole dvou parametrů může být vystavování
+     * výjimek závislé na pořadí kontrol. Zde se může docházet, že výjímky budou
+     * závislé na tom, zda je seznam prázdný nebo ne. Proto kombinujte
+     * vystavování výjimek tak, abyste vyhověli testům. Přednost má kontrola,
+     * zda seznam prázdný nebo ne a potom teprve kontrola, zda je pozice v
+     * povoleném rozsahu.
+     */
+    Object dej(final int pozice) throws IndexOutOfBoundsException, IllegalAccessError;
+
+    /**
+     * Metoda vrací nové pole s aktuálním seznamem objektů
+     *
+     * @return metod vrací odkaz na pole s odkazy na objekty seznamu
+     */
+    Object[] dejDopravniProstredky();
+
+    /**
+     * Metoda vrací nové pole s klony objektů v seznamu
+     *
+     * @return metod vrací odkaz na pole s odkazy na klony objektů
+     */
+    Object[] dejKopieDopravniProstredku() throws CloneNotSupportedException;
+
+    /**
+     * Metoda odebere odkaz na objekt ze seznamu, který je
+     * adresován hodnotou v parametru pozice
+     *
+     * Metoda mění aktuální počet objektů.
+     *
+     * @param pozice v parametru je hodnota pozice prvku v seznamu, první prvek
+     * pole je adresován číslem 1.
+     *
+     * Metoda zkracuje vnitřní pole na polovinu, když počet prvků v poli klesne
+     * pod jednu čtvrtinu délky pole.     *
+     *
+     * @return vrací odkaz na prostředek podle hodnoty v parametru pozice
+     *
+     * @throws IndexOutOfBoundsException tato výjimka se vystaví, když hodnota
+     * parametru pozice je mimo povolený rozsah, který je dán naplněností
+     * seznamu objektů. Výjimka dodá tento text¨: &quot;Parametr pozice
+     * je mimo povoleny rozsah.&quot;
+     *
+     * @throws IllegalAccessError tato výjimka se vystaví, když je seznam
+     * prázdný. Výjimka dodá tento text: &quot;Nepovolená operace, protože seznam je
+     * prázdný.&quot;
+     *
+     * Poznámka k implementaci: O řazení výjimek, platí to samé jako u metody
+     * dej.
+     */
+    Object odeber(final int pozice)
+            throws IndexOutOfBoundsException, IllegalAccessError;
+
+    /**
+     * Metoda vloží objekt na konec seznamu
+     *
+     * Jestliže metoda zjistí před vložením odkazu do seznamu(pole), že se
+     * vyčerpala kapacita vnitřního pole, tak toto pole zvětší na dvojnásobek a
+     * překopíruje do něj všechny odkazy původního pole.
+     *
+     * Metoda nekontroluje, zda již byla stejná instance o seznamu vložena!
+     *
+     * Metoda mění aktuální počet objektů v seznamu.
+     *
+     * Metoda nekontroluje, zda již byla seznamu vložena stejná instance!
+     *
+     * @param objekt parametr s odkazem na vkládaný objekt
+     *
+     *
+     * @throws IllegalArgumentException tato výjimka se vystaví když, je v
+     * parametru není odkaz na objekt, tj. parametr obsahuje null
+     */
+    void vloz(Object objekt) throws IllegalArgumentException;
+
+    /**
+     * Metoda vrací aktuální počet objektů v seznamu
+     *
+     * @return hodnota s počtem objektů v seznamu
+     */
+    int pocet();
+
+    /**
+     * Metoda vrací aktuální velikost vnitřního pole
+     *
+     * @return velikost vnitřního pole
+     */
+    int kapacita();
+
+    /**
+     * Metoda zruší všechny položky v seznamu.
+     */
+    void zrus();
+
+    /**
+     * Metoda vloží proměnlivý počet parametrů s objekty do
+     * seznamu.
+     *
+     * &lt;p&gt;
+     * Rozšíření JAVA 8 v interfejsech
+     * &lt;p&gt;
+     * Od Javy 8 lze do rozhraní vkládat i speciální verze metod s tělem. V
+     * tomto rozhraní je to uvedeno jako příklad. Omezení a teorie budou
+     * vysvětleny v následujícím předměru IOOP.
+     *
+     * Tuto metodu budeme využívat testech, protože usnadňuje zápis testovacích
+     * případů.
+     * &lt;p&gt;
+     * Proměnlivý počet parametru u metod
+     * &lt;P&gt;
+     *
+     * Dále tato metoda používá zajímavou syntatickou vlastnost v deklaraci
+     * parametrů metody a to tři tečky za typem parametru. Tuto konstrukci
+     * můžeme použít pouze jako poslední v seznamu parametrů metody. Co to
+     * umožňuje? Umožňuje to mít proměnlivý počet argumentů ve volání metody.
+     * Omezení jsou dvě. Jedno už bylo zmíněno, že to musí být na konci seznamu
+     * parametrů. Za druhé, že všechny argumenty ve volání metody musí být
+     * stejného typu. Při vstupu do metody se na tento seznam pohlíží jako na
+     * pole.
+     *
+     * @param prostredky seznam objektů
+     */
+    default void vloz(Object... objekty) {
+<span class="fc bfc" id="L151" title="All 2 branches covered.">        for (Object objekt : objekty) {</span>
+<span class="fc" id="L152">            vloz(objekt);</span>
+        }
+<span class="fc" id="L154">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
