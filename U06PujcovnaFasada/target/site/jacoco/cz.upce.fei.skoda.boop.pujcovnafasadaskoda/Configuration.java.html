@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Configuration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">U06PujcovnaFasadaSkoda</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.skoda.boop.pujcovnafasadaskoda</a> &gt; <span class="el_source">Configuration.java</span></div><h1>Configuration.java</h1><pre class="source lang-java linenums">//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;License&quot;&gt;
+/*
+ * Copyright (C) 2022 Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+//&lt;/editor-fold&gt;
+package cz.upce.fei.skoda.boop.pujcovnafasadaskoda;
+
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.perzistence.BinaryReader;
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.perzistence.BinaryWriter;
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.perzistence.ListReader;
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.perzistence.ListWriter;
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.perzistence.TextReader;
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.perzistence.TextWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.util.Objects;
+
+/**
+ * Class holding whole configuration of program
+ * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ */
+<span class="nc" id="L40">public final class Configuration</span>
+{
+//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Editable configuration of program&quot;&gt;
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;1) Configuration of files&quot;&gt;
+    /**
+     * Path to text file which will be used as storage for data
+     */
+    private static final String FILE_TEXT = &quot;data.xml&quot;;
+    
+    /**
+     * Path to binary file which will be used as storage for data
+     */
+    private static final String FILE_BINARY = &quot;data.bin&quot;;
+    //&lt;/editor-fold&gt;
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;2) Configuration of command line&quot;&gt;
+    /**
+     * Path to file with commands which will be handled by command line
+     *  &lt;li&gt;if NULL or not existing file, standard system input will be used&lt;/li&gt;
+     */
+<span class="nc" id="L59">    private static final String COMMANDS_INPUT = null;</span>
+    
+    /**
+     * Path to file to which output of command line will be printed into
+     * &lt;li&gt;if NULL, standard system output will be used&lt;/li&gt;
+     */
+<span class="nc" id="L65">    private static final String COMMANDS_OUTPUT = null;</span>
+    
+    /**
+     * Flag, whether command line should print additional information messages
+     */
+<span class="nc" id="L70">    private static boolean COMMANDS_VERBOSE = false;</span>
+    
+    /**
+     * Flag, whether command line should print anything(TRUE) or nothing(FALSE)
+     */
+<span class="nc" id="L75">    private static boolean COMMANDS_PRINT = true;</span>
+    //&lt;/editor-fold&gt;
+//&lt;/editor-fold&gt;
+//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Implicit configuration of program [THIS SHOULD NOT BE EDITED]&quot;&gt;
+    /**
+     * Writer of data into binary file
+     */
+<span class="nc" id="L82">    private static final BinaryWriter BINARY_WRITER</span>
+            = new ListWriter(Configuration.FILE_BINARY);
+    
+    /**
+     * Reader of data from binary file
+     */
+<span class="nc" id="L88">    private static final BinaryReader BINARY_READER</span>
+            = new ListReader(Configuration.FILE_BINARY);
+    
+    /**
+     * Writer of data into text file
+     */
+<span class="nc" id="L94">    private static final TextWriter TEXT_WRITER</span>
+<span class="nc" id="L95">            = TextWriter.getByExtension(Configuration.FILE_TEXT);</span>
+    
+    /**
+     * Reader of data from text file
+     */
+<span class="nc" id="L100">    private static final TextReader TEXT_READER</span>
+<span class="nc" id="L101">            = TextReader.getByExtension(Configuration.FILE_TEXT);</span>
+//&lt;/editor-fold&gt;
+//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Getters of configuration&quot;&gt;
+    /**
+     * Gets writer of data into binary file
+     * @return Writer of data into binary file
+     */
+    public static BinaryWriter getBinaryWriter()
+    {
+<span class="nc" id="L110">        return Configuration.BINARY_WRITER;</span>
+    }
+    
+    /**
+     * Gets reader of data from binary file
+     * @return Reader of data from binary file
+     */
+    public static BinaryReader getBinaryReader()
+    {
+<span class="nc" id="L119">        return Configuration.BINARY_READER;</span>
+    }
+    
+    /**
+     * Gets writer of data into text file
+     * @return Writer of data into text file
+     */
+    public static TextWriter getTextWriter()
+    {
+<span class="nc" id="L128">        TextWriter reti = Objects.requireNonNull(Configuration.TEXT_WRITER);</span>
+<span class="nc" id="L129">        reti.setPath(Configuration.FILE_TEXT);</span>
+<span class="nc" id="L130">        return reti;</span>
+    }
+    
+    /**
+     * Gets reader of data from text file
+     * @return Reader of data from text file
+     */
+    public static TextReader getTextReader()
+    {
+<span class="nc" id="L139">        TextReader reti = Objects.requireNonNull(Configuration.TEXT_READER);</span>
+<span class="nc" id="L140">        reti.setPath(Configuration.FILE_TEXT);</span>
+<span class="nc" id="L141">        return reti;</span>
+    }
+    
+    /**
+     * Gets input stream of commands which should be parsed
+     * @return Input stream of commands
+     */
+    public static InputStream getCommandsInput()
+    {
+<span class="nc" id="L150">        InputStream reti = System.in;</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">        if (Objects.isNull(Configuration.COMMANDS_INPUT) == false)</span>
+        {
+<span class="nc" id="L153">            File f = new File(Configuration.COMMANDS_INPUT);</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">            if (f.exists())</span>
+            {
+                try
+                {
+<span class="nc" id="L158">                    reti = new FileInputStream(f);</span>
+                }
+<span class="nc" id="L160">                catch (FileNotFoundException ex)</span>
+                {
+<span class="nc" id="L162">                    reti = System.in;</span>
+<span class="nc" id="L163">                }</span>
+            }
+        }
+<span class="nc" id="L166">        return reti;</span>
+    }
+    
+    /**
+     * Gets output stream for command line
+     * @return Printable stream for output of command line
+     */
+    public static PrintStream getCommandsOutput()
+    {
+<span class="nc" id="L175">        PrintStream reti = System.out;</span>
+<span class="nc bnc" id="L176" title="All 2 branches missed.">        if (Objects.isNull(Configuration.COMMANDS_OUTPUT) == false)</span>
+        {
+            try
+            {
+<span class="nc" id="L180">            reti = new PrintStream(new FileOutputStream(Configuration.COMMANDS_OUTPUT));</span>
+            }
+<span class="nc" id="L182">            catch (FileNotFoundException ex)</span>
+            {
+<span class="nc" id="L184">                reti = System.out;</span>
+<span class="nc" id="L185">            }</span>
+        }
+<span class="nc" id="L187">        return reti;</span>
+    }
+    
+    /**
+     * Checks, whether command line should print additional messages or not
+     * @return TRUE if additional information messages are expected, FALSE otherwise
+     */
+    public static boolean commandsVerbose()
+    {
+<span class="nc" id="L196">        return Configuration.COMMANDS_VERBOSE;</span>
+    }
+    
+    /**
+     * Checks, whether command line should print additional messages or not
+     * @param verbose New value of verbose flag
+     * @return TRUE if additional information messages are expected, FALSE otherwise
+     */
+    public static boolean commandsVerbose(boolean verbose)
+    {
+<span class="nc" id="L206">        Configuration.COMMANDS_VERBOSE = verbose;</span>
+<span class="nc" id="L207">        return Configuration.commandsVerbose();</span>
+    }    
+    
+    /**
+     * Checks, whether command line should print output or not
+     * @return TRUE if command line should print output, FALSE otherwise
+     */
+    public static boolean commandsPrint()
+    {
+<span class="nc" id="L216">        return Configuration.COMMANDS_PRINT;</span>
+    }
+    
+    /**
+     * Checks, whether command line should print output or not
+     * @param print New value of print flag
+     * @return TRUE if command line should print output, FALSE otherwise
+     */
+    public static boolean commandsPrint(boolean print)
+    {
+<span class="nc" id="L226">        Configuration.COMMANDS_PRINT = print;</span>
+<span class="nc" id="L227">        return Configuration.commandsPrint();</span>
+    }
+//&lt;/editor-fold&gt;
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -20,6 +20,7 @@
 package cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Implementace rozhrani SpojovySeznam
@@ -540,7 +541,7 @@ public class LinkSeznam<E> implements SpojovySeznam<E>
                 E reti = null;
                 if (actual == null)
                 {
-                   // exception?
+                   throw new NoSuchElementException();
                 }
                 else
                 {

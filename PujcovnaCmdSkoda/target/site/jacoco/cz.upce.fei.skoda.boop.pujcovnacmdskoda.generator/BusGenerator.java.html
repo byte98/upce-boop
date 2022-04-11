@@ -21,7 +21,6 @@ package cz.upce.fei.skoda.boop.pujcovnacmdskoda.generator;
 
 import cz.upce.fei.skoda.boop.pujcovnacmdskoda.data.Bus;
 import cz.upce.fei.skoda.boop.pujcovnacmdskoda.data.Propulsion;
-import cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence.Mappable;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -40,12 +39,12 @@ public class BusGenerator implements IGenerator
     /**
      * Array of available manufacturers
      */
-<span class="nc" id="L43">    private static final String[] MANUFACTURERS = {&quot;Iveco Bus&quot;, &quot;Mercedes-Benz&quot;, &quot;Setra&quot;, &quot;VDL&quot;, &quot;MAN&quot;, &quot;Neoplan&quot;, &quot;Sor&quot;, &quot;Solaris&quot;};</span>
+<span class="nc" id="L42">    private static final String[] MANUFACTURERS = {&quot;Iveco Bus&quot;, &quot;Mercedes-Benz&quot;, &quot;Setra&quot;, &quot;VDL&quot;, &quot;MAN&quot;, &quot;Neoplan&quot;, &quot;Sor&quot;, &quot;Solaris&quot;};</span>
     
     /**
-     * Array of available types of propulsions
+     * Array of available types of propulsion
      */
-<span class="nc" id="L48">    private static final String[] PROPULSIONS = {&quot;DIESEL&quot;, &quot;ELECTRIC&quot;, &quot;HYBRID&quot;, &quot;CNG&quot;};</span>
+<span class="nc" id="L47">    private static final String[] PROPULSIONS = {&quot;DIESEL&quot;, &quot;ELECTRIC&quot;, &quot;HYBRID&quot;, &quot;CNG&quot;};</span>
     
     /**
      * Minimal capacity of bus
@@ -66,55 +65,55 @@ public class BusGenerator implements IGenerator
      * Creates generator of random buses
      */
     public BusGenerator()
-<span class="nc" id="L69">    {</span>
-<span class="nc" id="L70">        this.random = ThreadLocalRandom.current();</span>
-<span class="nc" id="L71">    }</span>
+<span class="nc" id="L68">    {</span>
+<span class="nc" id="L69">        this.random = ThreadLocalRandom.current();</span>
+<span class="nc" id="L70">    }</span>
     
     @Override
     public Bus next()
     {
-<span class="nc" id="L76">        String id = String.format(BusGenerator.ID_FORMAT, this.random.nextInt(1000, 10000));</span>
-<span class="nc" id="L77">        int capacity = this.random.nextInt(BusGenerator.CAPACITY_MIN, BusGenerator.CAPACITY_MAX);</span>
-<span class="nc" id="L78">        String manufacturer = BusGenerator.MANUFACTURERS[this.random.nextInt(0, BusGenerator.MANUFACTURERS.length)];</span>
-<span class="nc" id="L79">        Propulsion propulsion = Propulsion.getPropulsion(BusGenerator.PROPULSIONS[this.random.nextInt(0, BusGenerator.PROPULSIONS.length)]);</span>
-<span class="nc" id="L80">        return new Bus(id, manufacturer, capacity, propulsion, this.random.nextBoolean());</span>
+<span class="nc" id="L75">        String id = String.format(BusGenerator.ID_FORMAT, this.random.nextInt(1000, 10000));</span>
+<span class="nc" id="L76">        int capacity = this.random.nextInt(BusGenerator.CAPACITY_MIN, BusGenerator.CAPACITY_MAX);</span>
+<span class="nc" id="L77">        String manufacturer = BusGenerator.MANUFACTURERS[this.random.nextInt(0, BusGenerator.MANUFACTURERS.length)];</span>
+<span class="nc" id="L78">        Propulsion propulsion = Propulsion.getPropulsion(BusGenerator.PROPULSIONS[this.random.nextInt(0, BusGenerator.PROPULSIONS.length)]);</span>
+<span class="nc" id="L79">        return new Bus(id, manufacturer, capacity, propulsion, this.random.nextBoolean());</span>
     }
     
     @Override
     public Bus createFromMap(Map&lt;String, String&gt; data)
     {
         String id = (
-<span class="nc bnc" id="L87" title="All 2 branches missed.">                data.get(&quot;id&quot;) == null?</span>
-<span class="nc" id="L88">                String.format(BusGenerator.ID_FORMAT, this.random.nextInt(1000, 10000)):</span>
-<span class="nc" id="L89">                data.get(&quot;id&quot;)</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">                data.get(&quot;id&quot;) == null?</span>
+<span class="nc" id="L87">                String.format(BusGenerator.ID_FORMAT, this.random.nextInt(1000, 10000)):</span>
+<span class="nc" id="L88">                data.get(&quot;id&quot;)</span>
                 );
         int capacity = (
-<span class="nc bnc" id="L92" title="All 2 branches missed.">                data.get(&quot;capacity&quot;) == null?</span>
-<span class="nc" id="L93">                this.random.nextInt(BusGenerator.CAPACITY_MIN, BusGenerator.CAPACITY_MAX):</span>
-<span class="nc" id="L94">                Integer.parseInt(data.get(&quot;capacity&quot;))</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">                data.get(&quot;capacity&quot;) == null?</span>
+<span class="nc" id="L92">                this.random.nextInt(BusGenerator.CAPACITY_MIN, BusGenerator.CAPACITY_MAX):</span>
+<span class="nc" id="L93">                Integer.parseInt(data.get(&quot;capacity&quot;))</span>
                 );
         String manufacturer = (
-<span class="nc bnc" id="L97" title="All 2 branches missed.">                data.get(&quot;manufacturer&quot;) == null?</span>
-<span class="nc" id="L98">                BusGenerator.MANUFACTURERS[this.random.nextInt(0, BusGenerator.MANUFACTURERS.length)]:</span>
-<span class="nc" id="L99">                data.get(&quot;manufacturer&quot;)</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">                data.get(&quot;manufacturer&quot;) == null?</span>
+<span class="nc" id="L97">                BusGenerator.MANUFACTURERS[this.random.nextInt(0, BusGenerator.MANUFACTURERS.length)]:</span>
+<span class="nc" id="L98">                data.get(&quot;manufacturer&quot;)</span>
                 );
         Propulsion prop = (
-<span class="nc bnc" id="L102" title="All 2 branches missed.">                data.get(&quot;propulsion&quot;) == null?</span>
-<span class="nc" id="L103">                Propulsion.getPropulsion(BusGenerator.PROPULSIONS[this.random.nextInt(0, BusGenerator.PROPULSIONS.length)]):</span>
-<span class="nc" id="L104">                Propulsion.getPropulsion(data.get(&quot;propulsion&quot;))</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">                data.get(&quot;propulsion&quot;) == null?</span>
+<span class="nc" id="L102">                Propulsion.getPropulsion(BusGenerator.PROPULSIONS[this.random.nextInt(0, BusGenerator.PROPULSIONS.length)]):</span>
+<span class="nc" id="L103">                Propulsion.getPropulsion(data.get(&quot;propulsion&quot;))</span>
                 );
         boolean lF = (
-<span class="nc bnc" id="L107" title="All 2 branches missed.">                data.get(&quot;lowFloor&quot;) == null?</span>
-<span class="nc" id="L108">                this.random.nextBoolean():</span>
-<span class="nc" id="L109">                data.get(&quot;lowFloor&quot;).equals(&quot;true&quot;)</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">                data.get(&quot;lowFloor&quot;) == null?</span>
+<span class="nc" id="L107">                this.random.nextBoolean():</span>
+<span class="nc" id="L108">                data.get(&quot;lowFloor&quot;).equals(&quot;true&quot;)</span>
                 );
-<span class="nc" id="L111">        return new Bus(id, manufacturer, capacity, prop, lF);</span>
+<span class="nc" id="L110">        return new Bus(id, manufacturer, capacity, prop, lF);</span>
     }
 
     @Override
     public String getGeneratedName()
     {
-<span class="nc" id="L117">        return Bus.class.getCanonicalName();</span>
+<span class="nc" id="L116">        return Bus.class.getCanonicalName();</span>
     }
     
 }

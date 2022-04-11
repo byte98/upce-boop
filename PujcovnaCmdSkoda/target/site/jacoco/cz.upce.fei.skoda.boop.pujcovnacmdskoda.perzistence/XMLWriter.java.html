@@ -22,7 +22,6 @@ package cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence;
 import cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.SpojovySeznam;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,39 +53,39 @@ public class XMLWriter extends TextWriter
      */
     public XMLWriter(String path)
     {
-<span class="nc" id="L57">        super(path);</span>
-<span class="nc" id="L58">        this.extensions = new String[]{&quot;xml&quot;};</span>
-<span class="nc" id="L59">    }</span>
+<span class="nc" id="L56">        super(path);</span>
+<span class="nc" id="L57">        this.extensions = new String[]{&quot;xml&quot;};</span>
+<span class="nc" id="L58">    }</span>
 
     @Override
     public void writeData(SpojovySeznam&lt;Mappable&gt; data)
     {
         try
         {
-<span class="nc" id="L66">            StringBuilder output = new StringBuilder();</span>
-<span class="nc" id="L67">            output.append(XMLWriter.HEADER);</span>
-<span class="nc" id="L68">            output.append(System.lineSeparator());</span>
-<span class="nc" id="L69">            output.append(&quot;&lt;&quot;);</span>
-<span class="nc" id="L70">            output.append(XMLWriter.ROOT);</span>
-<span class="nc" id="L71">            output.append(&quot;&gt;&quot;);</span>
-<span class="nc" id="L72">            output.append(System.lineSeparator());</span>
-<span class="nc" id="L73">            Iterator&lt;Mappable&gt; it = data.iterator();</span>
-<span class="nc bnc" id="L74" title="All 2 branches missed.">            while(it.hasNext())</span>
+<span class="nc" id="L65">            StringBuilder output = new StringBuilder();</span>
+<span class="nc" id="L66">            output.append(XMLWriter.HEADER);</span>
+<span class="nc" id="L67">            output.append(System.lineSeparator());</span>
+<span class="nc" id="L68">            output.append(&quot;&lt;&quot;);</span>
+<span class="nc" id="L69">            output.append(XMLWriter.ROOT);</span>
+<span class="nc" id="L70">            output.append(&quot;&gt;&quot;);</span>
+<span class="nc" id="L71">            output.append(System.lineSeparator());</span>
+<span class="nc" id="L72">            Iterator&lt;Mappable&gt; it = data.iterator();</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">            while(it.hasNext())</span>
             {
-<span class="nc" id="L76">                Mappable d = it.next();</span>
-<span class="nc" id="L77">                output.append(this.prepareObject(d));</span>
-<span class="nc" id="L78">            }</span>
-<span class="nc" id="L79">            output.append(&quot;&lt;/&quot;);</span>
-<span class="nc" id="L80">            output.append(XMLWriter.ROOT);</span>
-<span class="nc" id="L81">            output.append(&quot;&gt;&quot;);</span>
-<span class="nc" id="L82">            output.append(System.lineSeparator());</span>
-<span class="nc" id="L83">            this.writeString(output.toString());</span>
+<span class="nc" id="L75">                Mappable d = it.next();</span>
+<span class="nc" id="L76">                output.append(this.prepareObject(d));</span>
+<span class="nc" id="L77">            }</span>
+<span class="nc" id="L78">            output.append(&quot;&lt;/&quot;);</span>
+<span class="nc" id="L79">            output.append(XMLWriter.ROOT);</span>
+<span class="nc" id="L80">            output.append(&quot;&gt;&quot;);</span>
+<span class="nc" id="L81">            output.append(System.lineSeparator());</span>
+<span class="nc" id="L82">            this.writeString(output.toString());</span>
         }
-<span class="nc" id="L85">        catch (IOException ex)</span>
+<span class="nc" id="L84">        catch (IOException ex)</span>
         {
-<span class="nc" id="L87">            Logger.getLogger(XMLWriter.class.getName()).log(Level.SEVERE, null, ex);</span>
-<span class="nc" id="L88">        }</span>
-<span class="nc" id="L89">    }</span>
+<span class="nc" id="L86">            Logger.getLogger(XMLWriter.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L87">        }</span>
+<span class="nc" id="L88">    }</span>
     
     /**
      * Prepares attribute to be written into XML file
@@ -96,18 +95,18 @@ public class XMLWriter extends TextWriter
      */
     private String prepareAttribute(String name, String value)
     {
-<span class="nc" id="L99">        StringBuilder reti = new StringBuilder();</span>
+<span class="nc" id="L98">        StringBuilder reti = new StringBuilder();</span>
+<span class="nc" id="L99">        reti.append(XMLWriter.PADDING);</span>
 <span class="nc" id="L100">        reti.append(XMLWriter.PADDING);</span>
-<span class="nc" id="L101">        reti.append(XMLWriter.PADDING);</span>
-<span class="nc" id="L102">        reti.append(&quot;&lt;&quot;);</span>
-<span class="nc" id="L103">        reti.append(name);</span>
-<span class="nc" id="L104">        reti.append(&quot;&gt;&quot;);</span>
-<span class="nc" id="L105">        reti.append(value);</span>
-<span class="nc" id="L106">        reti.append(&quot;&lt;/&quot;);</span>
-<span class="nc" id="L107">        reti.append(name);</span>
-<span class="nc" id="L108">        reti.append(&quot;&gt;&quot;);</span>
-<span class="nc" id="L109">        reti.append(System.lineSeparator());</span>
-<span class="nc" id="L110">        return reti.toString();</span>
+<span class="nc" id="L101">        reti.append(&quot;&lt;&quot;);</span>
+<span class="nc" id="L102">        reti.append(name);</span>
+<span class="nc" id="L103">        reti.append(&quot;&gt;&quot;);</span>
+<span class="nc" id="L104">        reti.append(value);</span>
+<span class="nc" id="L105">        reti.append(&quot;&lt;/&quot;);</span>
+<span class="nc" id="L106">        reti.append(name);</span>
+<span class="nc" id="L107">        reti.append(&quot;&gt;&quot;);</span>
+<span class="nc" id="L108">        reti.append(System.lineSeparator());</span>
+<span class="nc" id="L109">        return reti.toString();</span>
     }
     
     /**
@@ -117,23 +116,23 @@ public class XMLWriter extends TextWriter
      */
     private String prepareObject(Mappable obj)
     {
-<span class="nc" id="L120">        StringBuilder reti = new StringBuilder();</span>
-<span class="nc" id="L121">        reti.append(XMLWriter.PADDING);</span>
-<span class="nc" id="L122">        reti.append(&quot;&lt;&quot;);</span>
-<span class="nc" id="L123">        reti.append(obj.getClassName());</span>
-<span class="nc" id="L124">        reti.append(&quot;&gt;&quot;);</span>
-<span class="nc" id="L125">        reti.append(System.lineSeparator());</span>
-<span class="nc" id="L126">        Map&lt;String, String&gt; map = obj.toMap();</span>
-<span class="nc bnc" id="L127" title="All 2 branches missed.">        for(String key: map.keySet())</span>
+<span class="nc" id="L119">        StringBuilder reti = new StringBuilder();</span>
+<span class="nc" id="L120">        reti.append(XMLWriter.PADDING);</span>
+<span class="nc" id="L121">        reti.append(&quot;&lt;&quot;);</span>
+<span class="nc" id="L122">        reti.append(obj.getClassName());</span>
+<span class="nc" id="L123">        reti.append(&quot;&gt;&quot;);</span>
+<span class="nc" id="L124">        reti.append(System.lineSeparator());</span>
+<span class="nc" id="L125">        Map&lt;String, String&gt; map = obj.toMap();</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">        for(String key: map.keySet())</span>
         {
-<span class="nc" id="L129">            reti.append(this.prepareAttribute(key, map.get(key)));</span>
-<span class="nc" id="L130">        }</span>
-<span class="nc" id="L131">        reti.append(XMLWriter.PADDING);</span>
-<span class="nc" id="L132">        reti.append(&quot;&lt;/&quot;);</span>
-<span class="nc" id="L133">        reti.append(obj.getClassName());</span>
-<span class="nc" id="L134">        reti.append(&quot;&gt;&quot;);</span>
-<span class="nc" id="L135">        reti.append(System.lineSeparator());</span>
-<span class="nc" id="L136">        return reti.toString();</span>
+<span class="nc" id="L128">            reti.append(this.prepareAttribute(key, map.get(key)));</span>
+<span class="nc" id="L129">        }</span>
+<span class="nc" id="L130">        reti.append(XMLWriter.PADDING);</span>
+<span class="nc" id="L131">        reti.append(&quot;&lt;/&quot;);</span>
+<span class="nc" id="L132">        reti.append(obj.getClassName());</span>
+<span class="nc" id="L133">        reti.append(&quot;&gt;&quot;);</span>
+<span class="nc" id="L134">        reti.append(System.lineSeparator());</span>
+<span class="nc" id="L135">        return reti.toString();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,2 @@
+ - projdu za aktualnim (nekontroluji, pri dej za aktualnim jestli je neco za aktualnim) [aktualni.dalsi == null => hodit KolekceException]
+

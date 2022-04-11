@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="46" failures="0" name="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" time="0.109" errors="0" skipped="0">
+<testsuite tests="49" failures="0" name="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" time="0.124" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="17.0.2+8-LTS-86"/>
@@ -45,7 +45,7 @@
     <property name="java.class.path" value="D:\Program Files\NetBeans-12.6\netbeans\java\maven\bin\..\boot\plexus-classworlds-2.6.0.jar"/>
     <property name="java.vm.specification.version" value="17"/>
     <property name="sun.arch.data.model" value="64"/>
-    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -Dmaven.ext.class.path=D:\Program Files\NetBeans-12.6\netbeans\java\maven-nblib\netbeans-eventspy.jar -Dfile.encoding=UTF-8 clean install"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -Dmaven.ext.class.path=D:\Program Files\NetBeans-12.6\netbeans\java\maven-nblib\netbeans-eventspy.jar -Dfile.encoding=UTF-8 test"/>
     <property name="java.home" value="D:\Program Files\Java\jdk-17.0.2"/>
     <property name="user.language" value="en"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
@@ -62,9 +62,9 @@
     <property name="sun.cpu.endian" value="little"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_04_02_NastavPosledni_KolekceException" time="0.01"/>
+  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_04_02_NastavPosledni_KolekceException" time="0.007"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_01_02_VlozPrvni_NullPointerException" time="0"/>
-  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_10_01_DejAktualniPosledni" time="0.002"/>
+  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_10_01_DejAktualniPosledni" time="0"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_13_01_OdeberZaAktualnim" time="0"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_11_01_DejZaAktualnim" time="0"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_13_04_OdeberPredAktualnim" time="0"/>
@@ -72,39 +72,42 @@
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_13_05_OdeberPredAktualnim" time="0"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_13_02_OdeberZaAktualnim_KolekceException" time="0"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_05_02_DejPrvni_KolekceException" time="0"/>
-  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_Size10" time="0.088"/>
+  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_Size10" time="0.102"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_05_04_DejAktualni_KolekceException" time="0"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_13_05_OdeberZaAktualnim" time="0"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_13_03_OdeberPredAktualnim_KolekceException" time="0.001"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_03_01_NastavPrvni" time="0"/>
-  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_12_02_OdeberAktualni_KolekceException" time="0"/>
+  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_12_02_OdeberAktualni_KolekceException" time="0.001"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_08_04_JeDalsi" time="0"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_03_02_NastavPrvni_KolekceException" time="0"/>
+  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_14_05_Iterator" time="0.002"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_15_01_JePrazdny" time="0"/>
-  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_12_01_OdeberAktualniPrvni" time="0"/>
+  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_12_01_OdeberAktualniPrvni" time="0.001"/>
+  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_14_04_Iterator" time="0"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_02_02_VlozPosledni_NullPointerException" time="0"/>
-  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_14_03_Iterator" time="0.002"/>
-  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_09_03_VlozZaAktualni" time="0"/>
+  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_14_03_Iterator" time="0"/>
+  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_09_03_VlozZaAktualni" time="0.001"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_06_01_OdeberPrvniJedenZJednoho" time="0"/>
-  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_05_01_DejPrvni" time="0.001"/>
+  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_05_01_DejPrvni" time="0"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_09_05_VlozPredAktualni_KolekceException" time="0"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_14_02_Iterator" time="0"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_14_01_Iterator" time="0"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_09_07_VlozPredAktualni" time="0"/>
-  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_08_03_Dalsi" time="0"/>
-  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_17_01_Zrus" time="0.001"/>
+  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_08_03_Dalsi" time="0.001"/>
+  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_17_01_Zrus" time="0"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_09_02_VlozZaAktualni_KolekceException" time="0"/>
-  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_02_01_VlozNaKonec" time="0.001"/>
-  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_09_01_VlozZaAktualni_NullPointerException" time="0.001"/>
+  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_02_01_VlozNaKonec" time="0.004"/>
+  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_09_01_VlozZaAktualni_NullPointerException" time="0"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_07_01_OdeberPosledniJedenZJednoho" time="0.001"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_09_04_VlozPredAktualni_NullPointerException" time="0"/>
+  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_06_02_OdeberPrvni" time="0"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_01_01_VlozPrvni" time="0"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_04_01_NastavPosledni" time="0"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_08_02_Dalsi_KolekceException" time="0"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_08_01_Dalsi_KolekceException" time="0"/>
-  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_05_06_DejPredAktualnim_KolekceException" time="0"/>
+  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_05_06_DejPredAktualnim_KolekceException" time="0.001"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_09_06_VlozPredAktualni" time="0"/>
-  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_12_03_OdeberAktualni_KolekceException" time="0"/>
+  <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_12_03_OdeberAktualni_KolekceException" time="0.001"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_06_03_OdeberPrvni_KolekceException" time="0"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_05_03_DejPosledni_KolekceException" time="0"/>
   <testcase classname="cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznamTest" name="test_05_05_DejZaAktualnim_KolekceException" time="0"/>

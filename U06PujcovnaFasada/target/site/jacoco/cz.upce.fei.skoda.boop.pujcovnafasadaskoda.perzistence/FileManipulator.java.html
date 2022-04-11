@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FileManipulator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">U06PujcovnaFasadaSkoda</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.skoda.boop.pujcovnafasadaskoda.perzistence</a> &gt; <span class="el_source">FileManipulator.java</span></div><h1>FileManipulator.java</h1><pre class="source lang-java linenums">//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;License&quot;&gt;
+/*
+ * Copyright (C) 2022 Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+//&lt;/editor-fold&gt;
+package cz.upce.fei.skoda.boop.pujcovnafasadaskoda.perzistence;
+
+import java.nio.file.Paths;
+import java.util.regex.Pattern;
+
+/**
+ * Class abstracting all utilities which works with files
+ * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ */
+public abstract class FileManipulator
+{
+    /**
+     * Path to file
+     */
+    protected String filePath;
+    
+    /**
+     * Array of valid extension for file manipulator
+     */
+    protected String extensions[];
+    
+    /**
+     * Creates new manipulator with files
+     */
+    public FileManipulator()
+<span class="nc" id="L45">    {</span>
+<span class="nc" id="L46">        this.extensions = new String[0];</span>
+<span class="nc" id="L47">    }</span>
+    
+    /**
+     * Creates new manipulator with files
+     * @param path Path to file
+     */
+    public FileManipulator(String path)
+    {
+<span class="nc" id="L55">        this();</span>
+<span class="nc" id="L56">        this.filePath = path;</span>
+<span class="nc" id="L57">    }</span>
+    
+    /**
+     * Sets new path for file manipulator
+     * @param newPath New path to file for file manipulator
+     */
+    public void setPath(String newPath)
+    {
+<span class="nc" id="L65">        this.filePath = newPath;</span>
+<span class="nc" id="L66">    }</span>
+    
+     /**
+     * Checks, whether file extension is valid for file manipulator
+     * @param ext Extension which will be checked
+     * @return TRUE if extension is valid for file manipulator, FALSE otherwise
+     */
+    public boolean isValidExtension(String ext)
+    {
+<span class="nc" id="L75">        boolean reti = false;</span>
+<span class="nc bnc" id="L76" title="All 4 branches missed.">        if (ext != null &amp;&amp; ext.equals(&quot;&quot;) == false)</span>
+        {
+<span class="nc bnc" id="L78" title="All 2 branches missed.">            for(String extension: this.extensions)</span>
+            {
+<span class="nc bnc" id="L80" title="All 2 branches missed.">                if (extension.trim().toLowerCase().equals(ext.trim().toLowerCase()))</span>
+                {
+<span class="nc" id="L82">                    reti = true;</span>
+<span class="nc" id="L83">                    break;</span>
+                }
+            }
+        }
+<span class="nc" id="L87">        return reti;</span>
+    }
+    
+    /**
+     * Gets path to file
+     * @return Path to file
+     */
+    public String getPath()
+    {
+<span class="nc" id="L96">        return Paths.get(this.filePath).toAbsolutePath().toString();</span>
+    }
+    
+    /**
+     * Gets file extension from file path
+     * @param path Path to file
+     * @return File extension or empty string if extension
+     *         has not been found in file path
+     */
+    public static String getFileExtension(String path)
+    {
+<span class="nc" id="L107">        String reti = &quot;&quot;;</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">        if (path.contains(&quot;.&quot;))</span>
+        {
+<span class="nc" id="L110">            String[] parts = path.split(Pattern.quote(&quot;.&quot;));</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">            if (parts.length &gt; 0)</span>
+            {
+<span class="nc" id="L113">                reti = parts[parts.length - 1];</span>
+            }
+        }
+<span class="nc" id="L116">        return reti;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

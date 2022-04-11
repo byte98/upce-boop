@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ListReader.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">U06PujcovnaFasadaSkoda</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.skoda.boop.pujcovnafasadaskoda.perzistence</a> &gt; <span class="el_source">ListReader.java</span></div><h1>ListReader.java</h1><pre class="source lang-java linenums">//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;License&quot;&gt;
+/*
+ * Copyright (C) 2022 Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+//&lt;/editor-fold&gt;
+package cz.upce.fei.skoda.boop.pujcovnafasadaskoda.perzistence;
+
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.kolekce.LinkSeznam;
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.kolekce.SpojovySeznam;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * Class representing reader of list data from binary file
+ * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ */
+public class ListReader extends BinaryReader
+{
+
+    /**
+     * Creates new reader of list data from binary file
+     * @param path Path to file from which will be data read
+     */
+    public ListReader(String path)
+    {
+<span class="nc" id="L45">        super(path);</span>
+<span class="nc" id="L46">    }</span>
+
+    @Override
+    public SpojovySeznam&lt;Serializable&gt; loadData()
+    {
+<span class="nc" id="L51">        SpojovySeznam&lt;Serializable&gt; reti = new LinkSeznam&lt;&gt;();</span>
+<span class="nc" id="L52">        FileInputStream fis = null;</span>
+<span class="nc" id="L53">        ObjectInputStream ois = null;</span>
+        
+        try
+        {
+<span class="nc" id="L57">            fis = new FileInputStream(this.filePath);</span>
+<span class="nc" id="L58">            ois = new ObjectInputStream(fis);</span>
+<span class="nc" id="L59">            this.readData(reti, ois);</span>
+<span class="nc" id="L60">            ois.close();</span>
+<span class="nc" id="L61">            fis.close();</span>
+        }
+<span class="nc" id="L63">        catch (FileNotFoundException ex)</span>
+        {
+<span class="nc" id="L65">            Logger.getLogger(ListReader.class.getName()).log(Level.SEVERE, null, ex);</span>
+        }
+<span class="nc" id="L67">        catch (IOException | ClassNotFoundException ex)</span>
+        {
+<span class="nc" id="L69">            Logger.getLogger(ListReader.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L70">        }</span>
+<span class="nc" id="L71">        return reti;</span>
+    }
+    
+    /**
+     * Reads data from input stream to list
+     * @param out List to which data will be written into
+     * @param in Source of data
+     */
+    private void readData(SpojovySeznam&lt;Serializable&gt; out, ObjectInputStream in) throws IOException, ClassNotFoundException
+    {
+<span class="nc" id="L81">        int count = in.readInt();</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        for (int i = 0; i &lt; count; i++)</span>
+        {
+<span class="nc" id="L84">            out.vlozPosledni((Serializable) in.readObject());</span>
+        }
+<span class="nc" id="L86">    }</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

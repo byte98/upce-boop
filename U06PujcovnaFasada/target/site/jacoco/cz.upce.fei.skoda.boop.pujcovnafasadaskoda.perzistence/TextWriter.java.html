@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TextWriter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">U06PujcovnaFasadaSkoda</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.skoda.boop.pujcovnafasadaskoda.perzistence</a> &gt; <span class="el_source">TextWriter.java</span></div><h1>TextWriter.java</h1><pre class="source lang-java linenums">//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;License&quot;&gt;
+/*
+ * Copyright (C) 2022 Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+//&lt;/editor-fold&gt;
+package cz.upce.fei.skoda.boop.pujcovnafasadaskoda.perzistence;
+
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.kolekce.SpojovySeznam;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * Class abstracting all writers to text files
+ * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ */
+public abstract class TextWriter extends FileManipulator
+{
+    /**
+     * Array with all available text writers
+     */
+<span class="nc" id="L39">    private static final TextWriter[] WRITERS = </span>
+    {
+        new CSVWriter(&quot;&quot;),
+        new XMLWriter(&quot;&quot;)
+    };
+    
+    
+    /**
+     * Creates new writer to text file
+     * @param path Path to file to which will be written into
+     */
+    public TextWriter(String path)
+    {
+<span class="nc" id="L52">        super(path);</span>
+<span class="nc" id="L53">    }</span>
+    
+    /**
+     * Writes data into file
+     * @param data Data which will be written into file
+     */
+    public abstract void writeData(SpojovySeznam&lt;Mappable&gt; data);
+    
+    
+    /**
+     * Writes string into file
+     * @param string String which will be written into file
+     */
+    protected void writeString(String string) throws IOException
+    {
+<span class="nc" id="L68">        Files.writeString(Paths.get(this.filePath), string);</span>
+<span class="nc" id="L69">    }</span>
+    
+    /**
+     * Writes lines into file
+     * @param lines Lines which will be written into file
+     */
+    protected void writeLines(List&lt;String&gt; lines) throws IOException
+    {
+<span class="nc" id="L77">        Files.write(Paths.get(this.filePath), lines);</span>
+<span class="nc" id="L78">    }</span>
+    
+    /**
+     * Gets text writer by its valid file extension
+     * @param ext Extension determining text writer
+     * @return Text writer determined by its extension
+     *         or NULL if there is not such an writer
+     */
+    public static TextWriter getByExtension(String ext)
+    {
+<span class="nc" id="L88">        TextWriter reti = null;</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">        for (TextWriter tw: TextWriter.WRITERS)</span>
+        {
+<span class="nc bnc" id="L91" title="All 2 branches missed.">            if (tw.isValidExtension(ext))</span>
+            {
+<span class="nc" id="L93">                reti = tw;</span>
+<span class="nc" id="L94">                break;</span>
+            }
+        }
+<span class="nc" id="L97">        return reti;</span>
+    }
+    
+    /**
+     * Gets list of all supported file extensions
+     * @return List of all supported extensions
+     */
+    public static List&lt;String&gt; getSupportedExtensions()
+    {
+<span class="nc" id="L106">        List&lt;String&gt; reti = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">        for(TextWriter tw: TextWriter.WRITERS)</span>
+        {
+<span class="nc" id="L109">            reti.addAll(Arrays.asList(tw.extensions));</span>
+        }
+<span class="nc" id="L111">        return reti;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

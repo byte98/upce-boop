@@ -20,6 +20,7 @@
 package cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Implementace rozhrani SpojovySeznam
@@ -48,10 +49,10 @@ public class LinkSeznam&lt;E&gt; implements SpojovySeznam&lt;E&gt;
          * Vytvoreni noveho prvku v seznamu
          */
         public Prvek()
-<span class="fc" id="L51">        {</span>
-<span class="fc" id="L52">            this.dalsi = null;</span>
-<span class="fc" id="L53">            this.data = null;</span>
-<span class="fc" id="L54">        }</span>
+<span class="fc" id="L52">        {</span>
+<span class="fc" id="L53">            this.dalsi = null;</span>
+<span class="fc" id="L54">            this.data = null;</span>
+<span class="fc" id="L55">        }</span>
         
         /**
          * Vytvoreni noveho prvku v seznamu
@@ -59,25 +60,25 @@ public class LinkSeznam&lt;E&gt; implements SpojovySeznam&lt;E&gt;
          */
         public Prvek(E data)
         {
-<span class="fc" id="L62">            this();</span>
-<span class="fc" id="L63">            this.data = data;</span>
-<span class="fc" id="L64">        }</span>
+<span class="fc" id="L63">            this();</span>
+<span class="fc" id="L64">            this.data = data;</span>
+<span class="fc" id="L65">        }</span>
         
         // Gettery a settery
         public void setDalsi(Prvek dalsi)
         {
-<span class="fc" id="L69">            this.dalsi = dalsi;</span>
-<span class="fc" id="L70">        }</span>
+<span class="fc" id="L70">            this.dalsi = dalsi;</span>
+<span class="fc" id="L71">        }</span>
         
         public Prvek&lt;E&gt; getDalsi()
         {
-<span class="fc" id="L74">            return this.dalsi;</span>
+<span class="fc" id="L75">            return this.dalsi;</span>
         }
         
         
         public E getData()
         {
-<span class="fc" id="L80">            return this.data;</span>
+<span class="fc" id="L81">            return this.data;</span>
         }
     }
     //&lt;/editor-fold&gt;
@@ -103,11 +104,11 @@ public class LinkSeznam&lt;E&gt; implements SpojovySeznam&lt;E&gt;
     private int velikost;
     
     public LinkSeznam()
-<span class="fc" id="L106">    {</span>
-<span class="fc" id="L107">        this.prvni = null;</span>
-<span class="fc" id="L108">        this.aktualni = null;</span>
-<span class="fc" id="L109">        this.velikost = 0;</span>
-<span class="fc" id="L110">    }</span>
+<span class="fc" id="L107">    {</span>
+<span class="fc" id="L108">        this.prvni = null;</span>
+<span class="fc" id="L109">        this.aktualni = null;</span>
+<span class="fc" id="L110">        this.velikost = 0;</span>
+<span class="fc" id="L111">    }</span>
     
     /**
      * Metoda, ktera zkontroluje, zdali je zadany prvek v seznamu
@@ -116,17 +117,17 @@ public class LinkSeznam&lt;E&gt; implements SpojovySeznam&lt;E&gt;
      */
     private boolean jeVSeznamu(Prvek prvek)
     {
-<span class="fc" id="L119">        boolean reti = false;</span>
-<span class="pc bpc" id="L120" title="1 of 2 branches missed.">        if (this.jePrazdny() == false)</span>
+<span class="fc" id="L120">        boolean reti = false;</span>
+<span class="pc bpc" id="L121" title="1 of 2 branches missed.">        if (this.jePrazdny() == false)</span>
         {
-<span class="fc" id="L122">            Prvek k = this.prvni;</span>
-<span class="pc bpc" id="L123" title="1 of 4 branches missed.">            while (k.equals(prvek) == false &amp;&amp; k.getDalsi() != null)</span>
+<span class="fc" id="L123">            Prvek k = this.prvni;</span>
+<span class="pc bpc" id="L124" title="1 of 4 branches missed.">            while (k.equals(prvek) == false &amp;&amp; k.getDalsi() != null)</span>
             {
-<span class="fc" id="L125">                k = k.getDalsi();</span>
+<span class="fc" id="L126">                k = k.getDalsi();</span>
             }
-<span class="fc" id="L127">            reti = k.equals(prvek);</span>
+<span class="fc" id="L128">            reti = k.equals(prvek);</span>
         }
-<span class="fc" id="L129">        return reti;</span>
+<span class="fc" id="L130">        return reti;</span>
     }
     
 
@@ -137,24 +138,24 @@ public class LinkSeznam&lt;E&gt; implements SpojovySeznam&lt;E&gt;
      */
     private Prvek&lt;E&gt; getPredchozi(Prvek prvek)
     {
-<span class="fc" id="L140">        Prvek&lt;E&gt; reti = null;</span>
-<span class="fc" id="L141">        if (</span>
-<span class="pc bpc" id="L142" title="2 of 4 branches missed.">                this.jePrazdny() == false &amp;&amp; </span>
+<span class="fc" id="L141">        Prvek&lt;E&gt; reti = null;</span>
+<span class="fc" id="L142">        if (</span>
+<span class="pc bpc" id="L143" title="2 of 4 branches missed.">                this.jePrazdny() == false &amp;&amp; </span>
                 prvek != null &amp;&amp;
-<span class="pc bpc" id="L144" title="1 of 2 branches missed.">                this.prvni.equals(prvek) == false &amp;&amp;</span>
-<span class="pc bpc" id="L145" title="1 of 2 branches missed.">                this.size() &gt; 1 &amp;&amp;</span>
-<span class="pc bpc" id="L146" title="1 of 2 branches missed.">                this.jeVSeznamu(prvek))</span>
+<span class="pc bpc" id="L145" title="1 of 2 branches missed.">                this.prvni.equals(prvek) == false &amp;&amp;</span>
+<span class="pc bpc" id="L146" title="1 of 2 branches missed.">                this.size() &gt; 1 &amp;&amp;</span>
+<span class="pc bpc" id="L147" title="1 of 2 branches missed.">                this.jeVSeznamu(prvek))</span>
         {
-<span class="fc" id="L148">            reti = this.prvni;</span>
-<span class="fc" id="L149">            Prvek&lt;E&gt; kontrola = this.prvni.getDalsi();</span>
-<span class="fc bfc" id="L150" title="All 2 branches covered.">            while(kontrola.equals(prvek) == false &amp;&amp;</span>
-<span class="pc bpc" id="L151" title="1 of 2 branches missed.">                    kontrola.getDalsi() != null)</span>
+<span class="fc" id="L149">            reti = this.prvni;</span>
+<span class="fc" id="L150">            Prvek&lt;E&gt; kontrola = this.prvni.getDalsi();</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">            while(kontrola.equals(prvek) == false &amp;&amp;</span>
+<span class="pc bpc" id="L152" title="1 of 2 branches missed.">                    kontrola.getDalsi() != null)</span>
             {
-<span class="fc" id="L153">                reti = reti.getDalsi();</span>
-<span class="fc" id="L154">                kontrola = kontrola.getDalsi();</span>
+<span class="fc" id="L154">                reti = reti.getDalsi();</span>
+<span class="fc" id="L155">                kontrola = kontrola.getDalsi();</span>
             }
         }
-<span class="fc" id="L157">        return reti;</span>
+<span class="fc" id="L158">        return reti;</span>
     }
     
     /**
@@ -164,385 +165,393 @@ public class LinkSeznam&lt;E&gt; implements SpojovySeznam&lt;E&gt;
      */
     private boolean odstranPrvek(Prvek p)
     {
-<span class="fc" id="L167">        boolean reti = false;</span>
-<span class="pc bpc" id="L168" title="2 of 4 branches missed.">        if (this.jePrazdny() == false &amp;&amp; this.jeVSeznamu(p))</span>
+<span class="fc" id="L168">        boolean reti = false;</span>
+<span class="pc bpc" id="L169" title="2 of 4 branches missed.">        if (this.jePrazdny() == false &amp;&amp; this.jeVSeznamu(p))</span>
         {
-<span class="fc" id="L170">            reti = true;</span>
-<span class="fc bfc" id="L171" title="All 2 branches covered.">            if (this.size() == 1)</span>
+<span class="fc" id="L171">            reti = true;</span>
+<span class="fc bfc" id="L172" title="All 2 branches covered.">            if (this.size() == 1)</span>
             {
-<span class="fc" id="L173">                this.prvni = null;</span>
-<span class="fc" id="L174">                this.posledni = null;</span>
+<span class="fc" id="L174">                this.prvni = null;</span>
+<span class="fc" id="L175">                this.posledni = null;</span>
             }
-<span class="fc bfc" id="L176" title="All 2 branches covered.">            else if (this.prvni.equals(p))</span>
+<span class="fc bfc" id="L177" title="All 2 branches covered.">            else if (this.prvni.equals(p))</span>
             {
-<span class="fc" id="L178">                this.prvni = this.prvni.getDalsi();</span>
+<span class="fc" id="L179">                this.prvni = this.prvni.getDalsi();</span>
             }
-<span class="fc bfc" id="L180" title="All 2 branches covered.">            else if (this.posledni.equals(p))</span>
+<span class="fc bfc" id="L181" title="All 2 branches covered.">            else if (this.posledni.equals(p))</span>
             {
-<span class="fc" id="L182">                Prvek novyPosledni = this.getPredchozi(this.posledni);</span>
-<span class="pc bpc" id="L183" title="1 of 2 branches missed.">                if (novyPosledni != null)</span>
+<span class="fc" id="L183">                Prvek novyPosledni = this.getPredchozi(this.posledni);</span>
+<span class="pc bpc" id="L184" title="1 of 2 branches missed.">                if (novyPosledni != null)</span>
                 {
-<span class="fc" id="L185">                    this.posledni = novyPosledni;</span>
-<span class="fc" id="L186">                    this.posledni.setDalsi(null);</span>
+<span class="fc" id="L186">                    this.posledni = novyPosledni;</span>
+<span class="fc" id="L187">                    this.posledni.setDalsi(null);</span>
                 }                
-<span class="fc" id="L188">            }</span>
+<span class="fc" id="L189">            }</span>
             else
             {
-<span class="fc" id="L191">                Prvek&lt;E&gt; predchudce = this.getPredchozi(p);</span>
-<span class="fc" id="L192">                predchudce.setDalsi(p.getDalsi());</span>
+<span class="fc" id="L192">                Prvek&lt;E&gt; predchudce = this.getPredchozi(p);</span>
+<span class="fc" id="L193">                predchudce.setDalsi(p.getDalsi());</span>
             }     
-<span class="fc bfc" id="L194" title="All 4 branches covered.">            if (this.aktualni != null &amp;&amp; this.aktualni.equals(p))</span>
+<span class="fc bfc" id="L195" title="All 4 branches covered.">            if (this.aktualni != null &amp;&amp; this.aktualni.equals(p))</span>
             {
-<span class="fc" id="L196">                this.aktualni = null;</span>
+<span class="fc" id="L197">                this.aktualni = null;</span>
             }
-<span class="fc" id="L198">            p = null;</span>
-<span class="fc" id="L199">            this.velikost--;</span>
+<span class="fc" id="L199">            p = null;</span>
+<span class="fc" id="L200">            this.velikost--;</span>
         }
-<span class="fc" id="L201">        return reti;</span>
+<span class="fc" id="L202">        return reti;</span>
     }
     
     //&lt;editor-fold defaultstate=&quot;collapsed&quot;  desc=&quot;Implementace rozhrani SpojovySeznam&quot;&gt;
     @Override
     public void nastavPrvni() throws KolekceException
     {
-<span class="fc bfc" id="L208" title="All 2 branches covered.">        if (this.jePrazdny())</span>
+<span class="fc bfc" id="L209" title="All 2 branches covered.">        if (this.jePrazdny())</span>
         {
-<span class="fc" id="L210">            throw new KolekceException();</span>
+<span class="fc" id="L211">            throw new KolekceException();</span>
         }
         else
         {
-<span class="fc" id="L214">            this.aktualni = this.prvni;</span>
+<span class="fc" id="L215">            this.aktualni = this.prvni;</span>
         }
-<span class="fc" id="L216">    }</span>
+<span class="fc" id="L217">    }</span>
     
     @Override
     public void nastavPosledni() throws KolekceException
     {
-<span class="fc bfc" id="L221" title="All 2 branches covered.">        if (this.jePrazdny())</span>
+<span class="fc bfc" id="L222" title="All 2 branches covered.">        if (this.jePrazdny())</span>
         {
-<span class="fc" id="L223">            throw new KolekceException();</span>
+<span class="fc" id="L224">            throw new KolekceException();</span>
         }
         else
         {
-<span class="fc" id="L227">            this.aktualni = this.posledni;</span>
+<span class="fc" id="L228">            this.aktualni = this.posledni;</span>
         }
-<span class="fc" id="L229">    }</span>
+<span class="fc" id="L230">    }</span>
     
     @Override
     public void dalsi() throws KolekceException
     {
-<span class="pc bpc" id="L234" title="1 of 4 branches missed.">        if (this.jePrazdny() ||</span>
+<span class="pc bpc" id="L235" title="1 of 4 branches missed.">        if (this.jePrazdny() ||</span>
                 this.aktualni == null ||
-<span class="fc bfc" id="L236" title="All 2 branches covered.">                this.aktualni.getDalsi() == null)</span>
+<span class="fc bfc" id="L237" title="All 2 branches covered.">                this.aktualni.getDalsi() == null)</span>
         {
-<span class="fc" id="L238">            throw new KolekceException();</span>
+<span class="fc" id="L239">            throw new KolekceException();</span>
         }
         else
         {
-<span class="fc" id="L242">            this.aktualni = this.aktualni.getDalsi();</span>
+<span class="fc" id="L243">            this.aktualni = this.aktualni.getDalsi();</span>
         }
-<span class="fc" id="L244">    }</span>
+<span class="fc" id="L245">    }</span>
     
     @Override
     public boolean jeDalsi()
     {
-<span class="pc bpc" id="L249" title="2 of 4 branches missed.">        return (this.jePrazdny() == false &amp;&amp;</span>
+<span class="pc bpc" id="L250" title="2 of 4 branches missed.">        return (this.jePrazdny() == false &amp;&amp;</span>
                 this.aktualni != null &amp;&amp;
-<span class="pc bpc" id="L251" title="1 of 2 branches missed.">                this.aktualni.getDalsi() != null);</span>
+<span class="pc bpc" id="L252" title="1 of 2 branches missed.">                this.aktualni.getDalsi() != null);</span>
     }
     
     @Override
     public void vlozPrvni(E data)
     {
-<span class="fc bfc" id="L257" title="All 2 branches covered.">        if (data == null)</span>
+<span class="fc bfc" id="L258" title="All 2 branches covered.">        if (data == null)</span>
         {
-<span class="fc" id="L259">            throw new NullPointerException(&quot;Argument je NULL!&quot;);</span>
+<span class="fc" id="L260">            throw new NullPointerException(&quot;Argument je NULL!&quot;);</span>
         }
         else
         {
-<span class="fc" id="L263">            Prvek&lt;E&gt; p = new Prvek&lt;&gt;(data);</span>
-<span class="fc" id="L264">            p.setDalsi(this.prvni);</span>
-<span class="fc" id="L265">            this.prvni = p;</span>
-<span class="fc" id="L266">            this.velikost++;</span>
-<span class="fc bfc" id="L267" title="All 2 branches covered.">            if (this.size() == 1)</span>
+<span class="fc" id="L264">            Prvek&lt;E&gt; p = new Prvek&lt;&gt;(data);</span>
+<span class="fc" id="L265">            p.setDalsi(this.prvni);</span>
+<span class="fc" id="L266">            this.prvni = p;</span>
+<span class="fc" id="L267">            this.velikost++;</span>
+<span class="fc bfc" id="L268" title="All 2 branches covered.">            if (this.size() == 1)</span>
             {
-<span class="fc" id="L269">                this.posledni = p;</span>
+<span class="fc" id="L270">                this.posledni = p;</span>
             }
         }
-<span class="fc" id="L272">    }</span>
+<span class="fc" id="L273">    }</span>
     
     @Override
     public void vlozPosledni(E data)
     {
-<span class="fc bfc" id="L277" title="All 2 branches covered.">        if (data == null)</span>
+<span class="fc bfc" id="L278" title="All 2 branches covered.">        if (data == null)</span>
         {
-<span class="fc" id="L279">            throw new NullPointerException(&quot;Argument je NULL!&quot;);</span>
+<span class="fc" id="L280">            throw new NullPointerException(&quot;Argument je NULL!&quot;);</span>
         }
         else
         {
-<span class="fc" id="L283">            Prvek&lt;E&gt; p = new Prvek&lt;&gt;(data);</span>
-<span class="fc bfc" id="L284" title="All 2 branches covered.">            if (this.jePrazdny())</span>
+<span class="fc" id="L284">            Prvek&lt;E&gt; p = new Prvek&lt;&gt;(data);</span>
+<span class="fc bfc" id="L285" title="All 2 branches covered.">            if (this.jePrazdny())</span>
             {
-<span class="fc" id="L286">                this.prvni = p;</span>
+<span class="fc" id="L287">                this.prvni = p;</span>
             }
             else
             {
-<span class="fc" id="L290">                this.posledni.setDalsi(p);</span>
+<span class="fc" id="L291">                this.posledni.setDalsi(p);</span>
             }
-<span class="fc" id="L292">            this.posledni = p;</span>
-<span class="fc" id="L293">            this.velikost++;</span>
+<span class="fc" id="L293">            this.posledni = p;</span>
+<span class="fc" id="L294">            this.velikost++;</span>
             
         }
-<span class="fc" id="L296">    }</span>
+<span class="fc" id="L297">    }</span>
     
     @Override
     public void vlozZaAktualni(E data) throws KolekceException
     {
-<span class="fc bfc" id="L301" title="All 2 branches covered.">        if (data == null)</span>
+<span class="fc bfc" id="L302" title="All 2 branches covered.">        if (data == null)</span>
         {
-<span class="fc" id="L303">            throw new NullPointerException(&quot;Argument je NULL!&quot;);</span>
+<span class="fc" id="L304">            throw new NullPointerException(&quot;Argument je NULL!&quot;);</span>
         }
-<span class="fc bfc" id="L305" title="All 2 branches covered.">        else if (this.aktualni == null)</span>
+<span class="fc bfc" id="L306" title="All 2 branches covered.">        else if (this.aktualni == null)</span>
         {
-<span class="fc" id="L307">            throw new KolekceException();</span>
+<span class="fc" id="L308">            throw new KolekceException();</span>
         }
         else
         {
-<span class="fc" id="L311">            Prvek&lt;E&gt; p = new Prvek&lt;&gt;(data);</span>
-<span class="fc" id="L312">            p.setDalsi(this.aktualni.getDalsi());</span>
-<span class="pc bpc" id="L313" title="1 of 2 branches missed.">            if (this.aktualni.equals(this.posledni))</span>
+<span class="fc" id="L312">            Prvek&lt;E&gt; p = new Prvek&lt;&gt;(data);</span>
+<span class="fc" id="L313">            p.setDalsi(this.aktualni.getDalsi());</span>
+<span class="pc bpc" id="L314" title="1 of 2 branches missed.">            if (this.aktualni.equals(this.posledni))</span>
             {
-<span class="fc" id="L315">                this.posledni = p;</span>
+<span class="fc" id="L316">                this.posledni = p;</span>
             }
-<span class="fc" id="L317">            this.aktualni.setDalsi(p);</span>
-<span class="fc" id="L318">            this.velikost++;</span>
+<span class="fc" id="L318">            this.aktualni.setDalsi(p);</span>
+<span class="fc" id="L319">            this.velikost++;</span>
         }
-<span class="fc" id="L320">    }</span>
+<span class="fc" id="L321">    }</span>
     
     @Override
     public void vlozPredAktualnim(E data) throws KolekceException
     {
-<span class="fc bfc" id="L325" title="All 2 branches covered.">        if (data == null)</span>
+<span class="fc bfc" id="L326" title="All 2 branches covered.">        if (data == null)</span>
         {
-<span class="fc" id="L327">            throw new NullPointerException(&quot;Argument je NULL!&quot;);</span>
+<span class="fc" id="L328">            throw new NullPointerException(&quot;Argument je NULL!&quot;);</span>
         }
-<span class="fc bfc" id="L329" title="All 2 branches covered.">        else if (this.aktualni == null)</span>
+<span class="fc bfc" id="L330" title="All 2 branches covered.">        else if (this.aktualni == null)</span>
         {
-<span class="fc" id="L331">            throw new KolekceException();</span>
+<span class="fc" id="L332">            throw new KolekceException();</span>
         }
         else
         {
-<span class="fc" id="L335">            Prvek&lt;E&gt; p = new Prvek&lt;&gt;(data);</span>
-<span class="fc" id="L336">            p.setDalsi(this.aktualni);</span>
-<span class="fc bfc" id="L337" title="All 2 branches covered.">            if (this.aktualni.equals(this.prvni))</span>
+<span class="fc" id="L336">            Prvek&lt;E&gt; p = new Prvek&lt;&gt;(data);</span>
+<span class="fc" id="L337">            p.setDalsi(this.aktualni);</span>
+<span class="fc bfc" id="L338" title="All 2 branches covered.">            if (this.aktualni.equals(this.prvni))</span>
             {
-<span class="fc" id="L339">                this.prvni = p;</span>
+<span class="fc" id="L340">                this.prvni = p;</span>
             }
             else
             {
-<span class="fc" id="L343">                this.getPredchozi(this.aktualni).setDalsi(p);</span>
+<span class="fc" id="L344">                this.getPredchozi(this.aktualni).setDalsi(p);</span>
             }
         }
-<span class="fc" id="L346">    }</span>
+<span class="fc" id="L347">    }</span>
     
     @Override
     public boolean jePrazdny()
     {
-<span class="pc bpc" id="L351" title="1 of 4 branches missed.">        return this.velikost == 0 || this.prvni == null;</span>
+<span class="pc bpc" id="L352" title="1 of 4 branches missed.">        return this.velikost == 0 || this.prvni == null;</span>
     }
     
     @Override
     public E dejPrvni() throws KolekceException
     {
-<span class="fc" id="L357">        E reti = null;</span>
-<span class="fc bfc" id="L358" title="All 2 branches covered.">        if (this.jePrazdny())</span>
+<span class="fc" id="L358">        E reti = null;</span>
+<span class="fc bfc" id="L359" title="All 2 branches covered.">        if (this.jePrazdny())</span>
         {
-<span class="fc" id="L360">            throw new KolekceException();</span>
+<span class="fc" id="L361">            throw new KolekceException();</span>
         }
         else
         {
-<span class="fc" id="L364">            reti = this.prvni.getData();</span>
+<span class="fc" id="L365">            reti = this.prvni.getData();</span>
         }
-<span class="fc" id="L366">        return reti;</span>
+<span class="fc" id="L367">        return reti;</span>
     }
     
     @Override
     public E dejPosledni() throws KolekceException
     {
-<span class="fc" id="L372">        E reti = null;</span>
-<span class="fc bfc" id="L373" title="All 2 branches covered.">        if (this.jePrazdny())</span>
+<span class="fc" id="L373">        E reti = null;</span>
+<span class="fc bfc" id="L374" title="All 2 branches covered.">        if (this.jePrazdny())</span>
         {
-<span class="fc" id="L375">            throw new KolekceException();</span>
+<span class="fc" id="L376">            throw new KolekceException();</span>
         }
         else
         {
-<span class="fc" id="L379">            reti = this.posledni.getData();</span>
+<span class="fc" id="L380">            reti = this.posledni.getData();</span>
         }
-<span class="fc" id="L381">        return reti;</span>
+<span class="fc" id="L382">        return reti;</span>
     }
     
     @Override
     public E dejAktualni() throws KolekceException
     {
-<span class="fc" id="L387">        E reti = null;</span>
-<span class="pc bpc" id="L388" title="1 of 4 branches missed.">        if (this.jePrazdny() || this.aktualni == null)</span>
+<span class="fc" id="L388">        E reti = null;</span>
+<span class="pc bpc" id="L389" title="1 of 4 branches missed.">        if (this.jePrazdny() || this.aktualni == null)</span>
         {
-<span class="fc" id="L390">            throw new KolekceException();</span>
+<span class="fc" id="L391">            throw new KolekceException();</span>
         }
         else
         {
-<span class="fc" id="L394">            reti = this.aktualni.getData();</span>
+<span class="fc" id="L395">            reti = this.aktualni.getData();</span>
         }
-<span class="fc" id="L396">        return reti;</span>
+<span class="fc" id="L397">        return reti;</span>
     }
     
     @Override
     public E dejZaAktualnim() throws KolekceException
     {
-<span class="fc" id="L402">        E reti = null;</span>
-<span class="pc bpc" id="L403" title="1 of 4 branches missed.">        if (this.jePrazdny() || this.aktualni == null)</span>
+<span class="fc" id="L403">        E reti = null;</span>
+<span class="pc bpc" id="L404" title="1 of 4 branches missed.">        if (this.jePrazdny() || this.aktualni == null)</span>
         {
-<span class="fc" id="L405">            throw new KolekceException();</span>
+<span class="fc" id="L406">            throw new KolekceException();</span>
         }
-<span class="pc bpc" id="L407" title="1 of 2 branches missed.">        else if (this.aktualni.getDalsi() != null)</span>
+<span class="pc bpc" id="L408" title="1 of 2 branches missed.">        else if (this.aktualni.getDalsi() != null)</span>
         {
-<span class="fc" id="L409">            reti = this.aktualni.getDalsi().getData();</span>
+<span class="fc" id="L410">            reti = this.aktualni.getDalsi().getData();</span>
         }
-<span class="fc" id="L411">        return reti;</span>
+<span class="fc" id="L412">        return reti;</span>
     }
     
     @Override
     public E dejPredAktualnim() throws KolekceException
     {
-<span class="fc" id="L417">        E reti = null;</span>
-<span class="pc bpc" id="L418" title="1 of 4 branches missed.">        if (this.jePrazdny() || this.aktualni == null)</span>
+<span class="fc" id="L418">        E reti = null;</span>
+<span class="pc bpc" id="L419" title="1 of 4 branches missed.">        if (this.jePrazdny() || this.aktualni == null)</span>
         {
-<span class="fc" id="L420">            throw new KolekceException();</span>
+<span class="fc" id="L421">            throw new KolekceException();</span>
         }
-<span class="pc bpc" id="L422" title="1 of 2 branches missed.">        else if (this.getPredchozi(this.aktualni) != null)</span>
+<span class="pc bpc" id="L423" title="1 of 2 branches missed.">        else if (this.getPredchozi(this.aktualni) != null)</span>
         {
-<span class="fc" id="L424">            reti = this.getPredchozi(this.aktualni).getData();</span>
+<span class="fc" id="L425">            reti = this.getPredchozi(this.aktualni).getData();</span>
         }
-<span class="fc" id="L426">        return reti;</span>
+<span class="fc" id="L427">        return reti;</span>
     }
     
     @Override
     public E odeberPrvni() throws KolekceException
     {
-<span class="fc" id="L432">        E reti = null;</span>
-<span class="fc bfc" id="L433" title="All 2 branches covered.">        if (this.jePrazdny())</span>
+<span class="fc" id="L433">        E reti = null;</span>
+<span class="fc bfc" id="L434" title="All 2 branches covered.">        if (this.jePrazdny())</span>
         {
-<span class="fc" id="L435">            throw new KolekceException();</span>
+<span class="fc" id="L436">            throw new KolekceException();</span>
         }
         else
         {
-<span class="fc" id="L439">            reti = this.prvni.getData();</span>
-<span class="fc" id="L440">            this.odstranPrvek(this.prvni);</span>
+<span class="fc" id="L440">            reti = this.prvni.getData();</span>
+<span class="fc" id="L441">            this.odstranPrvek(this.prvni);</span>
         }
-<span class="fc" id="L442">        return reti;</span>
+<span class="fc" id="L443">        return reti;</span>
     }
     
     @Override
     public E odeberPosledni() throws KolekceException
     {
-<span class="fc" id="L448">        E reti = null;</span>
-<span class="fc bfc" id="L449" title="All 2 branches covered.">        if (this.jePrazdny())</span>
+<span class="fc" id="L449">        E reti = null;</span>
+<span class="fc bfc" id="L450" title="All 2 branches covered.">        if (this.jePrazdny())</span>
         {
-<span class="fc" id="L451">            throw new KolekceException();</span>
+<span class="fc" id="L452">            throw new KolekceException();</span>
         }
         else
         {
-<span class="fc" id="L455">            reti = this.posledni.getData();</span>
-<span class="fc" id="L456">            this.odstranPrvek(this.posledni);</span>
+<span class="fc" id="L456">            reti = this.posledni.getData();</span>
+<span class="fc" id="L457">            this.odstranPrvek(this.posledni);</span>
         }
-<span class="fc" id="L458">        return reti;</span>
+<span class="fc" id="L459">        return reti;</span>
     }
     
     @Override
     public E odeberAktualni() throws KolekceException
     {
-<span class="fc" id="L464">        E reti = null;</span>
-<span class="fc bfc" id="L465" title="All 4 branches covered.">        if (this.jePrazdny() || this.aktualni == null)</span>
+<span class="fc" id="L465">        E reti = null;</span>
+<span class="fc bfc" id="L466" title="All 4 branches covered.">        if (this.jePrazdny() || this.aktualni == null)</span>
         {
-<span class="fc" id="L467">            throw new KolekceException();</span>
+<span class="fc" id="L468">            throw new KolekceException();</span>
         }
         else
         {
-<span class="fc" id="L471">            reti = this.aktualni.getData();</span>
-<span class="fc" id="L472">            this.odstranPrvek(this.aktualni);</span>
-<span class="fc" id="L473">            this.aktualni = null;</span>
+<span class="fc" id="L472">            reti = this.aktualni.getData();</span>
+<span class="fc" id="L473">            this.odstranPrvek(this.aktualni);</span>
+<span class="fc" id="L474">            this.aktualni = null;</span>
         }
-<span class="fc" id="L475">        return reti;</span>
+<span class="fc" id="L476">        return reti;</span>
     }
     
     @Override
     public E odeberZaAktualnim() throws KolekceException
     {
-<span class="fc" id="L481">        E reti = null;</span>
-<span class="pc bpc" id="L482" title="1 of 4 branches missed.">        if (this.jePrazdny() || this.aktualni == null)</span>
+<span class="fc" id="L482">        E reti = null;</span>
+<span class="pc bpc" id="L483" title="1 of 4 branches missed.">        if (this.jePrazdny() || this.aktualni == null)</span>
         {
-<span class="fc" id="L484">            throw new KolekceException();</span>
+<span class="fc" id="L485">            throw new KolekceException();</span>
         }
-<span class="pc bpc" id="L486" title="1 of 2 branches missed.">        else if (this.aktualni.getDalsi() != null)</span>
+<span class="pc bpc" id="L487" title="1 of 2 branches missed.">        else if (this.aktualni.getDalsi() != null)</span>
         {
-<span class="fc" id="L488">            reti = this.aktualni.getDalsi().getData();</span>
-<span class="fc" id="L489">            this.odstranPrvek(this.aktualni.getDalsi());</span>
+<span class="fc" id="L489">            reti = this.aktualni.getDalsi().getData();</span>
+<span class="fc" id="L490">            this.odstranPrvek(this.aktualni.getDalsi());</span>
         }
-<span class="fc" id="L491">        return reti;</span>
+<span class="fc" id="L492">        return reti;</span>
     }
     
     @Override
     public E odeberPredAktualnim() throws KolekceException
     {
-<span class="fc" id="L497">        E reti = null;</span>
-<span class="pc bpc" id="L498" title="1 of 4 branches missed.">        if (this.jePrazdny() || this.aktualni == null)</span>
+<span class="fc" id="L498">        E reti = null;</span>
+<span class="pc bpc" id="L499" title="1 of 4 branches missed.">        if (this.jePrazdny() || this.aktualni == null)</span>
         {
-<span class="fc" id="L500">            throw new KolekceException();</span>
+<span class="fc" id="L501">            throw new KolekceException();</span>
         }
-<span class="pc bpc" id="L502" title="1 of 2 branches missed.">        else if (this.getPredchozi(this.aktualni) != null)</span>
+<span class="pc bpc" id="L503" title="1 of 2 branches missed.">        else if (this.getPredchozi(this.aktualni) != null)</span>
         {
-<span class="fc" id="L504">            reti = this.getPredchozi(this.aktualni).getData();</span>
-<span class="fc" id="L505">            this.odstranPrvek(this.getPredchozi(this.aktualni));</span>
+<span class="fc" id="L505">            reti = this.getPredchozi(this.aktualni).getData();</span>
+<span class="fc" id="L506">            this.odstranPrvek(this.getPredchozi(this.aktualni));</span>
         }
-<span class="fc" id="L507">        return reti;</span>
+<span class="fc" id="L508">        return reti;</span>
     }
     
     @Override
     public int size()
     {
-<span class="fc" id="L513">        return this.velikost;</span>
+<span class="fc" id="L514">        return this.velikost;</span>
     }
 
     @Override
     public void zrus()
     {
-<span class="fc bfc" id="L519" title="All 2 branches covered.">        while (this.jePrazdny() == false)</span>
+<span class="fc bfc" id="L520" title="All 2 branches covered.">        while (this.jePrazdny() == false)</span>
         {
-<span class="fc" id="L521">            this.odstranPrvek(this.prvni);</span>
+<span class="fc" id="L522">            this.odstranPrvek(this.prvni);</span>
         }
-<span class="fc" id="L523">    }</span>
+<span class="fc" id="L524">    }</span>
     //&lt;/editor-fold&gt;
     
     //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Implamentace rozhrani Iterable&quot;&gt;
     @Override
     public Iterator&lt;E&gt; iterator()
     {
-<span class="fc" id="L530">        Iterator&lt;E&gt; reti = new Iterator&lt;E&gt;(){</span>
-<span class="fc" id="L531">            private Prvek&lt;E&gt; actual = prvni;</span>
+<span class="fc" id="L531">        Iterator&lt;E&gt; reti = new Iterator&lt;E&gt;(){</span>
+<span class="fc" id="L532">            private Prvek&lt;E&gt; actual = prvni;</span>
             @Override
             public boolean hasNext()
             {
-<span class="fc bfc" id="L535" title="All 2 branches covered.">                return actual != null;</span>
+<span class="fc bfc" id="L536" title="All 2 branches covered.">                return actual != null;</span>
             }
             @Override
             public E next()
             {
-<span class="fc" id="L540">                E reti = actual.getData();</span>
-<span class="fc" id="L541">                this.actual = this.actual.getDalsi();</span>
-<span class="fc" id="L542">                return reti;</span>
+<span class="fc" id="L541">                E reti = null;</span>
+<span class="pc bpc" id="L542" title="1 of 2 branches missed.">                if (actual == null)</span>
+                {
+<span class="nc" id="L544">                   throw new NoSuchElementException();</span>
+                }
+                else
+                {
+<span class="fc" id="L548">                   reti = actual.getData();</span>
+<span class="fc" id="L549">                   this.actual = this.actual.getDalsi();   </span>
+                }
+<span class="fc" id="L551">                return reti;</span>
             }
         };
-<span class="fc" id="L545">        return reti;</span>
+<span class="fc" id="L554">        return reti;</span>
     }
     //&lt;/editor-fold&gt;
 }

@@ -23,9 +23,12 @@ import cz.upce.fei.skoda.boop.pujcovnacmdskoda.PujcovnaCmd;
 import cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.KolekceException;
 import cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznam;
 import cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.SpojovySeznam;
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence.BinaryReader;
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence.BinaryWriter;
 import cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence.Mappable;
 import cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence.TextReader;
 import cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence.TextWriter;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -52,10 +55,10 @@ public class Model
      * Creates new data model of application
      */
     public Model()
-<span class="nc" id="L55">    {</span>
-<span class="nc" id="L56">        this.data = new LinkSeznam&lt;&gt;();</span>
-<span class="nc" id="L57">        this.selected = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L58">    }</span>
+<span class="nc" id="L58">    {</span>
+<span class="nc" id="L59">        this.data = new LinkSeznam&lt;&gt;();</span>
+<span class="nc" id="L60">        this.selected = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L61">    }</span>
     
     /**
      * Gets access to models data
@@ -63,7 +66,7 @@ public class Model
      */
     public SpojovySeznam&lt;Mappable&gt; data()
     {
-<span class="nc" id="L66">        return this.data;</span>
+<span class="nc" id="L69">        return this.data;</span>
     }
     
     /**
@@ -71,8 +74,8 @@ public class Model
      */
     public void saveText()
     {
-<span class="nc" id="L74">        PujcovnaCmd.TEXT_WRITER.writeData(this.data);</span>
-<span class="nc" id="L75">    }</span>
+<span class="nc" id="L77">        PujcovnaCmd.TEXT_WRITER.writeData(this.data);</span>
+<span class="nc" id="L78">    }</span>
     
     /**
      * Saves data to text file
@@ -80,16 +83,16 @@ public class Model
      */
     public void saveText(TextWriter tw)
     {
-<span class="nc" id="L83">        tw.writeData(this.data);</span>
-<span class="nc" id="L84">    }</span>
+<span class="nc" id="L86">        tw.writeData(this.data);</span>
+<span class="nc" id="L87">    }</span>
     
     /**
      * Loads data from text file
      */
     public void loadText()
     {
-<span class="nc" id="L91">        this.data = PujcovnaCmd.TEXT_READER.loadData();</span>
-<span class="nc" id="L92">    }</span>
+<span class="nc" id="L94">        this.data = PujcovnaCmd.TEXT_READER.loadData();</span>
+<span class="nc" id="L95">    }</span>
     
     /**
      * Loads data from text file
@@ -97,8 +100,8 @@ public class Model
      */
     public void loadText(TextReader tr)
     {
-<span class="nc" id="L100">        this.data = tr.loadData();</span>
-<span class="nc" id="L101">    }</span>
+<span class="nc" id="L103">        this.data = tr.loadData();</span>
+<span class="nc" id="L104">    }</span>
     
     /**
      * Selects data by values of attributes
@@ -106,27 +109,27 @@ public class Model
      */
     public void select(Map&lt;String, String&gt; selectors)
     {
-<span class="nc" id="L109">        this.selected = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L110">        Iterator&lt;Mappable&gt; it = this.data.iterator();</span>
-<span class="nc bnc" id="L111" title="All 2 branches missed.">        while(it.hasNext())</span>
+<span class="nc" id="L112">        this.selected = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L113">        Iterator&lt;Mappable&gt; it = this.data.iterator();</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        while(it.hasNext())</span>
         {
-<span class="nc" id="L113">            Mappable data = it.next();</span>
-<span class="nc bnc" id="L114" title="All 2 branches missed.">            if (Model.matches(data, selectors))</span>
+<span class="nc" id="L116">            Mappable data = it.next();</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">            if (Model.matches(data, selectors))</span>
             {
-<span class="nc" id="L116">                this.selected.add(data);</span>
+<span class="nc" id="L119">                this.selected.add(data);</span>
             }
             
-<span class="nc" id="L119">        }</span>
-<span class="nc" id="L120">    }</span>
+<span class="nc" id="L122">        }</span>
+<span class="nc" id="L123">    }</span>
     
     /**
      * Deletes all data
      */
     public void delete()
     {
-<span class="nc" id="L127">        this.selected = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L128">        this.data.zrus();</span>
-<span class="nc" id="L129">    }</span>
+<span class="nc" id="L130">        this.selected = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L131">        this.data.zrus();</span>
+<span class="nc" id="L132">    }</span>
     
     /**
      * Deletes selected data from list
@@ -134,53 +137,53 @@ public class Model
      */
     public int deleteSelected()
     {
-<span class="nc" id="L137">        int reti = 0;</span>
-<span class="nc bnc" id="L138" title="All 2 branches missed.">        if (this.data.jePrazdny() == false)</span>
+<span class="nc" id="L140">        int reti = 0;</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">        if (this.data.jePrazdny() == false)</span>
         {
-<span class="nc" id="L140">            Mappable currentActual = null;</span>
+<span class="nc" id="L143">            Mappable currentActual = null;</span>
             try
             {
-<span class="nc" id="L143">                currentActual = this.data.dejAktualni();</span>
-<span class="nc" id="L144">            } catch (KolekceException ex) {}</span>
+<span class="nc" id="L146">                currentActual = this.data.dejAktualni();</span>
+<span class="nc" id="L147">            } catch (KolekceException ex) {}</span>
             try
             {
-<span class="nc" id="L147">                this.data.nastavPrvni();</span>
-<span class="nc" id="L148">                boolean del = false;</span>
-<span class="nc bnc" id="L149" title="All 4 branches missed.">                if (this.data.jeDalsi() == false &amp;&amp; this.selected.contains(this.data.dejAktualni()))</span>
+<span class="nc" id="L150">                this.data.nastavPrvni();</span>
+<span class="nc" id="L151">                boolean del = false;</span>
+<span class="nc bnc" id="L152" title="All 4 branches missed.">                if (this.data.jeDalsi() == false &amp;&amp; this.selected.contains(this.data.dejAktualni()))</span>
                 {
-<span class="nc" id="L151">                    this.data.odeberAktualni();</span>
-<span class="nc" id="L152">                    reti++;</span>
+<span class="nc" id="L154">                    this.data.odeberAktualni();</span>
+<span class="nc" id="L155">                    reti++;</span>
                 }
                 else
                 {
-<span class="nc bnc" id="L156" title="All 2 branches missed.">                    while(this.data.jeDalsi())</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">                    while(this.data.jeDalsi())</span>
                     {
-<span class="nc bnc" id="L158" title="All 2 branches missed.">                        if (del == true)</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">                        if (del == true)</span>
                         {
-<span class="nc" id="L160">                            this.data.odeberPredAktualnim();</span>
-<span class="nc" id="L161">                            reti++;</span>
-<span class="nc" id="L162">                            del = false;</span>
+<span class="nc" id="L163">                            this.data.odeberPredAktualnim();</span>
+<span class="nc" id="L164">                            reti++;</span>
+<span class="nc" id="L165">                            del = false;</span>
                         }
-<span class="nc bnc" id="L164" title="All 2 branches missed.">                        if (this.selected.contains(this.data.dejAktualni()))</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">                        if (this.selected.contains(this.data.dejAktualni()))</span>
                         {
-<span class="nc" id="L166">                            del = true;</span>
+<span class="nc" id="L169">                            del = true;</span>
                         }
-<span class="nc" id="L168">                        this.data.dalsi();</span>
+<span class="nc" id="L171">                        this.data.dalsi();</span>
                     }
                 }
-<span class="nc bnc" id="L171" title="All 2 branches missed.">                if (del == true)</span>
+<span class="nc bnc" id="L174" title="All 2 branches missed.">                if (del == true)</span>
                 {
-<span class="nc" id="L173">                    this.data.odeberPredAktualnim();</span>
-<span class="nc" id="L174">                    reti++;</span>
+<span class="nc" id="L176">                    this.data.odeberPredAktualnim();</span>
+<span class="nc" id="L177">                    reti++;</span>
                 }
-<span class="nc bnc" id="L176" title="All 2 branches missed.">                if (currentActual != null)</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">                if (currentActual != null)</span>
                 {
-<span class="nc" id="L178">                    this.setAcutal(currentActual);</span>
+<span class="nc" id="L181">                    this.setAcutal(currentActual);</span>
                 }
-<span class="nc" id="L180">            } catch (KolekceException ex) {}</span>
+<span class="nc" id="L183">            } catch (KolekceException ex) {}</span>
         }
-<span class="nc" id="L182">        this.selected = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L183">        return reti;</span>
+<span class="nc" id="L185">        this.selected = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L186">        return reti;</span>
     }
     
     /**
@@ -189,28 +192,28 @@ public class Model
      */
     private void setAcutal(Mappable item)
     {
-<span class="nc bnc" id="L192" title="All 2 branches missed.">        if (this.data.jePrazdny() == false)</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">        if (this.data.jePrazdny() == false)</span>
         {
             try
             {
-<span class="nc" id="L196">                this.data.nastavPrvni();</span>
-<span class="nc bnc" id="L197" title="All 2 branches missed.">                if (this.data.dejAktualni().equals(item) == false)</span>
+<span class="nc" id="L199">                this.data.nastavPrvni();</span>
+<span class="nc bnc" id="L200" title="All 2 branches missed.">                if (this.data.dejAktualni().equals(item) == false)</span>
                 {
-<span class="nc bnc" id="L199" title="All 2 branches missed.">                    while(this.data.jeDalsi())</span>
+<span class="nc bnc" id="L202" title="All 2 branches missed.">                    while(this.data.jeDalsi())</span>
                     {
-<span class="nc" id="L201">                        this.data.dalsi();</span>
-<span class="nc bnc" id="L202" title="All 2 branches missed.">                        if (this.data.dejAktualni().equals(item))</span>
+<span class="nc" id="L204">                        this.data.dalsi();</span>
+<span class="nc bnc" id="L205" title="All 2 branches missed.">                        if (this.data.dejAktualni().equals(item))</span>
                         {
-<span class="nc" id="L204">                            break;</span>
+<span class="nc" id="L207">                            break;</span>
                         }
                     }
                 }
 
             }
-<span class="nc" id="L210">            catch (KolekceException ex)</span>
-<span class="nc" id="L211">            {}</span>
+<span class="nc" id="L213">            catch (KolekceException ex)</span>
+<span class="nc" id="L214">            {}</span>
         }        
-<span class="nc" id="L213">    }</span>
+<span class="nc" id="L216">    }</span>
     
     /**
      * Gets list of selected items
@@ -218,7 +221,7 @@ public class Model
      */
     public List&lt;Mappable&gt; getSelected()
     {
-<span class="nc" id="L221">        return this.selected;</span>
+<span class="nc" id="L224">        return this.selected;</span>
     }
     
     /**
@@ -228,14 +231,14 @@ public class Model
      */
     public int editSelected(Map&lt;String, String&gt; newData)
     {
-<span class="nc" id="L231">        int reti = 0;</span>
-<span class="nc" id="L232">        newData = Model.mapToLowerCase(newData);</span>
-<span class="nc bnc" id="L233" title="All 2 branches missed.">        for(Mappable item: this.selected)</span>
+<span class="nc" id="L234">        int reti = 0;</span>
+<span class="nc" id="L235">        newData = Model.mapToLowerCase(newData);</span>
+<span class="nc bnc" id="L236" title="All 2 branches missed.">        for(Mappable item: this.selected)</span>
         {
-<span class="nc" id="L235">            item.setData(newData);</span>
-<span class="nc" id="L236">            reti++;</span>
-<span class="nc" id="L237">        }</span>
-<span class="nc" id="L238">        return reti;</span>
+<span class="nc" id="L238">            item.setData(newData);</span>
+<span class="nc" id="L239">            reti++;</span>
+<span class="nc" id="L240">        }</span>
+<span class="nc" id="L241">        return reti;</span>
     }
     
     /**
@@ -245,12 +248,12 @@ public class Model
      */
     private static Map&lt;String, String&gt; mapToLowerCase(Map&lt;String, String&gt; map)
     {
-<span class="nc" id="L248">        Map&lt;String, String&gt; reti = new HashMap&lt;&gt;();</span>
-<span class="nc bnc" id="L249" title="All 2 branches missed.">        for(String key: map.keySet())</span>
+<span class="nc" id="L251">        Map&lt;String, String&gt; reti = new HashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L252" title="All 2 branches missed.">        for(String key: map.keySet())</span>
         {
-<span class="nc" id="L251">            reti.put(key.toLowerCase(), map.get(key));</span>
-<span class="nc" id="L252">        }</span>
-<span class="nc" id="L253">        return reti;</span>
+<span class="nc" id="L254">            reti.put(key.toLowerCase(), map.get(key));</span>
+<span class="nc" id="L255">        }</span>
+<span class="nc" id="L256">        return reti;</span>
     }
     
     /**
@@ -261,18 +264,72 @@ public class Model
      */
     private static boolean matches(Mappable data, Map&lt;String, String&gt; selectors)
     {
-<span class="nc" id="L264">        boolean reti = true;</span>
-<span class="nc" id="L265">        Map&lt;String, String&gt; dataMap = data.toMap();</span>
-<span class="nc bnc" id="L266" title="All 2 branches missed.">        for(String selector: selectors.keySet())</span>
+<span class="nc" id="L267">        boolean reti = true;</span>
+<span class="nc" id="L268">        Map&lt;String, String&gt; dataMap = data.toMap();</span>
+<span class="nc bnc" id="L269" title="All 2 branches missed.">        for(String selector: selectors.keySet())</span>
         {
-<span class="nc bnc" id="L268" title="All 2 branches missed.">            if (dataMap.get(selector) == null ||</span>
-<span class="nc bnc" id="L269" title="All 2 branches missed.">                    dataMap.get(selector).toLowerCase().equals(selectors.get(selector).toLowerCase()) == false)</span>
+<span class="nc bnc" id="L271" title="All 2 branches missed.">            if (dataMap.get(selector) == null ||</span>
+<span class="nc bnc" id="L272" title="All 2 branches missed.">                    dataMap.get(selector).toLowerCase().equals(selectors.get(selector).toLowerCase()) == false)</span>
             {
-<span class="nc" id="L271">                reti = false;</span>
-<span class="nc" id="L272">                break;</span>
+<span class="nc" id="L274">                reti = false;</span>
+<span class="nc" id="L275">                break;</span>
             }
-<span class="nc" id="L274">        }</span>
-<span class="nc" id="L275">        return reti;</span>
+<span class="nc" id="L277">        }</span>
+<span class="nc" id="L278">        return reti;</span>
     }
+    
+    /**
+     * Transforms models data to list of serializable data types
+     * @return List with models data as list of serializable data
+     */
+    private SpojovySeznam&lt;Serializable&gt; toSerializable()
+    {
+<span class="nc" id="L287">        SpojovySeznam&lt;Serializable&gt; reti = new LinkSeznam&lt;&gt;();</span>
+<span class="nc" id="L288">        Iterator&lt;Mappable&gt; it = this.data.iterator();</span>
+<span class="nc bnc" id="L289" title="All 2 branches missed.">        while (it.hasNext())</span>
+        {
+<span class="nc" id="L291">            reti.vlozPosledni(it.next());</span>
+        }
+<span class="nc" id="L293">        return reti;</span>
+    }
+    
+    /**
+     * Saves model data to binary file
+     * @param bw Writer of data into binary file
+     */
+    public void saveBinary(BinaryWriter bw)
+    {
+<span class="nc" id="L302">        bw.writeData(this.toSerializable());</span>
+<span class="nc" id="L303">    }</span>
+    
+    /**
+     * Saves data to binary file
+     */
+    public void saveBinary()
+    {
+<span class="nc" id="L310">        this.saveBinary(PujcovnaCmd.BINARY_WRITER);</span>
+<span class="nc" id="L311">    }</span>
+    
+    /**
+     * Loads model data from binary file
+     * @param br Reader of data from binary file
+     */
+    public void loadBinary(BinaryReader br)
+    {
+<span class="nc" id="L319">        this.data.zrus();</span>
+<span class="nc" id="L320">        Iterator&lt;Serializable&gt; it = br.loadData().iterator();</span>
+<span class="nc bnc" id="L321" title="All 2 branches missed.">        while(it.hasNext())</span>
+        {
+<span class="nc" id="L323">            this.data.vlozPosledni((Mappable) it.next());</span>
+        }
+<span class="nc" id="L325">    }</span>
+    
+    /**
+     * Loads model data from binary file
+     */
+    public void loadBinary()
+    {
+<span class="nc" id="L332">        this.loadBinary(PujcovnaCmd.BINARY_READER);</span>
+<span class="nc" id="L333">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

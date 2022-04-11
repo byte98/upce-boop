@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Command.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">U06PujcovnaFasadaSkoda</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.skoda.boop.pujcovnafasadaskoda.command</a> &gt; <span class="el_source">Command.java</span></div><h1>Command.java</h1><pre class="source lang-java linenums">//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;License&quot;&gt;
+/*
+ * Copyright (C) 2022 Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+//&lt;/editor-fold&gt;
+package cz.upce.fei.skoda.boop.pujcovnafasadaskoda.command;
+
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.Configuration;
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.spravce.IManager;
+
+/**
+ * Class abstracting all common attributes for each available command
+ * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ */
+public abstract class Command
+{
+    /**
+     * Array with all available aliases for command
+     */
+<span class="nc" id="L34">    protected String[] aliases = {};</span>
+    
+    /**
+     * Minimum number of arguments needed for command
+     */
+<span class="nc" id="L39">    protected int minimumArguments = 0;</span>
+    
+    /**
+     * Maximum number of arguments needed for command
+     */
+<span class="nc" id="L44">    protected int maximumArguments = 0;</span>
+    
+    /**
+     * Flag, whether commands result is error
+     */
+<span class="nc" id="L49">    protected boolean error = false;</span>
+    
+    /**
+     * Manager of data used by system
+     */
+    protected final IManager dataManager;
+    
+    /**
+     * Creates new command handler
+     * @param dataManager Manager of data
+     */
+    public Command(IManager dataManager)
+<span class="nc" id="L61">    {</span>
+<span class="nc" id="L62">        this.dataManager = dataManager;</span>
+<span class="nc" id="L63">    }</span>
+    
+    /**
+     * Checks, whether input is command or not
+     * @param command String containing command which will be checked
+     * @return TRUE if input is command, FALSE otherwise
+     */
+    public boolean isCommand(String command)
+    {
+<span class="nc" id="L72">        boolean reti = false;</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        for(String alias: aliases)</span>
+        {
+<span class="nc bnc" id="L75" title="All 2 branches missed.">            if(alias.trim().toLowerCase().equals(command.trim().toLowerCase()))</span>
+            {
+<span class="nc" id="L77">                reti = true;</span>
+<span class="nc" id="L78">                break;</span>
+            }
+        }
+<span class="nc" id="L81">        return reti;</span>
+    }
+    
+    /**
+     * Gets minimum number of arguments required by command
+     * @return Minimum number of arguments required by command
+     */
+    public int getMinimumArguments()
+    {
+<span class="nc" id="L90">        return this.minimumArguments;</span>
+    }
+    
+    /**
+     * Gets maximum number of arguments required by command
+     * @return Maximum number of arguments required by command
+     */
+    public int getMaximumArguments()
+    {
+<span class="nc" id="L99">        return this.maximumArguments;</span>
+    }
+    
+    /**
+     * Checks, whether number of arguments is valid for command
+     * @param numberArguments Number of arguments which will be checked
+     * @return TRUE if number of arguments is valid for command, FALSE otherwise
+     */
+    public boolean isArgumentsNumberValid(int numberArguments)
+    {
+<span class="nc bnc" id="L109" title="All 2 branches missed.">        return (numberArguments &gt;= this.getMinimumArguments() &amp;&amp; </span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">                numberArguments &lt;= this.getMaximumArguments());</span>
+    }
+    
+    /**
+     * Checks, whether commands result is error
+     * @return TRUE if commands result is error, FALSE otherwise
+     */
+    public boolean isError()
+    {
+<span class="nc" id="L119">        return this.error;</span>
+    }
+    
+    /**
+     * Gets help to the command
+     * @return Help to the command
+     */
+    public abstract String getHelp();
+    
+    /**
+     * Runs command
+     * @param arguments Arguments of command
+     * @return Output of command
+     */
+    public abstract String execute(String[] arguments);
+    
+    /**
+     * Checks, whether additional information messages are expected or not
+     * @return TRUE if additional messages are expected, FALSE otherwise
+     */
+    protected boolean isVerbose()
+    {
+<span class="nc" id="L141">        return Configuration.commandsVerbose();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

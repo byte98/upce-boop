@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IGenerator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">U06PujcovnaFasadaSkoda</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.skoda.boop.pujcovnafasadaskoda.generator</a> &gt; <span class="el_source">IGenerator.java</span></div><h1>IGenerator.java</h1><pre class="source lang-java linenums">//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;License&quot;&gt;
+/*
+ * Copyright (C) 2022 Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+//&lt;/editor-fold&gt;
+package cz.upce.fei.skoda.boop.pujcovnafasadaskoda.generator;
+
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.kolekce.SpojovySeznam;
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.perzistence.Mappable;
+import java.util.Map;
+
+/**
+ * Interface defining methods common for all generators
+ * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ */
+public interface IGenerator
+{
+    /**
+     * Creates next item
+     * @return New randomly created item
+     */
+    public Mappable next();
+    
+    /**
+     * Creates object from data stored in map data structure
+     * @param data Map with data of object
+     * @return New object created from data stored in map data structure
+     */
+    public Mappable createFromMap(Map&lt;String, String&gt; data);
+    
+    /**
+     * Fills list with random data
+     * @param list List which will be filled with random data
+     * @param count Count of item which will be inserted into list
+     */    
+    default void fill(SpojovySeznam&lt;Mappable&gt; list, int count)
+    {
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        for (int i = 0; i &lt; count; i++)</span>
+        {
+<span class="nc" id="L54">            list.vlozPosledni(this.next());</span>
+        }
+<span class="nc" id="L56">    }</span>
+    
+    /**
+     * Gets class name of generated items
+     * @return Class name of generated items
+     */
+    public String getGeneratedName();
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

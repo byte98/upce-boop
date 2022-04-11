@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>New.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">U06PujcovnaFasadaSkoda</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.skoda.boop.pujcovnafasadaskoda.command</a> &gt; <span class="el_source">New.java</span></div><h1>New.java</h1><pre class="source lang-java linenums">//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;License&quot;&gt;
+/*
+ * Copyright (C) 2022 Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+//&lt;/editor-fold&gt;
+package cz.upce.fei.skoda.boop.pujcovnafasadaskoda.command;
+
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.PujcovnaFasada;
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.generator.Generator;
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.generator.IGenerator;
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.perzistence.Mappable;
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.spravce.IManager;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Class representing new command
+ * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ */
+public class New extends Command
+{
+    /**
+     * Message informing about successful adding item to list
+     */
+<span class="nc" id="L39">    private static String MSG_ADDED = &quot;Novy prvek byl uspesne vlozen do seznamu(%s)&quot;;</span>
+    
+    /**
+     * Message informing about invalid class name entered
+     */
+<span class="nc" id="L44">    private static String MSG_NOCLASS = &quot;CHYBA: Nazev '%s' neni platny nazev tridy! Povolene tridy: %s&quot;;</span>
+    
+    /**
+     * Creates new handler for new command
+     * @param dataManager Manager of data
+     */
+    public New(IManager dataManager)
+    {
+<span class="nc" id="L52">        super(dataManager);</span>
+<span class="nc" id="L53">        this.aliases = new String[]{&quot;new&quot;, &quot;novy&quot;, &quot;no&quot;};</span>
+<span class="nc" id="L54">        this.minimumArguments = 0;</span>
+<span class="nc" id="L55">        this.maximumArguments = Integer.MAX_VALUE;</span>
+<span class="nc" id="L56">    }</span>
+
+    @Override
+    public String getHelp()
+    {
+<span class="nc" id="L61">        return &quot;&quot;&quot;</span>
+               Vytvori nove vozidlo a vlozi ho do seznamu
+                - bez argumentu: vytvori nahodne vozidlo
+                - s 1 argumentem: bude vytvoreno vozidlo zadane tridy
+                - s vice argumenty: bude vytvoreno vozidlo tridy prvniho
+                  argumentu s atritbuty zadanymi jako dalsi argumenty, a to
+                  ve formatu 'atribut=hodnota'
+               &quot;&quot;&quot;;
+    }
+
+    @Override
+    public String execute(String[] arguments)
+    {
+<span class="nc" id="L74">        this.error = false;</span>
+<span class="nc" id="L75">        String reti = &quot;&quot;;</span>
+<span class="nc" id="L76">        Mappable data = null;</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        if (arguments.length == 0)</span>
+        {
+<span class="nc" id="L79">            data = this.dataManager.createNew();</span>
+        }
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        else if (arguments.length == 1)</span>
+        {
+            try
+            {
+<span class="nc" id="L85">                data = this.dataManager.createNew(arguments[0]);</span>
+            }
+<span class="nc" id="L87">            catch(IllegalArgumentException ex)</span>
+            {
+<span class="nc" id="L89">                reti = String.format(New.MSG_NOCLASS, arguments[0], this.getAvailableClassNames());</span>
+<span class="nc" id="L90">                this.error = true;</span>
+<span class="nc" id="L91">            }</span>
+        }
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        else if (arguments.length &gt; 1)</span>
+        {
+            try
+            {
+<span class="nc" id="L97">                data = this.dataManager.createNew(arguments[0], (t) -&gt; {</span>
+<span class="nc" id="L98">                    t.setData(this.prepareMapFromArguments(arguments));</span>
+<span class="nc" id="L99">                });</span>
+            }
+<span class="nc" id="L101">            catch(IllegalArgumentException ex)</span>
+            {
+<span class="nc" id="L103">                reti = String.format(New.MSG_NOCLASS, arguments[0], this.getAvailableClassNames());</span>
+<span class="nc" id="L104">                this.error = true;</span>
+<span class="nc" id="L105">            }</span>
+                        
+        }     
+<span class="nc bnc" id="L108" title="All 6 branches missed.">        if (this.isVerbose() &amp;&amp; &quot;&quot;.equals(reti) &amp;&amp; data != null)</span>
+        {
+<span class="nc" id="L110">            reti = String.format(New.MSG_ADDED, data.toString());</span>
+        }
+<span class="nc" id="L112">        return reti;</span>
+    }
+    
+    /**
+     * Gets string with all available class names for generator
+     * @return String with all class names for generator
+     */
+    private String getAvailableClassNames()
+    {
+<span class="nc" id="L121">        return Generator.getAllowedClassNames()</span>
+<span class="nc" id="L122">                .stream()</span>
+<span class="nc" id="L123">                .reduce(&quot;&quot;, (partialString, element) -&gt; partialString + element.toUpperCase() + &quot; &quot;);</span>
+    }
+    
+    /**
+     * Prepares map with data from command arguments
+     * @param arguments Arguments of program
+     * @return Map containing data parsed from arguments
+     */
+    private Map&lt;String, String&gt; prepareMapFromArguments(String[] arguments)
+    {
+<span class="nc" id="L133">        Map&lt;String, String&gt; reti = new HashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        for(String argument: arguments)</span>
+        {
+<span class="nc bnc" id="L136" title="All 2 branches missed.">            if (argument.contains(&quot;=&quot;))</span>
+            {
+<span class="nc" id="L138">                String[] parts = argument.split(&quot;=&quot;);</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">                if (parts.length &gt;= 2)</span>
+                {
+<span class="nc" id="L141">                    reti.put(parts[0], parts[1]);</span>
+                }
+            }
+        }
+<span class="nc" id="L145">        return reti;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

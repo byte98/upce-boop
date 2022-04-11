@@ -83,32 +83,12 @@ public class Interpreter
      * Array with all available commands
      */
 <span class="nc" id="L85">    private static final Command[] commands = {</span>
-        new Count(),
-        new CountSelected(),
-        new Delete(),
-        new DeleteSelected(),
-        new Edit(),
-        new Echo(),
-        new Run(),
-        new Exit(),
-        new First(),
-        new Generate(),
-        new Help(),
-        new Int(),
-        new Last(),
-        new LoadText(),
-        new New(),
-        new Next(),
-        new NonVerbose(),   
-        new NoOutput(),
-        new Output(),
-        new Print(),
-        new PrintActual(),
-        new PrintSelected(),
-        new Remove(),
-        new Select(),
-        new SaveText(),
-        new Str(),
+        new Count(),new CountSelected(), new Delete(), new DeleteSelected(),
+        new Echo(), new Edit(), new Exit(), new First(), new Generate(), 
+        new Help(), new Int(), new Last(), new LoadBinary(), new LoadText(),
+        new New(), new Next(), new NoOutput(), new NonVerbose(), new Output(),
+        new Print(), new PrintActual(), new PrintSelected(), new Remove(),
+        new Run(), new SaveBinary(), new SaveText(), new Select(),  new Str(),
         new Verbose()
     };
     
@@ -130,7 +110,7 @@ public class Interpreter
     /**
      * Flag, whether there should be any output or not
      */
-<span class="nc" id="L133">    public static boolean OUTPUT_ENABLED = true;</span>
+<span class="nc" id="L113">    public static boolean OUTPUT_ENABLED = true;</span>
     
     /**
      * Map of integer type variables
@@ -152,14 +132,14 @@ public class Interpreter
      * @param is Source of commands
      */
     public Interpreter(InputStream is)
-<span class="nc" id="L155">    {</span>
-<span class="nc" id="L156">        this.input = is;</span>
-<span class="nc" id="L157">        Interpreter.output = System.out;</span>
-<span class="nc" id="L158">        this.inputScanner = new Scanner(this.input);</span>
-<span class="nc" id="L159">        Interpreter.VARS_INT = new HashMap&lt;&gt;();</span>
-<span class="nc" id="L160">        Interpreter.VARS_STRING = new HashMap&lt;&gt;();</span>
-<span class="nc" id="L161">        this.commandCounter = 1;</span>
-<span class="nc" id="L162">    }</span>
+<span class="nc" id="L135">    {</span>
+<span class="nc" id="L136">        this.input = is;</span>
+<span class="nc" id="L137">        Interpreter.output = System.out;</span>
+<span class="nc" id="L138">        this.inputScanner = new Scanner(this.input);</span>
+<span class="nc" id="L139">        Interpreter.VARS_INT = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L140">        Interpreter.VARS_STRING = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L141">        this.commandCounter = 1;</span>
+<span class="nc" id="L142">    }</span>
     
     /**
      * Sets new integer type variable
@@ -168,12 +148,12 @@ public class Interpreter
      */
     public static void setInt(String name, int value)
     {
-<span class="nc bnc" id="L171" title="All 2 branches missed.">        if(Interpreter.VARS_STRING.containsKey(name.trim().toLowerCase()))</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">        if(Interpreter.VARS_STRING.containsKey(name.trim().toLowerCase()))</span>
         {
-<span class="nc" id="L173">            Interpreter.VARS_STRING.remove(name.trim().toLowerCase());</span>
+<span class="nc" id="L153">            Interpreter.VARS_STRING.remove(name.trim().toLowerCase());</span>
         }
-<span class="nc" id="L175">        Interpreter.VARS_INT.put(name.trim().toLowerCase(), value);</span>
-<span class="nc" id="L176">    }</span>
+<span class="nc" id="L155">        Interpreter.VARS_INT.put(name.trim().toLowerCase(), value);</span>
+<span class="nc" id="L156">    }</span>
     
     /**
      * Gets value of variable
@@ -182,7 +162,7 @@ public class Interpreter
      */
     public static Integer getInt(String name)
     {
-<span class="nc" id="L185">        return Interpreter.VARS_INT.get(name.trim().toLowerCase());</span>
+<span class="nc" id="L165">        return Interpreter.VARS_INT.get(name.trim().toLowerCase());</span>
     }
     
     
@@ -193,12 +173,12 @@ public class Interpreter
      */
     public static void setString(String name, String value)
     {
-<span class="nc bnc" id="L196" title="All 2 branches missed.">        if(Interpreter.VARS_INT.containsKey(name.trim().toLowerCase()))</span>
+<span class="nc bnc" id="L176" title="All 2 branches missed.">        if(Interpreter.VARS_INT.containsKey(name.trim().toLowerCase()))</span>
         {
-<span class="nc" id="L198">            Interpreter.VARS_INT.remove(name.trim().toLowerCase());</span>
+<span class="nc" id="L178">            Interpreter.VARS_INT.remove(name.trim().toLowerCase());</span>
         }
-<span class="nc" id="L200">        Interpreter.VARS_STRING.put(name.trim().toLowerCase(), value);</span>
-<span class="nc" id="L201">    }</span>
+<span class="nc" id="L180">        Interpreter.VARS_STRING.put(name.trim().toLowerCase(), value);</span>
+<span class="nc" id="L181">    }</span>
     
     /**
      * Gets value of string type variable
@@ -207,7 +187,7 @@ public class Interpreter
      */
     public static String getString(String name)
     {
-<span class="nc" id="L210">        return Interpreter.VARS_STRING.get(name.trim().toLowerCase());</span>
+<span class="nc" id="L190">        return Interpreter.VARS_STRING.get(name.trim().toLowerCase());</span>
     }
     
     
@@ -217,31 +197,31 @@ public class Interpreter
      * @param ps Reference to where output of commands will be sent
      */
     public Interpreter(InputStream is, PrintStream ps)
-<span class="nc" id="L220">    {</span>
-<span class="nc" id="L221">        this.input = is;</span>
-<span class="nc" id="L222">        Interpreter.output = ps;</span>
-<span class="nc" id="L223">        this.inputScanner = new Scanner(this.input);</span>
-<span class="nc" id="L224">        this.commandCounter = 1;</span>
-<span class="nc" id="L225">    }    </span>
+<span class="nc" id="L200">    {</span>
+<span class="nc" id="L201">        this.input = is;</span>
+<span class="nc" id="L202">        Interpreter.output = ps;</span>
+<span class="nc" id="L203">        this.inputScanner = new Scanner(this.input);</span>
+<span class="nc" id="L204">        this.commandCounter = 1;</span>
+<span class="nc" id="L205">    }    </span>
     
     /**
      * Reads command from input and handles it
      */
     public void read()
     {
-<span class="nc bnc" id="L232" title="All 2 branches missed.">        if(this.hasNext())</span>
+<span class="nc bnc" id="L212" title="All 2 branches missed.">        if(this.hasNext())</span>
         {
-<span class="nc" id="L234">            String line = this.inputScanner.nextLine();</span>
-<span class="nc bnc" id="L235" title="All 6 branches missed.">            if (line != null &amp;&amp; line.equals(&quot;&quot;) == false &amp;&amp; line.startsWith(Interpreter.CHAR_COMMENT) == false)</span>
+<span class="nc" id="L214">            String line = this.inputScanner.nextLine();</span>
+<span class="nc bnc" id="L215" title="All 6 branches missed.">            if (line != null &amp;&amp; line.equals(&quot;&quot;) == false &amp;&amp; line.startsWith(Interpreter.CHAR_COMMENT) == false)</span>
             {
-<span class="nc" id="L237">                String out = this.handleCommand(line);</span>
-<span class="nc bnc" id="L238" title="All 6 branches missed.">                if (!&quot;&quot;.equals(out) &amp;&amp; out != null &amp;&amp; Interpreter.OUTPUT_ENABLED)</span>
+<span class="nc" id="L217">                String out = this.handleCommand(line);</span>
+<span class="nc bnc" id="L218" title="All 6 branches missed.">                if (!&quot;&quot;.equals(out) &amp;&amp; out != null &amp;&amp; Interpreter.OUTPUT_ENABLED)</span>
                 {
-<span class="nc" id="L240">                    Interpreter.output.println(out.trim());</span>
+<span class="nc" id="L220">                    Interpreter.output.println(out.trim());</span>
                 }                
             }
         }
-<span class="nc" id="L244">    }</span>
+<span class="nc" id="L224">    }</span>
     
     /**
      * Checks, whether there is something in input
@@ -249,7 +229,7 @@ public class Interpreter
      */
     public boolean hasNext()
     {
-<span class="nc" id="L252">        return this.inputScanner.hasNextLine();</span>
+<span class="nc" id="L232">        return this.inputScanner.hasNextLine();</span>
     }
     
     /**
@@ -260,34 +240,34 @@ public class Interpreter
      */
     private String handleCommand(String command)
     {
-<span class="nc" id="L263">        String reti = null;</span>
-<span class="nc" id="L264">        String[] parts = this.parseArguments(command);</span>
-<span class="nc bnc" id="L265" title="All 4 branches missed.">        if(parts != null &amp;&amp; parts.length &gt; 0)</span>
+<span class="nc" id="L243">        String reti = null;</span>
+<span class="nc" id="L244">        String[] parts = this.parseArguments(command);</span>
+<span class="nc bnc" id="L245" title="All 4 branches missed.">        if(parts != null &amp;&amp; parts.length &gt; 0)</span>
         {
-<span class="nc" id="L267">            Command cmd = this.getCommand(parts[0]);</span>
-<span class="nc bnc" id="L268" title="All 2 branches missed.">            if (cmd == null)</span>
+<span class="nc" id="L247">            Command cmd = this.getCommand(parts[0]);</span>
+<span class="nc bnc" id="L248" title="All 2 branches missed.">            if (cmd == null)</span>
             {
-<span class="nc" id="L270">                reti = String.format(&quot;[%d] &quot;, this.commandCounter) + String.format(Interpreter.MESSAGE_NOCMD, command);</span>
+<span class="nc" id="L250">                reti = String.format(&quot;[%d] &quot;, this.commandCounter) + String.format(Interpreter.MESSAGE_NOCMD, command);</span>
             }
             else
             {
-<span class="nc" id="L274">                reti = this.checkArguments(cmd, parts.length - 1);</span>
-<span class="nc bnc" id="L275" title="All 2 branches missed.">                if (reti == null)</span>
+<span class="nc" id="L254">                reti = this.checkArguments(cmd, parts.length - 1);</span>
+<span class="nc bnc" id="L255" title="All 2 branches missed.">                if (reti == null)</span>
                 {
-<span class="nc" id="L277">                    reti = cmd.execute(Arrays.copyOfRange(parts, 1, parts.length));</span>
-<span class="nc bnc" id="L278" title="All 2 branches missed.">                    if (cmd.isError())</span>
+<span class="nc" id="L257">                    reti = cmd.execute(Arrays.copyOfRange(parts, 1, parts.length));</span>
+<span class="nc bnc" id="L258" title="All 2 branches missed.">                    if (cmd.isError())</span>
                     {
-<span class="nc" id="L280">                        reti = String.format(&quot;[%d] %s&quot;, this.commandCounter, reti);</span>
+<span class="nc" id="L260">                        reti = String.format(&quot;[%d] %s&quot;, this.commandCounter, reti);</span>
                     }
                 }
             }            
-<span class="nc" id="L284">        }</span>
-<span class="nc bnc" id="L285" title="All 2 branches missed.">        else if (parts != null)</span>
+<span class="nc" id="L264">        }</span>
+<span class="nc bnc" id="L265" title="All 2 branches missed.">        else if (parts != null)</span>
         {
-<span class="nc" id="L287">            reti = Interpreter.MESSAGE_NOINPUT;</span>
+<span class="nc" id="L267">            reti = Interpreter.MESSAGE_NOINPUT;</span>
         }
-<span class="nc" id="L289">        this.commandCounter++;</span>
-<span class="nc" id="L290">        return reti;</span>
+<span class="nc" id="L269">        this.commandCounter++;</span>
+<span class="nc" id="L270">        return reti;</span>
     }
     
     /**
@@ -298,16 +278,16 @@ public class Interpreter
      */
     private Command getCommand(String command)
     {
-<span class="nc" id="L301">        Command reti = null;</span>
-<span class="nc bnc" id="L302" title="All 2 branches missed.">        for(Command cmd: Interpreter.commands)</span>
+<span class="nc" id="L281">        Command reti = null;</span>
+<span class="nc bnc" id="L282" title="All 2 branches missed.">        for(Command cmd: Interpreter.commands)</span>
         {
-<span class="nc bnc" id="L304" title="All 2 branches missed.">            if(cmd.isCommand(command))</span>
+<span class="nc bnc" id="L284" title="All 2 branches missed.">            if(cmd.isCommand(command))</span>
             {
-<span class="nc" id="L306">                reti = cmd;</span>
-<span class="nc" id="L307">                break;</span>
+<span class="nc" id="L286">                reti = cmd;</span>
+<span class="nc" id="L287">                break;</span>
             }
         }
-<span class="nc" id="L310">        return reti;</span>
+<span class="nc" id="L290">        return reti;</span>
     }
     
     /**
@@ -318,28 +298,28 @@ public class Interpreter
      */
     private String checkArguments(Command cmd, int argc)
     {
-<span class="nc" id="L321">        String reti = null;</span>
-<span class="nc bnc" id="L322" title="All 2 branches missed.">        if (cmd.isArgumentsNumberValid(argc) == false)</span>
+<span class="nc" id="L301">        String reti = null;</span>
+<span class="nc bnc" id="L302" title="All 2 branches missed.">        if (cmd.isArgumentsNumberValid(argc) == false)</span>
         {
-<span class="nc bnc" id="L324" title="All 2 branches missed.">            if (cmd.getMaximumArguments() == cmd.getMinimumArguments())</span>
+<span class="nc bnc" id="L304" title="All 2 branches missed.">            if (cmd.getMaximumArguments() == cmd.getMinimumArguments())</span>
             {
-<span class="nc" id="L326">                reti = String.format(</span>
+<span class="nc" id="L306">                reti = String.format(</span>
                         Interpreter.MESSAGE_INVALIDARGSEX, 
-<span class="nc" id="L328">                        cmd.getMaximumArguments(),</span>
-<span class="nc" id="L329">                        argc</span>
+<span class="nc" id="L308">                        cmd.getMaximumArguments(),</span>
+<span class="nc" id="L309">                        argc</span>
                         );
             }
             else
             {
-<span class="nc" id="L334">                reti = String.format(</span>
+<span class="nc" id="L314">                reti = String.format(</span>
                         Interpreter.MESSAGE_INVALIDARGS,
-<span class="nc" id="L336">                        cmd.getMinimumArguments(),</span>
-<span class="nc" id="L337">                        cmd.getMaximumArguments(),</span>
-<span class="nc" id="L338">                        argc</span>
+<span class="nc" id="L316">                        cmd.getMinimumArguments(),</span>
+<span class="nc" id="L317">                        cmd.getMaximumArguments(),</span>
+<span class="nc" id="L318">                        argc</span>
                 );
             }
         }
-<span class="nc" id="L342">        return reti;</span>
+<span class="nc" id="L322">        return reti;</span>
     }
     
     /**
@@ -348,7 +328,7 @@ public class Interpreter
      */
     public static Command[] getAllCommands()
     {
-<span class="nc" id="L351">        return Arrays.copyOf(Interpreter.commands, Interpreter.commands.length);</span>
+<span class="nc" id="L331">        return Arrays.copyOf(Interpreter.commands, Interpreter.commands.length);</span>
     }
     
     /**
@@ -358,81 +338,81 @@ public class Interpreter
      */
     private String[] parseArguments(String input)
     {
-<span class="nc" id="L361">        List&lt;String&gt; args = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L362">        StringBuilder argument = new StringBuilder();</span>
-<span class="nc" id="L363">        boolean wasQuotation = false;</span>
-<span class="nc" id="L364">        boolean stop = false;</span>
-<span class="nc bnc" id="L365" title="All 2 branches missed.">        for(char c: input.toCharArray())</span>
+<span class="nc" id="L341">        List&lt;String&gt; args = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L342">        StringBuilder argument = new StringBuilder();</span>
+<span class="nc" id="L343">        boolean wasQuotation = false;</span>
+<span class="nc" id="L344">        boolean stop = false;</span>
+<span class="nc bnc" id="L345" title="All 2 branches missed.">        for(char c: input.toCharArray())</span>
         {
-<span class="nc bnc" id="L367" title="All 2 branches missed.">            if (stop)</span>
+<span class="nc bnc" id="L347" title="All 2 branches missed.">            if (stop)</span>
             {
-<span class="nc" id="L369">                break;</span>
+<span class="nc" id="L349">                break;</span>
             }
-<span class="nc bnc" id="L371" title="All 3 branches missed.">            switch (c) {</span>
+<span class="nc bnc" id="L351" title="All 3 branches missed.">            switch (c) {</span>
                 case '\&quot;' -&gt; {
-<span class="nc bnc" id="L373" title="All 2 branches missed.">                    if (wasQuotation == false)</span>
+<span class="nc bnc" id="L353" title="All 2 branches missed.">                    if (wasQuotation == false)</span>
                     {
-<span class="nc" id="L375">                        wasQuotation = true;</span>
+<span class="nc" id="L355">                        wasQuotation = true;</span>
                     }
-<span class="nc bnc" id="L377" title="All 2 branches missed.">                    else if (wasQuotation == true)</span>
+<span class="nc bnc" id="L357" title="All 2 branches missed.">                    else if (wasQuotation == true)</span>
                     {
-<span class="nc" id="L379">                        wasQuotation = false;</span>
-<span class="nc bnc" id="L380" title="All 2 branches missed.">                        if (argument.toString().equals(&quot;&quot;) == false)</span>
-<span class="nc" id="L381">                            args.add(argument.toString());</span>
-<span class="nc" id="L382">                        argument.delete(0, argument.length());</span>
+<span class="nc" id="L359">                        wasQuotation = false;</span>
+<span class="nc bnc" id="L360" title="All 2 branches missed.">                        if (argument.toString().equals(&quot;&quot;) == false)</span>
+<span class="nc" id="L361">                            args.add(argument.toString());</span>
+<span class="nc" id="L362">                        argument.delete(0, argument.length());</span>
                     }
                 }
                 case ' ' -&gt; {
-<span class="nc bnc" id="L386" title="All 2 branches missed.">                    if (wasQuotation)</span>
+<span class="nc bnc" id="L366" title="All 2 branches missed.">                    if (wasQuotation)</span>
                     {
-<span class="nc" id="L388">                        argument.append(c);</span>
+<span class="nc" id="L368">                        argument.append(c);</span>
                     }
                     else
                     {
-<span class="nc bnc" id="L392" title="All 2 branches missed.">                        if (argument.toString().equals(&quot;&quot;) == false)</span>
-<span class="nc" id="L393">                            args.add(argument.toString());</span>
-<span class="nc" id="L394">                        argument.delete(0, argument.length());</span>
+<span class="nc bnc" id="L372" title="All 2 branches missed.">                        if (argument.toString().equals(&quot;&quot;) == false)</span>
+<span class="nc" id="L373">                            args.add(argument.toString());</span>
+<span class="nc" id="L374">                        argument.delete(0, argument.length());</span>
                     }
-<span class="nc" id="L396">                }</span>
+<span class="nc" id="L376">                }</span>
                 default -&gt; {
-<span class="nc bnc" id="L398" title="All 4 branches missed.">                        if (c == Interpreter.CHAR_COMMENT.charAt(0) &amp;&amp; wasQuotation == false)</span>
-<span class="nc" id="L399">                                stop = true;</span>
+<span class="nc bnc" id="L378" title="All 4 branches missed.">                        if (c == Interpreter.CHAR_COMMENT.charAt(0) &amp;&amp; wasQuotation == false)</span>
+<span class="nc" id="L379">                                stop = true;</span>
                         else
-<span class="nc" id="L401">                            argument.append(c);</span>
+<span class="nc" id="L381">                            argument.append(c);</span>
                 }
             }
         }
-<span class="nc bnc" id="L405" title="All 2 branches missed.">        if (argument.toString().equals(&quot;&quot;) == false)</span>
-<span class="nc" id="L406">            args.add(argument.toString());        </span>
-<span class="nc" id="L407">        String[] reti = new String[args.size()];</span>
-<span class="nc" id="L408">        String errVar = &quot;&quot;;</span>
-<span class="nc bnc" id="L409" title="All 2 branches missed.">        for(int i = 0; i &lt; args.size(); i++)</span>
+<span class="nc bnc" id="L385" title="All 2 branches missed.">        if (argument.toString().equals(&quot;&quot;) == false)</span>
+<span class="nc" id="L386">            args.add(argument.toString());        </span>
+<span class="nc" id="L387">        String[] reti = new String[args.size()];</span>
+<span class="nc" id="L388">        String errVar = &quot;&quot;;</span>
+<span class="nc bnc" id="L389" title="All 2 branches missed.">        for(int i = 0; i &lt; args.size(); i++)</span>
         {
-<span class="nc bnc" id="L411" title="All 2 branches missed.">            if (args.get(i).startsWith(Interpreter.CHAR_VAR)) // Is variable</span>
+<span class="nc bnc" id="L391" title="All 2 branches missed.">            if (args.get(i).startsWith(Interpreter.CHAR_VAR)) // Is variable</span>
             {
-<span class="nc bnc" id="L413" title="All 2 branches missed.">                if (Interpreter.VARS_INT.get(args.get(i).substring(1)) != null) // INTEGER</span>
+<span class="nc bnc" id="L393" title="All 2 branches missed.">                if (Interpreter.VARS_INT.get(args.get(i).substring(1)) != null) // INTEGER</span>
                 {
-<span class="nc" id="L415">                    reti[i] = String.valueOf(Interpreter.VARS_INT.get(args.get(i).substring(1)));</span>
+<span class="nc" id="L395">                    reti[i] = String.valueOf(Interpreter.VARS_INT.get(args.get(i).substring(1)));</span>
                 }
-<span class="nc bnc" id="L417" title="All 2 branches missed.">                else if (Interpreter.VARS_STRING.get(args.get(i).substring(1)) != null) // STRING</span>
+<span class="nc bnc" id="L397" title="All 2 branches missed.">                else if (Interpreter.VARS_STRING.get(args.get(i).substring(1)) != null) // STRING</span>
                 {
-<span class="nc" id="L419">                    reti[i] = Interpreter.VARS_STRING.get(args.get(i).substring(1));</span>
+<span class="nc" id="L399">                    reti[i] = Interpreter.VARS_STRING.get(args.get(i).substring(1));</span>
                 }
                 else
                 {
-<span class="nc" id="L423">                    errVar = args.get(i).substring(1);</span>
-<span class="nc" id="L424">                    reti = null;</span>
-<span class="nc" id="L425">                    break;</span>
+<span class="nc" id="L403">                    errVar = args.get(i).substring(1);</span>
+<span class="nc" id="L404">                    reti = null;</span>
+<span class="nc" id="L405">                    break;</span>
                 }
             }
             else
             {
-<span class="nc" id="L430">                reti[i] = args.get(i);</span>
+<span class="nc" id="L410">                reti[i] = args.get(i);</span>
             }            
         }
-<span class="nc bnc" id="L433" title="All 2 branches missed.">        if (reti == null)</span>
-<span class="nc" id="L434">            Interpreter.output.println(String.format(Interpreter.MESSAGE_UNKNOWNVARIABLE, errVar));</span>
-<span class="nc" id="L435">        return reti;</span>
+<span class="nc bnc" id="L413" title="All 2 branches missed.">        if (reti == null)</span>
+<span class="nc" id="L414">            Interpreter.output.println(String.format(Interpreter.MESSAGE_UNKNOWNVARIABLE, errVar));</span>
+<span class="nc" id="L415">        return reti;</span>
     }
     
     /**
@@ -441,7 +421,7 @@ public class Interpreter
      */
     public static PrintStream getOutput()
     {
-<span class="nc" id="L444">        return Interpreter.output;</span>
+<span class="nc" id="L424">        return Interpreter.output;</span>
     }
     
     /**
@@ -450,7 +430,7 @@ public class Interpreter
      */
     public int getCommandCounter()
     {
-<span class="nc" id="L453">        return this.commandCounter;</span>
+<span class="nc" id="L433">        return this.commandCounter;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

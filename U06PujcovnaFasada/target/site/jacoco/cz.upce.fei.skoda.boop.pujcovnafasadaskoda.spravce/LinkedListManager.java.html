@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LinkedListManager.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">U06PujcovnaFasadaSkoda</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.skoda.boop.pujcovnafasadaskoda.spravce</a> &gt; <span class="el_source">LinkedListManager.java</span></div><h1>LinkedListManager.java</h1><pre class="source lang-java linenums">//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;License&quot;&gt;
+/*
+ * Copyright (C) 2022 Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+//&lt;/editor-fold&gt;
+package cz.upce.fei.skoda.boop.pujcovnafasadaskoda.spravce;
+
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.generator.BusGenerator;
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.generator.Generator;
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.generator.IGenerator;
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.generator.TrainGenerator;
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.kolekce.KolekceException;
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.kolekce.LinkSeznam;
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.kolekce.SpojovySeznam;
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.perzistence.BinaryReader;
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.perzistence.BinaryWriter;
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.perzistence.Mappable;
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.perzistence.TextReader;
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.perzistence.TextWriter;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
+
+/**
+ * Class which can manage data stored in linked list
+ * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ */
+public class LinkedListManager implements IManager
+{
+    /**
+     * List with data which will be managed
+     */
+    private SpojovySeznam&lt;Mappable&gt; data;
+    
+    /**
+     * List with data selected by user
+     */
+    private List&lt;Mappable&gt; selectedData;
+    
+    /**
+     * Array with all available generators
+     */
+<span class="nc" id="L65">    private static final IGenerator[] GENERATORS =</span>
+    {
+        new Generator(),
+        new BusGenerator(),
+        new TrainGenerator()
+    };
+
+    /**
+     * Reference to provider of random data
+     */
+    private final Random random;
+    
+    /**
+     * Creates new manager of data stored in linked list
+     */
+    public LinkedListManager()
+<span class="nc" id="L81">    {</span>
+<span class="nc" id="L82">        this.random = ThreadLocalRandom.current();</span>
+<span class="nc" id="L83">        this.selectedData = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L84">    }</span>
+        
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Implementation of interface IManager&quot;&gt;
+    @Override
+    public int countElements()
+    {
+<span class="nc" id="L90">        return this.data.size();</span>
+    }
+
+    @Override
+    public int countSelectedElements()
+    {
+<span class="nc" id="L96">        return this.selectedData.size();</span>
+    }
+
+    @Override
+    public Mappable createNew()
+    {
+<span class="nc" id="L102">        Mappable reti = this.getGenerator().next();</span>
+<span class="nc" id="L103">        this.data.vlozPosledni(reti);</span>
+<span class="nc" id="L104">        return reti;</span>
+    }
+
+    @Override
+    public Mappable createNew(String dataType) throws IllegalArgumentException
+    {
+<span class="nc" id="L110">        Mappable reti = null;</span>
+<span class="nc" id="L111">        IGenerator gen = this.getGenerator(dataType);</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        if (gen != null)</span>
+        {
+<span class="nc" id="L114">            reti = gen.next();</span>
+        }
+        else
+        {
+<span class="nc" id="L118">            throw new IllegalArgumentException();</span>
+        }
+<span class="nc" id="L120">        return reti;</span>
+    }
+
+    @Override
+    public Mappable createNew(String dataType, Consumer&lt;Mappable&gt; editor) throws IllegalArgumentException
+    {
+<span class="nc" id="L126">        Mappable reti = null;</span>
+        try
+        {
+<span class="nc" id="L129">            reti = this.createNew(dataType);</span>
+<span class="nc" id="L130">            editor.accept(reti);</span>
+        }
+<span class="nc" id="L132">        catch(IllegalArgumentException ex)</span>
+        {
+<span class="nc" id="L134">            throw ex;</span>
+<span class="nc" id="L135">        }</span>
+<span class="nc" id="L136">        return reti;</span>
+    }
+
+    @Override
+    public int deleteList()
+    {
+<span class="nc" id="L142">        int reti = this.countElements();</span>
+<span class="nc" id="L143">        this.selectedData.clear();</span>
+<span class="nc" id="L144">        this.data.zrus();</span>
+<span class="nc" id="L145">        return reti;</span>
+    }
+
+    @Override
+    public int deleteSelectedElements()
+    {
+<span class="nc" id="L151">        int reti = 0;</span>
+<span class="nc bnc" id="L152" title="All 2 branches missed.">        if (this.data.jePrazdny() == false)</span>
+        {
+<span class="nc" id="L154">            Mappable currentActual = null;</span>
+            try
+            {
+<span class="nc" id="L157">                currentActual = this.data.dejAktualni();</span>
+<span class="nc" id="L158">            } catch (KolekceException ex) {}</span>
+            try
+            {
+<span class="nc" id="L161">                this.data.nastavPrvni();</span>
+<span class="nc" id="L162">                boolean del = false;</span>
+<span class="nc bnc" id="L163" title="All 4 branches missed.">                if (this.data.jeDalsi() == false &amp;&amp; this.selectedData.contains(this.data.dejAktualni()))</span>
+                {
+<span class="nc" id="L165">                    this.data.odeberAktualni();</span>
+<span class="nc" id="L166">                    reti++;</span>
+                }
+                else
+                {
+<span class="nc bnc" id="L170" title="All 2 branches missed.">                    while(this.data.jeDalsi())</span>
+                    {
+<span class="nc bnc" id="L172" title="All 2 branches missed.">                        if (del == true)</span>
+                        {
+<span class="nc" id="L174">                            this.data.odeberPredAktualnim();</span>
+<span class="nc" id="L175">                            reti++;</span>
+<span class="nc" id="L176">                            del = false;</span>
+                        }
+<span class="nc bnc" id="L178" title="All 2 branches missed.">                        if (this.selectedData.contains(this.data.dejAktualni()))</span>
+                        {
+<span class="nc" id="L180">                            del = true;</span>
+                        }
+<span class="nc" id="L182">                        this.data.dalsi();</span>
+                    }
+                }
+<span class="nc bnc" id="L185" title="All 2 branches missed.">                if (del == true)</span>
+                {
+<span class="nc" id="L187">                    this.data.odeberPredAktualnim();</span>
+<span class="nc" id="L188">                    reti++;</span>
+                }
+<span class="nc bnc" id="L190" title="All 2 branches missed.">                if (currentActual != null)</span>
+                {
+<span class="nc" id="L192">                    this.setAcutal(currentActual);</span>
+                }
+<span class="nc" id="L194">            } catch (KolekceException ex) {}</span>
+        }
+<span class="nc" id="L196">        this.selectedData.clear();</span>
+<span class="nc" id="L197">        return reti;</span>
+    }
+
+    @Override
+    public int editSelectedElements(Consumer&lt;Mappable&gt; editor)
+    {
+<span class="nc" id="L203">        int reti = 0;</span>
+<span class="nc bnc" id="L204" title="All 2 branches missed.">        for (Mappable item: this.selectedData)</span>
+        {
+<span class="nc" id="L206">            editor.accept(item);</span>
+<span class="nc" id="L207">            reti++;</span>
+<span class="nc" id="L208">        }</span>
+<span class="nc" id="L209">        return reti;</span>
+    }
+
+    @Override
+    public boolean first()
+    {
+<span class="nc" id="L215">        boolean reti = true;</span>
+        try
+        {
+<span class="nc" id="L218">            this.data.nastavPrvni();</span>
+        }
+<span class="nc" id="L220">        catch (KolekceException ex)</span>
+        {
+<span class="nc" id="L222">            reti = false;</span>
+<span class="nc" id="L223">        }</span>
+<span class="nc" id="L224">        return reti;</span>
+    }
+
+    @Override
+    public Mappable getActual()
+    {
+<span class="nc" id="L230">        Mappable reti = null;</span>
+        try
+        {
+<span class="nc" id="L233">            reti = this.data.dejAktualni();</span>
+        }
+<span class="nc" id="L235">        catch(KolekceException ex)</span>
+        {
+<span class="nc" id="L237">            reti = null;</span>
+<span class="nc" id="L238">        }</span>
+<span class="nc" id="L239">        return reti;</span>
+    }
+    
+    @Override
+    public Mappable[] getAllData()
+    {
+<span class="nc" id="L245">        Mappable[] reti = new Mappable[this.data.size()];</span>
+<span class="nc" id="L246">        int idx = 0;</span>
+<span class="nc" id="L247">        Iterator&lt;Mappable&gt; it = this.data.iterator();</span>
+<span class="nc bnc" id="L248" title="All 2 branches missed.">        while(it.hasNext())</span>
+        {
+<span class="nc" id="L250">            reti[idx] = it.next();</span>
+<span class="nc" id="L251">            idx++;</span>
+        }
+<span class="nc" id="L253">        return reti;</span>
+    }
+    
+    @Override
+    public Mappable[] getSelectedData()
+    {
+<span class="nc" id="L259">        return (Mappable[]) this.selectedData.toArray();</span>
+    }
+    
+    @Override
+    public boolean hasNext()
+    {
+<span class="nc" id="L265">        return this.data.jeDalsi();</span>
+    }
+    
+    @Override
+    public boolean last()
+    {
+<span class="nc" id="L271">        boolean reti = true;</span>
+        try
+        {
+<span class="nc" id="L274">            this.data.nastavPosledni();</span>
+        }
+<span class="nc" id="L276">        catch (KolekceException ex)</span>
+        {
+<span class="nc" id="L278">            reti = false;</span>
+<span class="nc" id="L279">        }</span>
+<span class="nc" id="L280">        return reti;</span>
+    }
+
+    @Override
+    public void loadBinary(BinaryReader reader)
+    {
+<span class="nc" id="L286">        Function&lt;SpojovySeznam&lt;Serializable&gt;, SpojovySeznam&lt;Mappable&gt;&gt; retype = (t) -&gt;</span>
+        {
+<span class="nc" id="L288">            SpojovySeznam&lt;Mappable&gt; reti = new LinkSeznam&lt;&gt;();</span>
+<span class="nc" id="L289">            Iterator&lt;Serializable&gt; it = t.iterator();</span>
+<span class="nc bnc" id="L290" title="All 2 branches missed.">            while (it.hasNext())</span>
+            {
+<span class="nc" id="L292">                reti.vlozPosledni((Mappable) it.next());</span>
+            }
+<span class="nc" id="L294">            return reti;</span>
+        };
+<span class="nc" id="L296">        this.data = retype.apply(reader.loadData());</span>
+<span class="nc" id="L297">    }</span>
+
+    @Override
+    public void loadText(TextReader reader)
+    {
+<span class="nc" id="L302">        this.data = reader.loadData();</span>
+<span class="nc" id="L303">    }</span>
+
+    @Override
+    public boolean next()
+    {
+<span class="nc" id="L308">        boolean reti = true;</span>
+        try
+        {
+<span class="nc" id="L311">            this.data.dalsi();</span>
+        }
+<span class="nc" id="L313">        catch(KolekceException ex)</span>
+        {
+<span class="nc" id="L315">            reti = false;</span>
+<span class="nc" id="L316">        }</span>
+<span class="nc" id="L317">        return reti;</span>
+    }
+    
+    @Override
+    public boolean remove() 
+    {
+<span class="nc" id="L323">        boolean reti = true;</span>
+        try
+        {
+<span class="nc" id="L326">            this.data.odeberAktualni();</span>
+        }
+<span class="nc" id="L328">        catch (KolekceException ex)</span>
+        {
+<span class="nc" id="L330">            reti = false;</span>
+<span class="nc" id="L331">        }</span>
+<span class="nc" id="L332">        return reti;</span>
+    }
+
+    @Override
+    public void saveBinary(BinaryWriter writer)
+    {
+<span class="nc" id="L338">        Function&lt;SpojovySeznam&lt;Mappable&gt;, SpojovySeznam&lt;Serializable&gt;&gt; retype = (t) -&gt;</span>
+        {
+<span class="nc" id="L340">            SpojovySeznam&lt;Serializable&gt; reti = new LinkSeznam&lt;&gt;();</span>
+<span class="nc" id="L341">            Iterator&lt;Mappable&gt; it = t.iterator();</span>
+<span class="nc bnc" id="L342" title="All 2 branches missed.">            while (it.hasNext())</span>
+            {
+<span class="nc" id="L344">                reti.vlozPosledni((Serializable) it.next());</span>
+            }
+<span class="nc" id="L346">            return reti;</span>
+        };
+<span class="nc" id="L348">        writer.writeData(retype.apply(this.data));</span>
+<span class="nc" id="L349">    }</span>
+
+    @Override
+    public void saveText(TextWriter writer)
+    {
+<span class="nc" id="L354">        writer.writeData(this.data);</span>
+<span class="nc" id="L355">    }</span>
+    
+    @Override
+    public int selectElements(Predicate&lt;? super Mappable&gt; filter)
+    {
+<span class="nc" id="L360">        int reti = 0;</span>
+<span class="nc" id="L361">        this.selectedData.clear();</span>
+<span class="nc" id="L362">        Iterator&lt;Mappable&gt; it = this.data.iterator();</span>
+<span class="nc bnc" id="L363" title="All 2 branches missed.">        while (it.hasNext())</span>
+        {
+<span class="nc" id="L365">            Mappable item = it.next();</span>
+<span class="nc bnc" id="L366" title="All 2 branches missed.">            if (filter.test(item))</span>
+            {
+<span class="nc" id="L368">                this.selectedData.add(item);</span>
+<span class="nc" id="L369">                reti++;</span>
+            }
+<span class="nc" id="L371">        }</span>
+<span class="nc" id="L372">        return reti;</span>
+    }
+    //&lt;/editor-fold&gt;
+    
+    /**
+     * Gets random generator
+     * @return Some random generator or NULL if there are no known generators
+     */
+    private IGenerator getGenerator()
+    {
+<span class="nc" id="L382">        IGenerator reti  = null;</span>
+<span class="nc bnc" id="L383" title="All 2 branches missed.">        if (LinkedListManager.GENERATORS.length &gt; 0) // Are there any gens?</span>
+        {
+<span class="nc" id="L385">            reti = LinkedListManager.GENERATORS[</span>
+<span class="nc" id="L386">                    this.random.nextInt(0, LinkedListManager.GENERATORS.length)</span>
+                    ];
+        }
+<span class="nc" id="L389">        return reti;</span>
+    }
+    
+    /**
+     * Gets generator by name of class which are generated by generator
+     * @param className Name of class which instances generator generates
+     * @return Generator of instances of defined class name or random
+     *         generator if suitable one is not found
+     */
+    private IGenerator getGenerator(String className)
+    {
+<span class="nc" id="L400">        IGenerator reti = null;</span>
+<span class="nc" id="L401">        IGenerator[] sutiableGens = (IGenerator[])</span>
+<span class="nc" id="L402">        Arrays.stream(LinkedListManager.GENERATORS).filter((t) -&gt; {</span>
+<span class="nc" id="L403">            return LinkedListManager.areClassNamesSame(</span>
+<span class="nc" id="L404">                    className, t.getGeneratedName()</span>
+            );
+<span class="nc" id="L406">        }).toArray();</span>
+<span class="nc bnc" id="L407" title="All 2 branches missed.">        if (sutiableGens.length &gt; 0)</span>
+        {
+<span class="nc" id="L409">            reti = sutiableGens[</span>
+<span class="nc" id="L410">                    this.random.nextInt(0, sutiableGens.length)</span>
+                    ];
+        }
+        else
+        {
+<span class="nc" id="L415">            reti = this.getGenerator();</span>
+        }
+<span class="nc" id="L417">        return reti;</span>
+    }
+    
+    /**
+     * Cleans name of class from package names
+     * @param cName Name of class which will be cleaned
+     * @return Name of class without packages
+     */
+    private static String cleanClassName(String cName)
+    {
+<span class="nc" id="L427">        String reti = cName;</span>
+<span class="nc bnc" id="L428" title="All 2 branches missed.">        if (cName.contains(&quot;.&quot;))</span>
+        {
+<span class="nc" id="L430">            String parts[] = cName.split(Pattern.quote(&quot;.&quot;));</span>
+<span class="nc bnc" id="L431" title="All 2 branches missed.">            if (parts.length &gt; 1)</span>
+            {
+<span class="nc" id="L433">                reti = parts[parts.length - 1];</span>
+            }
+        }
+<span class="nc" id="L436">        return reti;</span>
+    }
+    
+    /**
+     * Checks, if two class names are same
+     * @param cName1 Name of first class which will be compared
+     * @param cName2 Name of second class which will be compared
+     * @return TRUE if class names are some kind of same, FALSE otherwise
+     */
+    private static boolean areClassNamesSame(String cName1, String cName2)
+    {
+<span class="nc" id="L447">        return (LinkedListManager.cleanClassName(cName1).trim().toLowerCase().equals(</span>
+<span class="nc" id="L448">                LinkedListManager.cleanClassName(cName2).trim().toLowerCase()));</span>
+    }
+    
+    /**
+     * Sets reference to actual by value
+     * @param item Item which will be set as actual (if in list)
+     */
+    private void setAcutal(Mappable item)
+    {
+<span class="nc bnc" id="L457" title="All 2 branches missed.">        if (this.data.jePrazdny() == false)</span>
+        {
+            try
+            {
+<span class="nc" id="L461">                this.data.nastavPrvni();</span>
+<span class="nc bnc" id="L462" title="All 2 branches missed.">                if (this.data.dejAktualni().equals(item) == false)</span>
+                {
+<span class="nc bnc" id="L464" title="All 2 branches missed.">                    while(this.data.jeDalsi())</span>
+                    {
+<span class="nc" id="L466">                        this.data.dalsi();</span>
+<span class="nc bnc" id="L467" title="All 2 branches missed.">                        if (this.data.dejAktualni().equals(item))</span>
+                        {
+<span class="nc" id="L469">                            break;</span>
+                        }
+                    }
+                }
+            }
+<span class="nc" id="L474">            catch (KolekceException ex)</span>
+<span class="nc" id="L475">            {}</span>
+        }        
+<span class="nc" id="L477">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

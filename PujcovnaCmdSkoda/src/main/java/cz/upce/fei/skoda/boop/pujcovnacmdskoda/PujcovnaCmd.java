@@ -21,6 +21,8 @@ package cz.upce.fei.skoda.boop.pujcovnacmdskoda;
 
 import cz.upce.fei.skoda.boop.pujcovnacmdskoda.command.Interpreter;
 import cz.upce.fei.skoda.boop.pujcovnacmdskoda.data.Model;
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.KolekceException;
+import cz.upce.fei.skoda.boop.pujcovnacmdskoda.kolekce.LinkSeznam;
 import cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence.BinaryReader;
 import cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence.BinaryWriter;
 import cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence.ListReader;
@@ -29,6 +31,9 @@ import cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence.TextReader;
 import cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence.TextWriter;
 import cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence.XMLReader;
 import cz.upce.fei.skoda.boop.pujcovnacmdskoda.perzistence.XMLWriter;
+import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Main class of whole program

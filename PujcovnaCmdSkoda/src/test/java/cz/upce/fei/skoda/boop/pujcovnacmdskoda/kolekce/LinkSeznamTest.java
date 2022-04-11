@@ -192,6 +192,17 @@ public class LinkSeznamTest {
         assertEquals(T1, instance.odeberPrvni());
     }
     
+    @Test
+    public void test_06_02_OdeberPrvni() throws KolekceException
+    {
+        LinkSeznam<TestClass> instance = new LinkSeznam<>();
+        instance.vlozPrvni(T1);
+        instance.nastavPrvni();
+        instance.vlozPosledni(T2);
+        instance.odeberAktualni();
+        assertEquals(instance.odeberPrvni(), T2);
+    }
+    
     @Test(expected=KolekceException.class)
     public void test_06_03_OdeberPrvni_KolekceException() throws KolekceException
     {
@@ -474,6 +485,29 @@ public class LinkSeznamTest {
         instance.vlozPosledni(T1);
         Iterator<TestClass> it = instance.iterator();
         assertTrue(it.hasNext());
+    }
+    
+    @Test
+    public void test_14_04_Iterator() throws KolekceException
+    {
+        LinkSeznam<TestClass> instance = new LinkSeznam<>();
+        instance.vlozPosledni(T1);
+        instance.vlozPosledni(T2);
+        Iterator<TestClass> it = instance.iterator();
+        instance.odeberPrvni();
+        assertTrue(it.hasNext());        
+    }
+    
+    @Test
+    public void test_14_05_Iterator() throws KolekceException
+    {
+        LinkSeznam<TestClass> instance = new LinkSeznam<>();
+        instance.vlozPosledni(T1);
+        instance.vlozPosledni(T2);
+        Iterator<TestClass> it = instance.iterator();
+        instance.odeberPrvni();
+        instance.odeberPosledni();
+        //assertFalse(it.hasNext());        
     }
 
     //</editor-fold>

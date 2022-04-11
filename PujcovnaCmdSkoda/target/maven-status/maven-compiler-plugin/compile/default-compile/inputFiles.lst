@@ -1,3 +1,4 @@
+D:\UPCE\B21L\BOOP\PujcovnaCmdSkoda\src\main\java\cz\upce\fei\skoda\boop\pujcovnacmdskoda\perzistence\ListReader.java
 D:\UPCE\B21L\BOOP\PujcovnaCmdSkoda\src\main\java\cz\upce\fei\skoda\boop\pujcovnacmdskoda\kolekce\LinkSeznam.java
 D:\UPCE\B21L\BOOP\PujcovnaCmdSkoda\src\main\java\cz\upce\fei\skoda\boop\pujcovnacmdskoda\perzistence\BinaryReader.java
 D:\UPCE\B21L\BOOP\PujcovnaCmdSkoda\src\main\java\cz\upce\fei\skoda\boop\pujcovnacmdskoda\command\Echo.java
@@ -27,8 +28,10 @@ D:\UPCE\B21L\BOOP\PujcovnaCmdSkoda\src\main\java\cz\upce\fei\skoda\boop\pujcovna
 D:\UPCE\B21L\BOOP\PujcovnaCmdSkoda\src\main\java\cz\upce\fei\skoda\boop\pujcovnacmdskoda\data\Propulsion.java
 D:\UPCE\B21L\BOOP\PujcovnaCmdSkoda\src\main\java\cz\upce\fei\skoda\boop\pujcovnacmdskoda\command\Command.java
 D:\UPCE\B21L\BOOP\PujcovnaCmdSkoda\src\main\java\cz\upce\fei\skoda\boop\pujcovnacmdskoda\command\First.java
+D:\UPCE\B21L\BOOP\PujcovnaCmdSkoda\src\main\java\cz\upce\fei\skoda\boop\pujcovnacmdskoda\command\LoadBinary.java
 D:\UPCE\B21L\BOOP\PujcovnaCmdSkoda\src\main\java\cz\upce\fei\skoda\boop\pujcovnacmdskoda\perzistence\MapCreate.java
 D:\UPCE\B21L\BOOP\PujcovnaCmdSkoda\src\main\java\cz\upce\fei\skoda\boop\pujcovnacmdskoda\command\Exit.java
+D:\UPCE\B21L\BOOP\PujcovnaCmdSkoda\src\main\java\cz\upce\fei\skoda\boop\pujcovnacmdskoda\command\SaveBinary.java
 D:\UPCE\B21L\BOOP\PujcovnaCmdSkoda\src\main\java\cz\upce\fei\skoda\boop\pujcovnacmdskoda\command\DeleteSelected.java
 D:\UPCE\B21L\BOOP\PujcovnaCmdSkoda\src\main\java\cz\upce\fei\skoda\boop\pujcovnacmdskoda\command\Verbose.java
 D:\UPCE\B21L\BOOP\PujcovnaCmdSkoda\src\main\java\cz\upce\fei\skoda\boop\pujcovnacmdskoda\command\Int.java
@@ -42,6 +45,7 @@ D:\UPCE\B21L\BOOP\PujcovnaCmdSkoda\src\main\java\cz\upce\fei\skoda\boop\pujcovna
 D:\UPCE\B21L\BOOP\PujcovnaCmdSkoda\src\main\java\cz\upce\fei\skoda\boop\pujcovnacmdskoda\perzistence\CSVReader.java
 D:\UPCE\B21L\BOOP\PujcovnaCmdSkoda\src\main\java\cz\upce\fei\skoda\boop\pujcovnacmdskoda\command\Remove.java
 D:\UPCE\B21L\BOOP\PujcovnaCmdSkoda\src\main\java\cz\upce\fei\skoda\boop\pujcovnacmdskoda\generator\IGenerator.java
+D:\UPCE\B21L\BOOP\PujcovnaCmdSkoda\src\main\java\cz\upce\fei\skoda\boop\pujcovnacmdskoda\perzistence\ListWriter.java
 D:\UPCE\B21L\BOOP\PujcovnaCmdSkoda\src\main\java\cz\upce\fei\skoda\boop\pujcovnacmdskoda\command\Run.java
 D:\UPCE\B21L\BOOP\PujcovnaCmdSkoda\src\main\java\cz\upce\fei\skoda\boop\pujcovnacmdskoda\generator\Generator.java
 D:\UPCE\B21L\BOOP\PujcovnaCmdSkoda\src\main\java\cz\upce\fei\skoda\boop\pujcovnacmdskoda\command\Output.java

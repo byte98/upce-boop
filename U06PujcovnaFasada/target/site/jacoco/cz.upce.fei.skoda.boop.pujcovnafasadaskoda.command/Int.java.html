@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Int.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">U06PujcovnaFasadaSkoda</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.skoda.boop.pujcovnafasadaskoda.command</a> &gt; <span class="el_source">Int.java</span></div><h1>Int.java</h1><pre class="source lang-java linenums">//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;License&quot;&gt;
+/*
+ * Copyright (C) 2022 Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+//&lt;/editor-fold&gt;
+package cz.upce.fei.skoda.boop.pujcovnafasadaskoda.command;
+
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.PujcovnaFasada;
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.spravce.IManager;
+
+/**
+ * Class representing set integer command
+ * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ */
+public class Int extends Command
+{
+    /**
+     * Message informing about wrong input
+     */
+    private static final String MSG_NOINT
+            = &quot;CHYBA: Ocekavano cele cislo! '%s' nelze prevest na cele cislo.&quot;;
+    
+    /**
+     * Message informing about successful setting integer variable
+     */
+    private static final String MSG_SUCCESS
+            = &quot;Promenna '%s' byla nastavena na hodnotu '%d'&quot;;
+    
+    
+    /**
+     * Creates new handler for set integer command
+     * @param dataManager Manager of data
+     */
+    public Int(IManager dataManager)
+    {
+<span class="nc" id="L50">        super(dataManager);</span>
+<span class="nc" id="L51">        this.minimumArguments = this.maximumArguments = 2;</span>
+<span class="nc" id="L52">        this.aliases = new String[]{&quot;int&quot;, &quot;integer&quot;};</span>
+<span class="nc" id="L53">    }</span>
+
+    @Override
+    public String getHelp()
+    {
+<span class="nc" id="L58">        return &quot;&quot;&quot;</span>
+               Nastavi promennou celociselneho datoveho typu
+                - prvni argument: nazev promenne
+                - druhy argument: hodnota promenne
+               &quot;&quot;&quot;;
+    }
+
+    @Override
+    public String execute(String[] arguments)
+    {
+<span class="nc" id="L68">        this.error = false;</span>
+<span class="nc" id="L69">        String reti = &quot;&quot;;</span>
+<span class="nc" id="L70">        int value = 0;</span>
+        try
+        {
+<span class="nc" id="L73">            value = Integer.parseInt(arguments[1]);</span>
+<span class="nc" id="L74">            Interpreter.setInt(arguments[0], value);</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">            if (this.isVerbose())</span>
+            {
+<span class="nc" id="L77">                reti = String.format(Int.MSG_SUCCESS, arguments[0], value);</span>
+            }
+        }
+<span class="nc" id="L80">        catch(NumberFormatException ex)</span>
+        {
+<span class="nc" id="L82">            reti = String.format(Int.MSG_NOINT, arguments[1]);</span>
+<span class="nc" id="L83">            this.error = true;</span>
+<span class="nc" id="L84">        }</span>
+<span class="nc" id="L85">        return reti;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

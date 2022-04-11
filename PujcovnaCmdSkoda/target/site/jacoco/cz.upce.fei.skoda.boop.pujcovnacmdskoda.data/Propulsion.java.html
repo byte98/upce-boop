@@ -24,7 +24,7 @@ package cz.upce.fei.skoda.boop.pujcovnacmdskoda.data;
  * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
  */
 <span class="nc" id="L26">public enum Propulsion</span>
-{
+{    
 <span class="nc" id="L28">    DIESEL(&quot;DIESEL&quot;),</span>
 <span class="nc" id="L29">    ELECTRIC(&quot;ELECTRIC&quot;),</span>
 <span class="nc" id="L30">    HYBRID(&quot;HYBRID&quot;),</span>
@@ -32,37 +32,43 @@ package cz.upce.fei.skoda.boop.pujcovnacmdskoda.data;
     
     private final String name;
     
+    /**
+     * Unique identifier used to serialization
+     */
+    private static final long serialVersionUID = 
+            1464029727053807551L;
+    
     private Propulsion(String name)
-<span class="nc" id="L36">    {</span>
-<span class="nc" id="L37">        this.name = name;</span>
-<span class="nc" id="L38">    }</span>
+<span class="nc" id="L42">    {</span>
+<span class="nc" id="L43">        this.name = name;</span>
+<span class="nc" id="L44">    }</span>
     
     public static Propulsion getPropulsion(String name)
     {
-<span class="nc" id="L42">        Propulsion reti = null;</span>
-<span class="nc bnc" id="L43" title="All 5 branches missed.">        switch(name.trim().toLowerCase())</span>
+<span class="nc" id="L48">        Propulsion reti = null;</span>
+<span class="nc bnc" id="L49" title="All 5 branches missed.">        switch(name.trim().toLowerCase())</span>
         {
-<span class="nc" id="L45">            case &quot;diesel&quot; -&gt; reti = DIESEL;</span>
-<span class="nc" id="L46">            case &quot;electric&quot; -&gt; reti = ELECTRIC;</span>
-<span class="nc" id="L47">            case &quot;hybrid&quot; -&gt; reti = HYBRID;</span>
-<span class="nc" id="L48">            case &quot;cng&quot; -&gt; reti = CNG;</span>
+<span class="nc" id="L51">            case &quot;diesel&quot; -&gt; reti = DIESEL;</span>
+<span class="nc" id="L52">            case &quot;electric&quot; -&gt; reti = ELECTRIC;</span>
+<span class="nc" id="L53">            case &quot;hybrid&quot; -&gt; reti = HYBRID;</span>
+<span class="nc" id="L54">            case &quot;cng&quot; -&gt; reti = CNG;</span>
         }
-<span class="nc" id="L50">        return reti;</span>
+<span class="nc" id="L56">        return reti;</span>
     }
     
     @Override
     public String toString()
     {
-<span class="nc" id="L56">        String reti = &quot;&quot;;</span>
-<span class="nc bnc" id="L57" title="All 5 branches missed.">        switch(this.name().toLowerCase())</span>
+<span class="nc" id="L62">        String reti = &quot;&quot;;</span>
+<span class="nc bnc" id="L63" title="All 5 branches missed.">        switch(this.name().toLowerCase())</span>
         {
-<span class="nc" id="L59">            case &quot;diesel&quot; -&gt; reti = &quot;nafta&quot;;</span>
-<span class="nc" id="L60">            case &quot;electric&quot; -&gt; reti = &quot;elektrina&quot;;</span>
-<span class="nc" id="L61">            case &quot;hybrid&quot; -&gt; reti = &quot;hybridni&quot;;</span>
-<span class="nc" id="L62">            case &quot;cng&quot; -&gt; reti = &quot;CNG&quot;;</span>
+<span class="nc" id="L65">            case &quot;diesel&quot; -&gt; reti = &quot;nafta&quot;;</span>
+<span class="nc" id="L66">            case &quot;electric&quot; -&gt; reti = &quot;elektrina&quot;;</span>
+<span class="nc" id="L67">            case &quot;hybrid&quot; -&gt; reti = &quot;hybridni&quot;;</span>
+<span class="nc" id="L68">            case &quot;cng&quot; -&gt; reti = &quot;CNG&quot;;</span>
         }
             
-<span class="nc" id="L65">        return reti;</span>
+<span class="nc" id="L71">        return reti;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

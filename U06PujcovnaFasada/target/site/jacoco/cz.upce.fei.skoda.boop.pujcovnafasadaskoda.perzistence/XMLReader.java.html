@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>XMLReader.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">U06PujcovnaFasadaSkoda</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.skoda.boop.pujcovnafasadaskoda.perzistence</a> &gt; <span class="el_source">XMLReader.java</span></div><h1>XMLReader.java</h1><pre class="source lang-java linenums">//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;License&quot;&gt;
+/*
+ * Copyright (C) 2022 Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+//&lt;/editor-fold&gt;
+package cz.upce.fei.skoda.boop.pujcovnafasadaskoda.perzistence;
+
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.kolekce.LinkSeznam;
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.kolekce.SpojovySeznam;
+import java.io.IOException;
+import java.io.StringReader;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+/**
+ * Class which can read data from XML file
+ * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ */
+public class XMLReader extends TextReader
+{
+
+    /**
+     * Creates new object which can read data from XML file
+     * @param path Path to XML file
+     */
+    public XMLReader(String path)
+    {
+<span class="nc" id="L56">        super(path);</span>
+<span class="nc" id="L57">        this.extensions = new String[]{&quot;xml&quot;};</span>
+<span class="nc" id="L58">    }</span>
+
+    @Override
+    public SpojovySeznam&lt;Mappable&gt; loadData()
+    {
+<span class="nc" id="L63">        SpojovySeznam&lt;Mappable&gt; reti = new LinkSeznam&lt;&gt;();</span>
+        try
+        {
+<span class="nc" id="L66">            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();</span>
+<span class="nc" id="L67">            dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);</span>
+<span class="nc" id="L68">            DocumentBuilder db = dbf.newDocumentBuilder();</span>
+<span class="nc" id="L69">            Document doc = db.parse(new InputSource(new StringReader(this.readFile())));</span>
+<span class="nc" id="L70">            doc.getDocumentElement().normalize();</span>
+<span class="nc" id="L71">            NodeList rootList = doc.getElementsByTagName(XMLWriter.ROOT);</span>
+<span class="nc" id="L72">            NodeList list = rootList.item(0).getChildNodes();</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">            for(int i = 0; i &lt; list.getLength(); i++)</span>
+            {
+<span class="nc" id="L75">                Node node = list.item(i);</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">                if (node.getNodeType() == Node.ELEMENT_NODE)</span>
+                {
+<span class="nc" id="L78">                    Element elem = (Element) node;</span>
+<span class="nc" id="L79">                    reti.vlozPosledni(this.createObject(elem));</span>
+                }
+            }
+        }
+<span class="nc" id="L83">        catch (ParserConfigurationException | IOException | SAXException ex)</span>
+        {
+<span class="nc" id="L85">            Logger.getLogger(XMLReader.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L86">        }</span>
+<span class="nc" id="L87">        return reti;</span>
+
+    }
+    
+    /**
+     * Creates object from XML element
+     * @param elem XML element from which object will be created
+     * @return Object created from XML element
+     */
+    private Mappable createObject(Element elem)
+    {
+<span class="nc" id="L98">        Mappable reti = null;</span>
+<span class="nc" id="L99">        Map&lt;String, String&gt; data = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L100">        NodeList list = elem.getChildNodes();</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        for(int i = 0; i &lt; list.getLength(); i++)</span>
+        {
+<span class="nc" id="L103">            Node node = list.item(i);</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">            if(node.getNodeType() == Node.ELEMENT_NODE)</span>
+            {
+<span class="nc" id="L106">                Element e = (Element) node;</span>
+<span class="nc" id="L107">                data.put(e.getNodeName(), e.getTextContent());</span>
+            }
+        }
+        try
+        {
+<span class="nc" id="L112">            Class&lt;?&gt; cls = Class.forName(elem.getNodeName());</span>
+<span class="nc" id="L113">            Constructor&lt;?&gt; ctor = cls.getConstructor(Map.class);</span>
+<span class="nc" id="L114">            reti = (Mappable)ctor.newInstance(new Object[]{data});</span>
+        }
+<span class="nc" id="L116">        catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)</span>
+        {
+<span class="nc" id="L118">            Logger.getLogger(XMLReader.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L119">        }</span>
+<span class="nc" id="L120">        return reti;</span>
+    
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -28,7 +28,13 @@ import java.util.Map;
  * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
  */
 public abstract class Vehicle implements Mappable
-{
+{   
+    /**
+     * Unique identifier used to serialization
+     */
+    private static final long serialVersionUID = 
+            7988428449919238453L;
+    
     /**
      * Identifier of vehicle in system
      */
@@ -55,12 +61,12 @@ public abstract class Vehicle implements Mappable
      * @param data Map with data about vehicle
      */
     public Vehicle(Map&lt;String, String&gt; data)
-<span class="nc" id="L58">    {</span>
-<span class="nc" id="L59">        this.id = data.get(&quot;id&quot;);</span>
-<span class="nc" id="L60">        this.capacity = Integer.parseInt(data.get(&quot;capacity&quot;));</span>
-<span class="nc" id="L61">        this.propulsion = Propulsion.getPropulsion(data.get(&quot;propulsion&quot;).toUpperCase());</span>
-<span class="nc" id="L62">        this.manufacturer = data.get(&quot;manufacturer&quot;);</span>
-<span class="nc" id="L63">    }</span>
+<span class="nc" id="L64">    {</span>
+<span class="nc" id="L65">        this.id = data.get(&quot;id&quot;);</span>
+<span class="nc" id="L66">        this.capacity = Integer.parseInt(data.get(&quot;capacity&quot;));</span>
+<span class="nc" id="L67">        this.propulsion = Propulsion.getPropulsion(data.get(&quot;propulsion&quot;).toUpperCase());</span>
+<span class="nc" id="L68">        this.manufacturer = data.get(&quot;manufacturer&quot;);</span>
+<span class="nc" id="L69">    }</span>
     
     /**
      * Creates new vehicle
@@ -70,30 +76,30 @@ public abstract class Vehicle implements Mappable
      * @param propulsion Propulsion type of vehicle
      */
     public Vehicle(String id, String manufacturer, int capacity, Propulsion propulsion)
-<span class="nc" id="L73">    {</span>
-<span class="nc" id="L74">        this.id = id;</span>
-<span class="nc" id="L75">        this.manufacturer = manufacturer;</span>
-<span class="nc" id="L76">        this.capacity = capacity;</span>
-<span class="nc" id="L77">        this.propulsion = propulsion;</span>
-<span class="nc" id="L78">    }</span>
+<span class="nc" id="L79">    {</span>
+<span class="nc" id="L80">        this.id = id;</span>
+<span class="nc" id="L81">        this.manufacturer = manufacturer;</span>
+<span class="nc" id="L82">        this.capacity = capacity;</span>
+<span class="nc" id="L83">        this.propulsion = propulsion;</span>
+<span class="nc" id="L84">    }</span>
     
     @Override
     public Map&lt;String, String&gt; toMap()
     {
-<span class="nc" id="L83">        Map&lt;String, String&gt; reti = new HashMap&lt;&gt;();</span>
-<span class="nc" id="L84">        reti.put(&quot;id&quot;, this.id);</span>
-<span class="nc" id="L85">        reti.put(&quot;capacity&quot;, Integer.toString(this.capacity));</span>
-<span class="nc" id="L86">        reti.put(&quot;propulsion&quot;, propulsion.name());</span>
-<span class="nc" id="L87">        reti.put(&quot;manufacturer&quot;, this.manufacturer);</span>
-<span class="nc" id="L88">        return reti;</span>
+<span class="nc" id="L89">        Map&lt;String, String&gt; reti = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L90">        reti.put(&quot;id&quot;, this.id);</span>
+<span class="nc" id="L91">        reti.put(&quot;capacity&quot;, Integer.toString(this.capacity));</span>
+<span class="nc" id="L92">        reti.put(&quot;propulsion&quot;, propulsion.name());</span>
+<span class="nc" id="L93">        reti.put(&quot;manufacturer&quot;, this.manufacturer);</span>
+<span class="nc" id="L94">        return reti;</span>
     }
     
     @Override
     public String toString()
     {
-<span class="nc" id="L94">        return String.format(&quot;id: %s, kapacita: %d, pohon: %s, vyrobce: %s&quot;,</span>
+<span class="nc" id="L100">        return String.format(&quot;id: %s, kapacita: %d, pohon: %s, vyrobce: %s&quot;,</span>
                             this.id,
-<span class="nc" id="L96">                            this.capacity,</span>
+<span class="nc" id="L102">                            this.capacity,</span>
                             this.propulsion,
                             this.manufacturer
                             );
@@ -102,14 +108,14 @@ public abstract class Vehicle implements Mappable
     @Override
     public void setData(Map&lt;String, String&gt; data)
     {
-<span class="nc bnc" id="L105" title="All 2 branches missed.">        this.id = data.get(&quot;id&quot;) == null ?</span>
-<span class="nc" id="L106">                this.id : data.get(&quot;id&quot;);</span>
-<span class="nc bnc" id="L107" title="All 2 branches missed.">        this.capacity = data.get(&quot;capacity&quot;) == null ?</span>
-<span class="nc" id="L108">                this.capacity : Integer.parseInt(data.get(&quot;capacity&quot;));</span>
-<span class="nc bnc" id="L109" title="All 2 branches missed.">        this.propulsion = data.get(&quot;propulsion&quot;) == null ?</span>
-<span class="nc" id="L110">                this.propulsion : Propulsion.getPropulsion(data.get(&quot;propulsion&quot;).toUpperCase());</span>
-<span class="nc bnc" id="L111" title="All 2 branches missed.">        this.manufacturer = data.get(&quot;manufacturer&quot;) == null ?</span>
-<span class="nc" id="L112">                this.manufacturer : data.get(&quot;manufacturer&quot;);</span>
-<span class="nc" id="L113">    }</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        this.id = data.get(&quot;id&quot;) == null ?</span>
+<span class="nc" id="L112">                this.id : data.get(&quot;id&quot;);</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        this.capacity = data.get(&quot;capacity&quot;) == null ?</span>
+<span class="nc" id="L114">                this.capacity : Integer.parseInt(data.get(&quot;capacity&quot;));</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">        this.propulsion = data.get(&quot;propulsion&quot;) == null ?</span>
+<span class="nc" id="L116">                this.propulsion : Propulsion.getPropulsion(data.get(&quot;propulsion&quot;).toUpperCase());</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        this.manufacturer = data.get(&quot;manufacturer&quot;) == null ?</span>
+<span class="nc" id="L118">                this.manufacturer : data.get(&quot;manufacturer&quot;);</span>
+<span class="nc" id="L119">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

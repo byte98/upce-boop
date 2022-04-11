@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>XMLWriter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">U06PujcovnaFasadaSkoda</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.skoda.boop.pujcovnafasadaskoda.perzistence</a> &gt; <span class="el_source">XMLWriter.java</span></div><h1>XMLWriter.java</h1><pre class="source lang-java linenums">//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;License&quot;&gt;
+/*
+ * Copyright (C) 2022 Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+//&lt;/editor-fold&gt;
+package cz.upce.fei.skoda.boop.pujcovnafasadaskoda.perzistence;
+
+import cz.upce.fei.skoda.boop.pujcovnafasadaskoda.kolekce.SpojovySeznam;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * Class which can write data to XML file
+ * @author Jiri Skoda &lt;jiri.skoda@student.upce.cz&gt;
+ */
+public class XMLWriter extends TextWriter
+{
+    /**
+     * Default header of XML files
+     */
+    public static final String HEADER = &quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;UTF-8\&quot;?&gt;&quot;;
+    
+    /**
+     * Name of root element
+     */
+    public static final String ROOT = &quot;xml&quot;;
+    
+    /**
+     * String used for padding in XML file
+     */
+    private static final String PADDING = &quot;    &quot;;    
+
+    /**
+     * Creates new writer of data to XML file
+     * @param path Path to file to which will be data written into
+     */
+    public XMLWriter(String path)
+    {
+<span class="nc" id="L56">        super(path);</span>
+<span class="nc" id="L57">        this.extensions = new String[]{&quot;xml&quot;};</span>
+<span class="nc" id="L58">    }</span>
+
+    @Override
+    public void writeData(SpojovySeznam&lt;Mappable&gt; data)
+    {
+        try
+        {
+<span class="nc" id="L65">            StringBuilder output = new StringBuilder();</span>
+<span class="nc" id="L66">            output.append(XMLWriter.HEADER);</span>
+<span class="nc" id="L67">            output.append(System.lineSeparator());</span>
+<span class="nc" id="L68">            output.append(&quot;&lt;&quot;);</span>
+<span class="nc" id="L69">            output.append(XMLWriter.ROOT);</span>
+<span class="nc" id="L70">            output.append(&quot;&gt;&quot;);</span>
+<span class="nc" id="L71">            output.append(System.lineSeparator());</span>
+<span class="nc" id="L72">            Iterator&lt;Mappable&gt; it = data.iterator();</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">            while(it.hasNext())</span>
+            {
+<span class="nc" id="L75">                Mappable d = it.next();</span>
+<span class="nc" id="L76">                output.append(this.prepareObject(d));</span>
+<span class="nc" id="L77">            }</span>
+<span class="nc" id="L78">            output.append(&quot;&lt;/&quot;);</span>
+<span class="nc" id="L79">            output.append(XMLWriter.ROOT);</span>
+<span class="nc" id="L80">            output.append(&quot;&gt;&quot;);</span>
+<span class="nc" id="L81">            output.append(System.lineSeparator());</span>
+<span class="nc" id="L82">            this.writeString(output.toString());</span>
+        }
+<span class="nc" id="L84">        catch (IOException ex)</span>
+        {
+<span class="nc" id="L86">            Logger.getLogger(XMLWriter.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L87">        }</span>
+<span class="nc" id="L88">    }</span>
+    
+    /**
+     * Prepares attribute to be written into XML file
+     * @param name Name of attribute
+     * @param value Value of attribute
+     * @return XML string containing attribute with its value
+     */
+    private String prepareAttribute(String name, String value)
+    {
+<span class="nc" id="L98">        StringBuilder reti = new StringBuilder();</span>
+<span class="nc" id="L99">        reti.append(XMLWriter.PADDING);</span>
+<span class="nc" id="L100">        reti.append(XMLWriter.PADDING);</span>
+<span class="nc" id="L101">        reti.append(&quot;&lt;&quot;);</span>
+<span class="nc" id="L102">        reti.append(name);</span>
+<span class="nc" id="L103">        reti.append(&quot;&gt;&quot;);</span>
+<span class="nc" id="L104">        reti.append(value);</span>
+<span class="nc" id="L105">        reti.append(&quot;&lt;/&quot;);</span>
+<span class="nc" id="L106">        reti.append(name);</span>
+<span class="nc" id="L107">        reti.append(&quot;&gt;&quot;);</span>
+<span class="nc" id="L108">        reti.append(System.lineSeparator());</span>
+<span class="nc" id="L109">        return reti.toString();</span>
+    }
+    
+    /**
+     * Prepares object to be written into XML file
+     * @param obj Object which will be written into XML file
+     * @return XML string containing object with all its attributes
+     */
+    private String prepareObject(Mappable obj)
+    {
+<span class="nc" id="L119">        StringBuilder reti = new StringBuilder();</span>
+<span class="nc" id="L120">        reti.append(XMLWriter.PADDING);</span>
+<span class="nc" id="L121">        reti.append(&quot;&lt;&quot;);</span>
+<span class="nc" id="L122">        reti.append(obj.getClassName());</span>
+<span class="nc" id="L123">        reti.append(&quot;&gt;&quot;);</span>
+<span class="nc" id="L124">        reti.append(System.lineSeparator());</span>
+<span class="nc" id="L125">        Map&lt;String, String&gt; map = obj.toMap();</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">        for(String key: map.keySet())</span>
+        {
+<span class="nc" id="L128">            reti.append(this.prepareAttribute(key, map.get(key)));</span>
+<span class="nc" id="L129">        }</span>
+<span class="nc" id="L130">        reti.append(XMLWriter.PADDING);</span>
+<span class="nc" id="L131">        reti.append(&quot;&lt;/&quot;);</span>
+<span class="nc" id="L132">        reti.append(obj.getClassName());</span>
+<span class="nc" id="L133">        reti.append(&quot;&gt;&quot;);</span>
+<span class="nc" id="L134">        reti.append(System.lineSeparator());</span>
+<span class="nc" id="L135">        return reti.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
