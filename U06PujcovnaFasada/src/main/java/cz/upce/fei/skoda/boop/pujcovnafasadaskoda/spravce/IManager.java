@@ -34,25 +34,25 @@ import java.util.function.Predicate;
 public interface IManager
 {
     /**
-     * Counts all elements stored in linked list
-     * @return Number of all elements stored in linked list
+     * Counts all elements stored in data storage
+     * @return Number of all elements stored in data storage
      */
     public int countElements();
     
     /**
-     * Counts selected elements in linked list
-     * @return Number of selected elements in linked list
+     * Counts selected elements in data storage
+     * @return Number of selected elements in data storage
      */
     public int countSelectedElements();
     
     /**
-     * Creates new element and adds it to linked list
+     * Creates new element and adds it to data storage
      * @return Newly created element or NULL if no element could be created
      */
     public Mappable createNew();
     
     /**
-     * Creates new element and adds it to linked list
+     * Creates new element and adds it to data storage
      * @param dataType Name of class which instance will be created
      * @return Newly created element or NULL if no element could be created
      * @throws IllegalArgumentException Thrown when there is no generator
@@ -61,7 +61,7 @@ public interface IManager
     public Mappable createNew(String dataType) throws IllegalArgumentException;
     
     /**
-     * Creates new element and adds it to linked list
+     * Creates new element and adds it to data storage
      * @param dataType Name of class which instance will be created
      * @param editor Function which is able to edit elements
      * @return Newly created element
@@ -71,20 +71,20 @@ public interface IManager
     public Mappable createNew(String dataType, Consumer<Mappable> editor) throws IllegalArgumentException;
     
     /**
-     * Deletes whole linked list and all data stored in list
+     * Deletes whole storage and all data stored in it
      * @return Number of deleted elements
      */
     public int deleteList();
     
     /**
-     * Deletes selected elements from list
+     * Deletes selected elements from data storage
      * @return Number of deleted elements
      */
     public int deleteSelectedElements();
     
     /**
      * Edits data of selected elements
-     * @param editor Function which can edit element in linked list
+     * @param editor Function which can edit element in data storage
      * @return Number of edited elements
      */
     public int editSelectedElements(Consumer<Mappable> editor);
@@ -96,7 +96,7 @@ public interface IManager
     public boolean first();
     
     /**
-     * Generates random elements to linked list
+     * Generates random elements to data storage
      * @param number Number of elements which will be created
      * @return Number of generated elements
      */
@@ -114,7 +114,7 @@ public interface IManager
     }
     
     /**
-     * Generates random elements to linked list
+     * Generates random elements to data storage
      * @param number Number of elements which will be created
      * @param dataType Name of class which instances will be created
      * @return Number of generated elements
@@ -150,8 +150,8 @@ public interface IManager
     public Mappable getActual();
     
     /**
-     * Gets all data stored in linked list
-     * @return Array with data stored in linked list
+     * Gets all data stored in data storage
+     * @return Array with data stored in data storage
      */
     public Mappable[] getAllData();
     
@@ -192,8 +192,14 @@ public interface IManager
     public boolean next();
     
     /**
-     * Removes actual element from linked list
-     * @return TRUE if actual element has been removed from list,
+     * Sets pointer to actual element to previous one
+     * @return TRUE if previous element has been set as actual, FALSE otherwise
+     */
+    public boolean previous();
+    
+    /**
+     * Removes actual element from data storage
+     * @return TRUE if actual element has been removed from data storage,
      *         FALSE otherwise
      */
     public boolean remove();

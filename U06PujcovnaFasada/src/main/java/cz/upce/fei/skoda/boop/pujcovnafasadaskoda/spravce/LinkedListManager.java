@@ -328,6 +328,29 @@ public class LinkedListManager implements IManager
     }
     
     @Override
+    public boolean previous()
+    {
+        boolean reti = true;
+        int idx = this.hasPrevious();
+        if (idx > 0)
+        {
+            try
+            {
+                this.data.nastavPrvni();
+                for (int i = 0; i < idx; i++)
+                {
+                    this.data.dalsi();
+                }
+            }
+            catch (KolekceException ex)
+            {
+                reti = false;
+            }
+        }
+        return reti;
+    }
+    
+    @Override
     public boolean remove() 
     {
         boolean reti = true;
@@ -484,5 +507,48 @@ public class LinkedListManager implements IManager
             catch (KolekceException ex)
             {}
         }        
+    }
+    
+    /**
+     * Checks, whether there is some element before actual one
+     * @return Negative value if there is no element before actual one
+     *         or index of previous element
+     */
+    private int hasPrevious()
+    {
+        int reti = -1;
+        Iterator<Mappable> it = this.data.iterator();
+        boolean returnable = false;
+        while (it.hasNext())
+        {
+            reti++;
+            try
+            {
+                if (it.next().equals(this.data.dejAktualni()))
+                {
+                    if (reti == 0) // Actual is first one
+                    {
+                        reti = -1;
+                        break;
+                    }
+                    else
+                    {
+                        reti--;
+                        returnable = true;
+                        break;
+                    }
+                }
+            }
+            catch (KolekceException ex)
+            {
+                reti = -1;
+                break;
+            }
+        }
+        if (returnable == false)
+        {
+            reti = -1;
+        }
+        return reti;
     }
 }
