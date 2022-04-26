@@ -1,2 +1,17 @@
 .zip
 .svn
+.class
+LexikalniAnalyzator/target
+PujcovnaCmd_files/target
+PujcovnaCmdSkoda/target
+U01NemennaTrida/target
+U01NemennaTridaReal/target
+U01NemennaTridaRecord/target
+U02InicializacniBloky/target
+U02Klonovani/target
+U03Seznam/target
+U03SeznamGen/target
+U03SeznamObj/target
+U04LinkSeznam/target
+U06PujcovnaFasada/target
+U07PujcovnaGui/target
